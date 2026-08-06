@@ -1,0 +1,133 @@
+# =============================================================
+# GEO 咨询网站 — robots.txt
+# 最后更新: 2026-08-06
+# 策略: 开放抓取，欢迎主流搜索引擎与 AI 爬虫索引
+# =============================================================
+
+# --- 通用规则 (所有爬虫) ---
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /draft/
+Disallow: /private/
+
+# --- Sitemap 路径 ---
+Sitemap: https://geo-consulting.example.com/sitemap-index.xml
+
+# =============================================================
+# 主流搜索引擎
+# =============================================================
+
+# Google 搜索爬虫
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /draft/
+
+# Google 图片爬虫
+User-agent: Googlebot-Image
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Google 视频爬虫
+User-agent: Googlebot-Video
+Allow: /
+
+# Google 新闻爬虫
+User-agent: Googlebot-News
+Allow: /
+
+# Google AdsBot (广告质量检查)
+User-agent: AdsBot-Google
+Allow: /
+
+# Bing 搜索爬虫
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /draft/
+
+# =============================================================
+# AI 搜索引擎与数据采集爬虫 (GEO 核心 — 全部开放)
+# =============================================================
+
+# OpenAI — GPTBot (用于训练数据与 AI 搜索)
+User-agent: GPTBot
+Allow: /
+
+# OpenAI — ChatGPT-User (ChatGPT 插件 / 实时搜索)
+User-agent: ChatGPT-User
+Allow: /
+
+# OpenAI — OAI-SearchBot (OpenAI Search 搜索索引)
+User-agent: OAI-SearchBot
+Allow: /
+
+# Perplexity AI 搜索爬虫
+User-agent: PerplexityBot
+Allow: /
+
+# Anthropic — Claude AI 爬虫
+User-agent: anthropic-ai
+Allow: /
+
+# Google — AI 扩展爬虫 (Google AI Overviews / SGE)
+User-agent: Google-Extended
+Allow: /
+
+# Common Crawl (广泛应用于 AI 训练数据)
+User-agent: CCBot
+Allow: /
+
+# Meta — AI 爬虫
+User-agent: FacebookBot
+Allow: /
+
+# Apple — AI 爬虫
+User-agent: Applebot
+Allow: /
+
+# Amazon — AI 爬虫
+User-agent: Amazonbot
+Allow: /
+
+# Cohere AI 爬虫
+User-agent: cohere-ai
+Allow: /
+
+# You.com AI 搜索爬虫
+User-agent: YouBot
+Allow: /
+
+# =============================================================
+# 其他第三方工具与监控
+# =============================================================
+
+# Ahrefs (SEO 工具 — 允许，利于外链分析)
+User-agent: AhrefsBot
+Allow: /
+Crawl-delay: 2
+
+# Semrush (SEO 工具 — 允许)
+User-agent: SemrushBot
+Allow: /
+Crawl-delay: 2
+
+# Majestic (SEO 工具 — 允许)
+User-agent: MJ12bot
+Allow: /
+Crawl-delay: 3
+
+# =============================================================
+# 恶意/不重要爬虫 — 禁止
+# =============================================================
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /

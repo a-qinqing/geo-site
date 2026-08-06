@@ -1,0 +1,116 @@
+---
+export interface Props {
+  /** 页面标题，会自动追加站点名称后缀 */
+  title: string;
+  /** 页面描述，用于 meta description 和 OG */
+  description: string;
+  /** 规范 URL（相对路径或绝对 URL），默认根据 Astro.url 自动生成 */
+  canonicalURL?: string;
+  /** Open Graph 图片路径（绝对 URL 或相对路径） */
+  ogImage?: string;
+  /** Open Graph 类型，默认 website */
+  ogType?: "website" | "article" | "profile";
+  /** 禁止搜索引擎索引 */
+  noIndex?: boolean;
+  /** 禁止搜索引擎追踪链接 */
+  noFollow?: boolean;
+  /** 发布时间 (ISO 8601)，用于 article 类型 */
+  publishedDate?: string;
+  /** 修改时间 (ISO 8601)，用于 article 类型 */
+  modifiedDate?: string;
+  /** 文章标签，用于 article:tag */
+  tags?: string[];
+  /** 作者名称 */
+  author?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalURL,
+  ogImage,
+  ogType = "website",
+  noIndex = false,
+  noFollow = false,
+  publishedDate,
+  modifiedDate,
+  tags = [],
+  author = "GEO 咨询",
+} = Astro.props;
+
+// 构建规范 URL
+const siteURL = Astro.site?.origin || "https://geo-consulting.example.com";
+const canonical = canonicalURL
+  ? (canonicalURL.startsWith("http") ? canonicalURL : `${siteURL}${canonicalURL.startsWith("/") ? "" : "/"}${canonicalURL}`)
+  : new URL(Astro.url.pathname, siteURL).href;
+
+// 构建 OG 图片 URL
+const ogImageURL = ogImage
+  ? (ogImage.startsWith("http") ? ogImage : `${siteURL}${ogImage.startsWith("/") ? "" : "/"}${ogImage}`)
+  : `${siteURL}/og-default.png`;
+
+// Robots 策略
+const robotsContent = [
+  noIndex ? "noindex" : "index",
+  noFollow ? "nofollow" : "follow",
+].join(", ");
+
+// 确定是否启用 Google 的 robots 标签
+const shouldUseGoogleBot = noIndex;
+
+// 生成页面标题（自动追加站点名称）
+const pageTitle = title.includes("GEO 咨询") ? title : `${title} | GEO 咨询`;
+---
+
+<!-- 基础 Meta -->
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={robotsContent} />
+{
+  shouldUseGoogleBot && (
+    <meta name="googlebot" content={robotsContent} />
+  )
+}
+<meta name="author" content={author} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonical} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content="GEO 咨询" />
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:image" content={ogImageURL} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={title} />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageURL} />
+<meta name="twitter:site" content="@geo_consulting" />
+
+<!-- Article 特定标签 -->
+{
+  ogType === "article" && (
+    <>
+      {publishedDate && <meta property="article:published_time" content={publishedDate} />}
+      {modifiedDate && <meta property="article:modified_time" content={modifiedDate} />}
+      {author && <meta property="article:author" content={author} />}
+      {tags.map((tag) => (
+        <meta property="article:tag" content={tag} />
+      ))}
+    </>
+  )
+}
+
+<!-- 移动端与索引 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="format-detection" content="telephone=no" />
+<meta http-equiv="x-dns-prefetch-control" content="on" />
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />

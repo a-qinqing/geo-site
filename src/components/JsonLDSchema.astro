@@ -1,0 +1,14 @@
+---
+/**
+ * 通用 JSON-LD 结构化数据组件
+ * 将任意 Schema.org 对象渲染为 application/ld+json 脚本标签
+ *
+ * 使用方式：
+ *   import JsonLDSchema from "@components/JsonLDSchema.astro";
+ *   <JsonLDSchema data={mySchemaObject} />
+ */
+const { data } = Astro.props;
+const jsonString = JSON.stringify(data, null, 2);
+---
+
+<script type="application/ld+json" set:html={jsonString}></script>

@@ -1,0 +1,9 @@
+请为整个项目补充全套的高高级 SEO 与 GEO 优化配置：
+
+创建一个通用的 SEO.astro 组件，注入 <title>、<meta name="description">、robots 标签以及完整的 Open Graph (OG) 社交卡片标签。
+
+在首页与服务页注入符合 Schema.org 标准的 JSON-LD 结构化数据（包含 Person 和 ProfessionalService 实体标记）。
+
+在文章详情页注入 Article 结构化数据。
+
+在 public/robots.txt 中编写规范的爬虫协议，允许 Googlebot、Bingbot 以及 OpenAI/Perplexity 等主流 AI 爬虫抓取，并指明 sitemap.xml 的路径。

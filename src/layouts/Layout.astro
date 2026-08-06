@@ -1,0 +1,67 @@
+---
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import SEO from "@components/SEO.astro";
+import "../styles/global.css";
+
+export interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  ogType?: "website" | "article" | "profile";
+  canonicalURL?: string;
+  noIndex?: boolean;
+  noFollow?: boolean;
+  publishedDate?: string;
+  modifiedDate?: string;
+  tags?: string[];
+  author?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage,
+  ogType,
+  canonicalURL,
+  noIndex,
+  noFollow,
+  publishedDate,
+  modifiedDate,
+  tags,
+  author,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="generator" content={Astro.generator} />
+
+    <SEO
+      title={title}
+      description={description}
+      ogImage={ogImage}
+      ogType={ogType}
+      canonicalURL={canonicalURL}
+      noIndex={noIndex}
+      noFollow={noFollow}
+      publishedDate={publishedDate}
+      modifiedDate={modifiedDate}
+      tags={tags}
+      author={author}
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,76 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+
+const posts = await getCollection("blog");
+// Sort posts by date descending
+const sortedPosts = posts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout
+  title="博客 | GEO 咨询"
+  description="SEO 与 GEO（生成式引擎优化）的前沿知识、策略指南和实战案例分享。"
+>
+  <!-- Page Header -->
+  <section class="bg-gradient-to-r from-slate-900 to-blue-900 text-white py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-white">博客</h1>
+      <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+        探索 GEO 与 SEO 的前沿知识、策略指南和实战案例
+      </p>
+    </div>
+  </section>
+
+  <!-- Blog Posts -->
+  <section class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {
+        sortedPosts.length === 0 ? (
+          <div class="text-center py-16">
+            <div class="text-5xl mb-4">📝</div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">还没有文章</h2>
+            <p class="text-slate-600">博客文章正在编写中，请稍后再来。</p>
+          </div>
+        ) : (
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {sortedPosts.map((post) => (
+              <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-300 group">
+                <div class="p-6">
+                  <div class="flex items-center gap-3 mb-3">
+                    <span class="text-xs font-semibold text-blue-600 uppercase tracking-wider">
+                      {post.data.category || "GEO"}
+                    </span>
+                    <span class="text-xs text-slate-400">
+                      {post.data.pubDate.toLocaleDateString("zh-CN", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </span>
+                  </div>
+                  <h2 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
+                    <a href={`/blog/${post.slug}`} class="no-underline text-inherit">
+                      {post.data.title}
+                    </a>
+                  </h2>
+                  <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                    {post.data.description}
+                  </p>
+                  <div class="flex items-center gap-2">
+                    {post.data.tags?.map((tag: string) => (
+                      <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-md">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Layout>

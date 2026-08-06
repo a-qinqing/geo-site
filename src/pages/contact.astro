@@ -1,0 +1,202 @@
+---
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout
+  title="预约咨询 | GEO 咨询"
+  description="预约免费的 15 分钟搜索策略咨询。告诉我你的现状和目标，我会给出专业、务实的初步优化建议——无需承诺，纯粹价值。"
+>
+  <!-- Page Header -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-20 md:py-24">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-10 right-10 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
+    </div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="inline-block px-4 py-1.5 bg-blue-600/30 text-blue-200 rounded-full text-sm font-medium mb-4 border border-blue-500/30 backdrop-blur-sm">
+        📅 免费咨询
+      </span>
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-white">预约免费 15 分钟咨询</h1>
+      <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+        告诉我你的搜索现状和目标，我会在 15 分钟内给你实用、可落地的初步建议。
+      </p>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-12">
+        <!-- 联系表单：占 3 列 -->
+        <div class="md:col-span-3">
+          <h2 class="text-2xl font-bold text-slate-900 mb-2">填写表单</h2>
+          <p class="text-slate-500 text-sm mb-8">我会在 24 小时内（工作日）通过邮箱回复确认咨询时间。</p>
+
+          <form class="space-y-5" method="POST" action="#">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="name" class="block text-sm font-medium text-slate-700 mb-1.5">
+                  姓名 <span class="text-red-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-slate-900 placeholder:text-slate-400"
+                  placeholder="你的姓名"
+                />
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium text-slate-700 mb-1.5">
+                  邮箱 <span class="text-red-400">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-slate-900 placeholder:text-slate-400"
+                  placeholder="your@email.com"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="website" class="block text-sm font-medium text-slate-700 mb-1.5">
+                网站 URL（如有）
+              </label>
+              <input
+                type="url"
+                id="website"
+                name="website"
+                class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-slate-900 placeholder:text-slate-400"
+                placeholder="https://example.com"
+              />
+            </div>
+
+            <div>
+              <label for="service" class="block text-sm font-medium text-slate-700 mb-1.5">
+                感兴趣的服务
+              </label>
+              <select
+                id="service"
+                name="service"
+                class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-slate-900 bg-white"
+              >
+                <option value="">请选择（可留空）</option>
+                <option value="seo-audit">SEO 全站诊断</option>
+                <option value="geo-optimization">GEO / AI 搜索可见度优化</option>
+                <option value="training">团队顾问与培训</option>
+                <option value="not-sure">不确定，想先聊聊</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="message" class="block text-sm font-medium text-slate-700 mb-1.5">
+                简单描述你的需求 <span class="text-red-400">*</span>
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                required
+                class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-slate-900 placeholder:text-slate-400 resize-none"
+                placeholder="例如：网站流量最近下降想找原因 / 想知道品牌在 AI 搜索中的表现 / 团队想系统学习 SEO..."
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all duration-200 cursor-pointer text-lg shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30"
+            >
+              📅 提交预约请求
+            </button>
+            <p class="text-xs text-slate-400 text-center">
+              提交即表示你同意我们通过邮箱联系你以协调咨询时间。不会用于其他用途。
+            </p>
+          </form>
+        </div>
+
+        <!-- 侧边栏：占 2 列 -->
+        <div class="md:col-span-2 space-y-6">
+          <!-- 咨询流程 -->
+          <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200">
+            <h3 class="font-bold text-slate-900 mb-4">📋 免费咨询流程</h3>
+            <ol class="space-y-3 list-none pl-0 my-0">
+              <li class="flex items-start gap-3 text-slate-600 text-sm">
+                <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold">1</span>
+                <span>填写左侧表单提交你的需求</span>
+              </li>
+              <li class="flex items-start gap-3 text-slate-600 text-sm">
+                <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold">2</span>
+                <span>我在 24 小时内通过邮箱回复确认咨询时间</span>
+              </li>
+              <li class="flex items-start gap-3 text-slate-600 text-sm">
+                <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold">3</span>
+                <span>15 分钟视频或语音通话，给出初步建议</span>
+              </li>
+              <li class="flex items-start gap-3 text-slate-600 text-sm">
+                <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold">4</span>
+                <span>如合适，我会推荐后续可选的合作方案</span>
+              </li>
+            </ol>
+          </div>
+
+          <!-- 联系信息 -->
+          <div class="bg-white rounded-2xl p-6 border border-slate-200">
+            <h3 class="font-bold text-slate-900 mb-4">📬 其他联系方式</h3>
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <span class="text-xl">📧</span>
+                <div>
+                  <div class="font-medium text-slate-900 text-sm">邮箱</div>
+                  <div class="text-slate-500 text-sm">geo@example.com</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="text-xl">💬</span>
+                <div>
+                  <div class="font-medium text-slate-900 text-sm">微信</div>
+                  <div class="text-slate-500 text-sm">geo_consulting</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="text-xl">🕐</span>
+                <div>
+                  <div class="font-medium text-slate-900 text-sm">工作时间</div>
+                  <div class="text-slate-500 text-sm">周一至周五 9:00-18:00</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 常见问题链接 -->
+          <div class="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-2xl p-6 border border-blue-200">
+            <h3 class="font-bold text-slate-900 mb-3">📖 先了解 GEO</h3>
+            <ul class="space-y-2 list-none pl-0 my-0">
+              <li>
+                <a href="/blog/what-is-geo" class="text-blue-600 hover:text-blue-800 text-sm no-underline">
+                  → 什么是 GEO？完整入门指南
+                </a>
+              </li>
+              <li>
+                <a href="/blog/geo-content-strategy" class="text-blue-600 hover:text-blue-800 text-sm no-underline">
+                  → GEO 内容策略最佳实践
+                </a>
+              </li>
+              <li>
+                <a href="/blog/seo-to-geo-transition" class="text-blue-600 hover:text-blue-800 text-sm no-underline">
+                  → 从 SEO 到 GEO 转型实战案例
+                </a>
+              </li>
+              <li>
+                <a href="/services" class="text-blue-600 hover:text-blue-800 text-sm no-underline">
+                  → 查看完整服务项目
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

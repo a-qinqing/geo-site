@@ -1,0 +1,17 @@
+请帮我编写网站的核心页面代码，使用 Tailwind CSS 来设计一个极简、现代化且加载速度极快的响应式 UI（完美适配手机与电脑）：
+
+首页 (src/pages/index.astro)：
+
+包含 Hero 区域（标语：专注 SEO & GEO 优化，帮企业与个人重构搜索流量）。
+
+清晰的 CTA 按钮（预约免费 15 分钟咨询）。
+
+‘三大核心服务’展示卡片。
+
+‘最新干货文章’展示列表。
+
+服务与咨询页 (src/pages/services.astro)：详细说明‘SEO 全站诊断’、‘GEO/AI 搜索可见度优化’、‘团队顾问与培训’的服务内容、标准交付物与咨询流程，并嵌入预约入口。
+
+关于我 (src/pages/about.astro)：个人 IP 背景介绍、专业信仰以及联系方式。
+
+博客模块 (src/pages/blog/index.astro 与 src/pages/blog/[...slug].astro)：规范的文章列表与文章详情页模板。

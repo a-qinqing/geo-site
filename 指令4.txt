@@ -1,0 +1,1 @@
+请帮我在 src/content/blog/ 目录下生成一篇示范性的 Markdown 文章，标题为《从 SEO 到 GEO：2026 年如何在 AI 搜索引擎中抢占流量？》，要求排版优雅、带有完整的 Frontmatter（title, pubDate, description, tags）。然后运行本地开发命令，并告诉我如何在浏览器中查看效果。

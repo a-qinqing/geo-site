@@ -1,0 +1,100 @@
+---
+title: "结构化数据与 Schema.org：GEO 的技术基石"
+description: "深入了解如何通过结构化数据标记和 Schema.org 词汇表让 AI 搜索引擎更准确地理解你的内容实体和关系。"
+pubDate: 2026-07-10
+category: "技术"
+tags: ["结构化数据", "Schema.org", "JSON-LD", "知识图谱"]
+author: "GEO 咨询团队"
+---
+
+## 为什么结构化数据是 GEO 的基础
+
+AI 搜索引擎与传统搜索引擎最大的不同在于：**它们不只是索引关键词，而是试图理解内容的语义**。
+
+结构化数据（Structured Data）是帮助 AI 理解你的内容的"翻译层"。通过使用 Schema.org 词汇表标记你的内容，你可以：
+
+- 明确告诉 AI 你的内容讲的是什么类型的实体
+- 定义实体之间的关系
+- 提供丰富的元数据帮助 AI 做出更准确的判断
+
+## JSON-LD：推荐的标记格式
+
+Google 和大多数 AI 搜索引擎都推荐使用 JSON-LD 格式来嵌入结构化数据。它独立于 HTML 结构，易于添加和维护。
+
+### 组织信息标记示例
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "GEO 咨询",
+  "url": "https://geo-consulting.example.com",
+  "description": "专注于 SEO 与 GEO 策略的知识分享与咨询服务",
+  "sameAs": [
+    "https://twitter.com/geo_consulting",
+    "https://linkedin.com/company/geo-consulting"
+  ]
+}
+```
+
+### 文章标记示例
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "什么是 GEO？",
+  "author": {
+    "@type": "Person",
+    "name": "GEO 咨询团队"
+  },
+  "datePublished": "2026-08-01",
+  "description": "深入了解生成式引擎优化的核心概念"
+}
+```
+
+## GEO 必备的 Schema 类型
+
+| Schema 类型 | 重要性 | 适用场景 |
+|------------|--------|---------|
+| `Organization` | ⭐⭐⭐⭐⭐ | 所有网站 |
+| `WebSite` | ⭐⭐⭐⭐⭐ | 所有网站 |
+| `Article` / `BlogPosting` | ⭐⭐⭐⭐⭐ | 内容型网站 |
+| `FAQPage` | ⭐⭐⭐⭐ | 问答内容 |
+| `Product` | ⭐⭐⭐⭐ | 电商网站 |
+| `Person` | ⭐⭐⭐⭐ | 个人品牌 |
+| `BreadcrumbList` | ⭐⭐⭐ | 所有网站 |
+| `HowTo` | ⭐⭐⭐ | 教程类内容 |
+| `Event` | ⭐⭐⭐ | 活动页面 |
+| `LocalBusiness` | ⭐⭐⭐ | 本地商家 |
+
+<blockquote>
+  <strong>💡 实践建议：</strong> 从 <code>Organization</code> 和 <code>Article</code> 开始，
+  逐步扩展到其他类型。不必一次性标记所有内容。
+</blockquote>
+
+## 实体优化：超越页面级别
+
+在 GEO 中，结构化数据不仅仅是"页面的装饰"。它应该体现你对"实体"的理解：
+
+- **你是谁**（Organization / Person）
+- **你做什么**（Product / Service）
+- **你写的是什么**（Article / BlogPosting / FAQ）
+- **内容之间的关系**（BreadcrumbList / sameAs / subjectOf）
+
+### 知识图谱连接
+
+通过 `sameAs` 属性，将你的网站与维基百科、维基数据、LinkedIn、Twitter 等外部权威平台关联，帮助 AI 构建完整的品牌知识图谱。
+
+## 实施检查清单
+
+- [ ] 网站根页面部署 Organization Schema
+- [ ] 每个博客文章页面部署 Article Schema
+- [ ] FAQ 页面部署 FAQPage Schema
+- [ ] 面包屑导航部署 BreadcrumbList Schema
+- [ ] 通过 Google Rich Results Test 验证
+- [ ] 通过 Schema.org Validator 验证
+
+## 总结
+
+结构化数据是 GEO 的"基础设施"。一个良好的 Schema 标记体系不会直接让你在 AI 搜索中"排名第一"，但它为 AI 准确理解你的品牌和内容提供了必要的基础——没有这个基础，AI 就无法做出准确的引用判断。

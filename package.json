@@ -1,0 +1,20 @@
+{
+  "name": "geo-consulting-site",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "SEO & GEO（生成式引擎优化）知识分享与个人品牌咨询站点",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.2.6",
+    "@astrojs/sitemap": "^3.4.0",
+    "@astrojs/tailwind": "^5.1.5",
+    "astro": "^5.7.12",
+    "tailwindcss": "^3.4.17"
+  }
+}
