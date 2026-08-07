@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 
-const siteURL = Astro.site?.origin || "https://geo-consulting.example.com";
+const siteURL = Astro.site?.origin || "https://geova.cn/";
 const articleURL = new URL(`/blog/${post.slug}`, siteURL).href;
 
 // Article 结构化数据

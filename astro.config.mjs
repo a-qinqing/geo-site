@@ -5,7 +5,10 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://geo-consulting.example.com",
+  site: "https://geova.cn/",
+  redirects: {
+    "/sitemap.xml": "/sitemap-index.xml",
+  },
   integrations: [
     tailwind(),
     mdx(),

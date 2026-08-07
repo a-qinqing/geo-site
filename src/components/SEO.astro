@@ -39,7 +39,7 @@ const {
 } = Astro.props;
 
 // 构建规范 URL
-const siteURL = Astro.site?.origin || "https://geo-consulting.example.com";
+const siteURL = Astro.site?.origin || "https://geova.cn/";
 const canonical = canonicalURL
   ? (canonicalURL.startsWith("http") ? canonicalURL : `${siteURL}${canonicalURL.startsWith("/") ? "" : "/"}${canonicalURL}`)
   : new URL(Astro.url.pathname, siteURL).href;
