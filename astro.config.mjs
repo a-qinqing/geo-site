@@ -5,7 +5,7 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://geova.cn/",
+  site: "https://www.geova.cn/",
   redirects: {
     "/sitemap.xml": "/sitemap-index.xml",
   },
