@@ -1,0 +1,14 @@
+请帮我撰写一篇高质量的 GEO 实战案例文章，格式为 Markdown，并直接保存到网站的文章目录（如 src/content/blog/，请根据当前项目路径自动判断）。
+
+文章主题：《企业如何检查自己的品牌是否被 ChatGPT 与 Perplexity 推荐？GEO 品牌诊断实战指南》
+结构要求：
+
+引言：传统 SEO 排名 vs AI 搜索引用的差异。
+
+诊断步骤：如何设置测试 Prompt，以及如何评估 AI 回答中的品牌提及率。
+
+解决方案：如何通过 Schema 结构化数据与文献引用提高被 AI 抓取的概率。
+
+结尾：引导联系 GEOVA.CN 团队获取免费咨询。
+
+生成完成后，请自动执行 git add, git commit -m "add first blog post", 并 git push 到 GitHub。
