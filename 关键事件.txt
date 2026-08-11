@@ -1,0 +1,8 @@
+我们网站使用的是 Google Tag Manager (GTM)。请不要添加额外的 GA4 脚本，只需在联系表单（contact form）提交成功的逻辑中（例如 AJAX 回调或成功提交事件里），加入以下代码：
+
+JavaScript
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  'event': 'generate_lead'
+});
+```”
