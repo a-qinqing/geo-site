@@ -1,0 +1,19 @@
+请帮我重构 contact 联系页面的表单逻辑，使用 Web3Forms 解决表单提交时报错 HTTP ERROR 405 的问题：
+
+1. 接入 Web3Forms 接口：
+   - 使用 Access Key: e132d0dc-64f5-4e97-a85b-8d672d0828b5
+   - 表单提交地址为 https://api.web3forms.com/submit
+   - 提交的数据字段需包含：姓名（name）、邮箱（email）、网站URL（website）、感兴趣的服务（service）、简单描述需求（message）。
+
+2. 优化前端提交体验（使用 JS fetch 异步提交）：
+   - 点击提交时阻止默认页面刷新/跳转行为。
+   - 提交过程中将按钮文字变为“发送中...”，并暂时禁用按钮防止重复点击。
+   - 提交成功后，在表单区域原位置显示绿色的文字提示：“预约请求提交成功！我们会在 24 小时内联系您。”并重置（清空）表单输入框。
+   - 如果提交失败，显示红色的错误提示信息。
+
+3. 打通 GA4 转化事件：
+   - 在表单成功提交（JSON 响应 success 为 true）的回调里，加上数据层推送代码：
+     window.dataLayer = window.dataLayer || [];
+     window.dataLayer.push({ 'event': 'generate_lead' });
+
+4. 修改完成后，请提交 git 并推送部署上线。
