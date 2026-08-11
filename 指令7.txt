@@ -1,7 +1,14 @@
-按照以下 GEO 博客检查清单 进行自查调整：
+请帮我在 GEOVA.CN 网站的 /about/ 页面以及全站页脚（Footer）中添加我的 LinkedIn 个人主页链接。
 
-Direct Answer 检查：核心段落的第一句话是否能独立作为问题的标准答案？
+【需求细节】
+1. 目标 URL：https://www.linkedin.com/in/geova-qin/
 
-表格化程度：有无将复杂的比较/参数收录进 Markdown 表格中？
+2. 放置位置与展示形式：
+   - /about/ 页面：在个人/创始人介绍卡片或联系方式区域，添加一个带有 LinkedIn 图标的按钮（或文字链接，例如："Connect on LinkedIn / 领英主页"）。
+   - 全站页脚（Footer）：在 Footer 的社交媒体/联系链接区域，添加 LinkedIn 社交图标及链接。
 
-知识库还原度：是否真正调用了你知识库里的独家经验，还是生成了通用的 AI 废话？
+3. 代码规范：
+   - 链接标签需包含 target="_blank"（在新标签页打开）以及 rel="noopener noreferrer"。
+   - 样式与现有网站 UI 保持一致（可以使用与 Twitter/GitHub 等已有的社交图标相匹配的 Icon 样式）。
+
+请直接找到对应的模板/组件代码进行修改并更新部署。
