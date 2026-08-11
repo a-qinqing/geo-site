@@ -1,0 +1,5 @@
+请帮我在 GEOVA.CN 项目中集成 IndexNow 协议（用于向 Bing / Yandex 等搜索引擎实时提交新网页）：
+
+1. 生成一个 IndexNow API Key（例如 32 位随机十六进制字符串）。
+2. 在网站根目录（public/ 目录下）创建一个与该 Key 同名的 .txt 文件（例如 [Your-Key].txt），文件内容就是这个 Key 本身，保证访问 https://www.geova.cn/[Your-Key].txt 能正常返回该字符串。
+3. 如果项目支持，配置一个脚本或 Build/Deploy 钩子：每当新文章发布时，自动触发 POST 请求发送到 https://api.indexnow.org，提交最新的页面 URL。
