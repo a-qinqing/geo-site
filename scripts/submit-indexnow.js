@@ -120,8 +120,8 @@ async function main() {
     console.log(`[IndexNow] 🎉 Done! ${result.submitted} URLs submitted to Bing/Yandex/Seznam.`);
     console.log("[IndexNow]    Search engines will crawl these URLs soon.");
   } else {
-    console.error("[IndexNow] ❌ Submission failed. Check network or API key.");
-    process.exitCode = 1;
+    console.warn("[IndexNow] ⚠️  Submission failed (non-blocking). Check network or API key verification.");
+    console.warn("[IndexNow]    This does not affect the site build — continuing.");
   }
 }
 
