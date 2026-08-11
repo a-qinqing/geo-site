@@ -8,7 +8,14 @@
       "Bash(git push *)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(node -e \"console.log\\(require\\('crypto'\\).randomBytes\\(16\\).toString\\('hex'\\)\\)\")"
+      "Bash(node -e \"console.log\\(require\\('crypto'\\).randomBytes\\(16\\).toString\\('hex'\\)\\)\")",
+      "WebFetch(domain:www.geova.cn)",
+      "Bash(npx vercel *)",
+      "Bash(nslookup www.geova.cn)",
+      "Bash(curl *)",
+      "Bash(gh repo *)",
+      "Bash(npx wrangler *)",
+      "Bash(echo \"EXIT_CODE: $?\")"
     ]
   }
 }
