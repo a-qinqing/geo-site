@@ -30,7 +30,7 @@ import Layout from "@layouts/Layout.astro";
           <h2 class="text-2xl font-bold text-slate-900 mb-2">填写表单</h2>
           <p class="text-slate-500 text-sm mb-8">我会在 24 小时内（工作日）通过邮箱回复确认咨询时间。</p>
 
-          <form class="space-y-5" method="POST" action="#">
+          <form id="contact-form" class="space-y-5">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
                 <label for="name" class="block text-sm font-medium text-slate-700 mb-1.5">
@@ -104,9 +104,12 @@ import Layout from "@layouts/Layout.astro";
               ></textarea>
             </div>
 
+            <div id="form-message" class="hidden text-sm font-medium rounded-xl p-4"></div>
+
             <button
               type="submit"
-              class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all duration-200 cursor-pointer text-lg shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30"
+              id="submit-btn"
+              class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all duration-200 cursor-pointer text-lg shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               📅 提交预约请求
             </button>
@@ -199,4 +202,61 @@ import Layout from "@layouts/Layout.astro";
       </div>
     </div>
   </section>
+<script>
+  const form = document.getElementById('contact-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const messageEl = document.getElementById('form-message');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // 进入提交状态
+    submitBtn.disabled = true;
+    submitBtn.textContent = '⏳ 发送中...';
+    messageEl.classList.add('hidden');
+
+    const formData = new FormData(form);
+    const payload = {
+      access_key: 'e132d0dc-64f5-4e97-a85b-8d672d0828b5',
+      name: formData.get('name'),
+      email: formData.get('email'),
+      website: formData.get('website'),
+      service: formData.get('service'),
+      message: formData.get('message'),
+    };
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        // 成功提示
+        messageEl.textContent = '✅ 预约请求提交成功！我们会在 24 小时内联系您。';
+        messageEl.className = 'text-sm font-medium rounded-xl p-4 bg-green-50 text-green-700 border border-green-200';
+        form.reset();
+
+        // GA4 转化事件
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'generate_lead' });
+      } else {
+        // 服务端返回失败
+        messageEl.textContent = '❌ 提交失败，请稍后重试或直接发送邮件至 contact@geova.cn。';
+        messageEl.className = 'text-sm font-medium rounded-xl p-4 bg-red-50 text-red-700 border border-red-200';
+      }
+    } catch (err) {
+      // 网络错误
+      messageEl.textContent = '❌ 网络错误，请检查网络后重试。';
+      messageEl.className = 'text-sm font-medium rounded-xl p-4 bg-red-50 text-red-700 border border-red-200';
+    } finally {
+      // 恢复按钮
+      submitBtn.disabled = false;
+      submitBtn.textContent = '📅 提交预约请求';
+    }
+  });
+</script>
 </Layout>
