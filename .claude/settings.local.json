@@ -5,7 +5,9 @@
       "Bash(npm config *)",
       "Bash(npx astro *)",
       "Bash(npm run *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ]
   }
 }
