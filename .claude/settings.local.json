@@ -18,7 +18,8 @@
       "Bash(echo \"EXIT_CODE: $?\")",
       "WebSearch",
       "Bash(git -C \"C:\\\\Users\\\\14049\\\\Desktop\\\\秦丽芳\\\\github\\\\github\\\\AI_Workspace\\\\GEO咨询网站\" remote -v)",
-      "Bash(gh run *)"
+      "Bash(gh run *)",
+      "Bash(python -m json.tool)"
     ]
   }
 }
