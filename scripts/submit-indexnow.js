@@ -16,7 +16,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
 
 // ===== IndexNow 配置 =====
-const INDEXNOW_KEY = "eb72b966763543b5d383cb3f80448cbe";
+const INDEXNOW_KEY = "8ef54f863d85241851860bf95a72e359";
 const SITE_HOST = "www.geova.cn";
 const KEY_LOCATION = `https://${SITE_HOST}/${INDEXNOW_KEY}.txt`;
 const INDEXNOW_API = "https://api.indexnow.org/indexnow";
