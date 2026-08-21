@@ -1,6 +1,6 @@
 # =============================================================
 # GEO 咨询网站 — robots.txt
-# 最后更新: 2026-08-06
+# 最后更新: 2026-08-21
 # 策略: 开放抓取，欢迎主流搜索引擎与 AI 爬虫索引
 # =============================================================
 
@@ -71,6 +71,10 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
+# ByteDance — Bytespider (豆包 / 抖音 AI 搜索与训练爬虫)
+User-agent: Bytespider
+Allow: /
+
 # Anthropic — Claude AI 爬虫
 User-agent: anthropic-ai
 Allow: /
@@ -127,7 +131,4 @@ Crawl-delay: 3
 # =============================================================
 
 User-agent: PetalBot
-Disallow: /
-
-User-agent: Bytespider
 Disallow: /
