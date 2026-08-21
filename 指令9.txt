@@ -1,0 +1,10 @@
+上线到 Cloudflare Pages 后，geova.cn 页面样式全乱了（CSS 样式未正常加载或被路由拦截）。
+
+这通常是因为从纯静态切换到 @astrojs/cloudflare SSR 模式后，静态资源路径或 Cloudflare _routes.json 的路由配置出现了问题。
+
+请帮我排查并修复：
+1. 检查 public/ 或 dist/_routes.json 的配置：确保 CSS、JS、图片等静态资源（如 /_astro/*, /favicon.ico 等）被 exclude 排除在 SSR Worker 拦截之外，直接走 Cloudflare 静态 CDN 托管。
+2. 检查 astro.config.mjs 中的 site 和 base 配置是否正确。
+3. 如果是在 Cloudflare Pages 构建，请确认 build 输出目录以及 Pages 部署设置中的 Build command 是否依然为 `npm run build`，以及输出目录是否与 Cloudflare Pages 匹配。
+
+请直接检查代码并修好，让我能重新构建部署恢复样式。

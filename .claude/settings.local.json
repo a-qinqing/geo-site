@@ -22,7 +22,11 @@
       "Bash(python -m json.tool)",
       "WebFetch(domain:www.searchenginejournal.com)",
       "Bash(npm view *)",
-      "Bash(npm ls *)"
+      "Bash(npm ls *)",
+      "Bash(xxd)",
+      "Bash(python -c \"import sys; d=sys.stdin.buffer.read\\(\\); d.decode\\('utf-8'\\); print\\('首页: 合法 UTF-8, 共', len\\(d\\), '字节'\\)\")",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //F //PID 3136)"
     ]
   }
 }
