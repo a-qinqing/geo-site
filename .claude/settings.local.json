@@ -26,7 +26,15 @@
       "Bash(xxd)",
       "Bash(python -c \"import sys; d=sys.stdin.buffer.read\\(\\); d.decode\\('utf-8'\\); print\\('首页: 合法 UTF-8, 共', len\\(d\\), '字节'\\)\")",
       "Bash(netstat -ano)",
-      "Bash(taskkill //F //PID 3136)"
+      "Bash(taskkill //F //PID 3136)",
+      "Bash(echo *)",
+      "Read(//tmp/**)",
+      "Bash(sed -n '61,194p' /tmp/live_robots.txt)",
+      "Bash(diff /tmp/live_user_portion.txt public/robots.txt)",
+      "Bash(git fetch *)",
+      "Bash(git -c http.proxy=http://127.0.0.1:7897 -c https.proxy=http://127.0.0.1:7897 push origin main)",
+      "Bash(nslookup geova.cn)",
+      "Bash(env)"
     ]
   }
 }
