@@ -34,7 +34,10 @@
       "Bash(git fetch *)",
       "Bash(git -c http.proxy=http://127.0.0.1:7897 -c https.proxy=http://127.0.0.1:7897 push origin main)",
       "Bash(nslookup geova.cn)",
-      "Bash(env)"
+      "Bash(env)",
+      "Bash(awk '{print $6, $7, $8}')",
+      "Bash(python -c ' *)",
+      "Bash(cd *)"
     ]
   }
 }

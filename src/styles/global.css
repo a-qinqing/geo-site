@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  /* 页面统一容器：Header / Banner / Footer 共用的宽度与对称内边距 */
+  .container-page {
+    @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+}
+
 @layer base {
   :root {
     --color-primary: #2563eb;
