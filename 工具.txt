@@ -1,0 +1,16 @@
+我的项目是一个标准的 Astro + Cloudflare 适配器 (astro/db or @astrojs/cloudflare) 架构。
+我现在想在这个现有项目中，新增一个“GEO 站点健康度综合诊断工具”功能模块。
+
+请不要覆盖或修改我的基础配置文件（如 astro.config.mjs、package.json 等），而是直接在 src 目录下帮我新增以下文件和逻辑：
+
+1. 新增 API 端点 (src/pages/api/scan.ts)：
+   - 创建一个 SSR API Route，接收前端 POST 提交的 target_url。
+   - 实现后端的逻辑：并发请求 target_url 的 /robots.txt（检测 GPTBot, PerplexityBot, ClaudeBot, Bytespider）以及解析 HTML（检测 JSON-LD 结构化数据如 Organization/FAQ/Article，并检测 body 纯文本字数以预警 CSR 动态渲染）。
+   - 算法计算 0-100 的 GEO 得分，返回 JSON 给前端。
+
+2. 新增工具前端页面 (src/pages/tool.astro)：
+   - 创建一个新的页面，路由为 /tool。
+   - 使用与我当前项目风格一致的样式（如 Tailwind CSS）。
+   - 页面包含 URL 输入框、打分仪表盘、诊断明细 CheckList，以及底部的引导留存/预约入口。
+
+请先检查我当前项目的目录结构，然后帮我创建 `src/pages/api/scan.ts` 和 `src/pages/tool.astro` 文件并编写完整代码。
