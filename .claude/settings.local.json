@@ -1,6 +1,9 @@
 {
   "permissions": {
     "allow": [
+      "Write(blog-drafts/**)",
+      "Edit(blog-drafts/**)",
+      "Read(C:\\Users\\14049\\Desktop\\秦丽芳\\github\\github\\知识库\\知识库\\GEO日报/**)",
       "Bash(npm install *)",
       "Bash(npm config *)",
       "Bash(npx astro *)",
@@ -37,7 +40,9 @@
       "Bash(env)",
       "Bash(awk '{print $6, $7, $8}')",
       "Bash(python -c ' *)",
-      "Bash(cd *)"
+      "Bash(cd *)",
+      "Bash(git -c http.proxy=http://127.0.0.1:7897 push origin main)",
+      "WebFetch(domain:sec-site.com)"
     ]
   }
 }
