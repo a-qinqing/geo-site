@@ -16,6 +16,7 @@
 - 发布后的文章不得包含任何草稿残留：无"待编辑确认"、"选点说明"、AI 工具自白、孤立 `#标签`、断行的行内粗体。
 - 时间线必须校准：日报中超过一周的旧闻只能作为背景或教训，不得冒充本周新闻。
 - 发布时用英文提交信息，格式：`feat(blog): publish daily report YYYY-MM-DD`。
+- **文件名 / URL 用主关键词英文命名**（kebab-case，如 `ai-overviews-auto-expand.md`），不要用日期命名（如 `geo-daily-2026-08-31`）；已发布的 URL 保持不变。
 - 发布完成后清理 `blog-drafts/` 对应文件（commit: `chore(blog): cleanup draft after publish YYYY-MM-DD`）。
 
 ## 环境

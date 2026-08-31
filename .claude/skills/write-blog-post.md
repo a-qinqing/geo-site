@@ -18,6 +18,7 @@ This skill guides writing a professional GEO/SEO article and deploying it to the
 4. **Fix the timeline.** Daily reports mix this week's news with older events (e.g. Reddit 引用暴跌 -86% happened 8/14 — it is context, not news, for an 8/31 post). Events older than ~1 week must be repositioned as background/教训, never presented as "过去一周" news. Verify every event's date against the report before writing.
 5. **Use the site's current CTA block** (see CTA template) — not older variants.
 6. **Category must be one the site actually uses**: `行业动态` / `行业趋势` (default for daily-report posts), `实战指南`, `GEO 基础`, `GEO 实战`, `案例研究`, `策略`, `技术` — pick the closest match.
+7. **Slug by primary English keyword.** Name the file (and therefore the URL) after the post's main keyword in English, kebab-case: `ai-overviews-auto-expand.md`, `geo-brand-diagnosis-guide.md`, `doubao-deepseek-domestic-geo-guide.md`. Do NOT use date-based slugs (`geo-daily-2026-08-31`) — the date is never the topic. Pick 1–3 keywords that best describe the post's core angle and turn the strongest one into the slug. (Rule applies to new posts; already-published URLs stay unchanged.)
 
 ## Workflow (Mode B — daily report → blog post; Mode A follows the same steps from Step 2)
 
@@ -29,7 +30,7 @@ Pick the 2–4 items with the highest reader value (biggest impact on reader dec
 
 ### Step 2: Write the draft to `blog-drafts/`
 
-Create `blog-drafts/geo-daily-YYYY-MM-DD.md` (or `<slug>.md` for Mode A). Slug: kebab-case (e.g. `geo-daily-2026-08-31.md`).
+Create `blog-drafts/<slug>.md` where `<slug>` is the **primary English keyword** of the post, kebab-case (hard rule 7 — e.g. a post about AI Overviews auto-expand becomes `ai-overviews-auto-expand.md`, NOT `geo-daily-2026-08-31.md`).
 
 #### Frontmatter Template
 
@@ -119,6 +120,7 @@ Report back: article title and slug, build status, commit hash, live URL `https:
 ## Publish-time checklist (run before every push)
 
 - [ ] No draft residue (hard rule 1) — grep for: 待编辑确认 / 选点说明 / 日报改写 / 我可以把
+- [ ] Slug = primary English keyword, kebab-case, not a date (hard rule 7)
 - [ ] Frontmatter complete and valid (title / description / pubDate=today / category / tags / author)
 - [ ] pubDate matches the file date; timeline events dated correctly; no old news sold as this-week news
 - [ ] TL;DR present, numbered sections, action checklist, 结语, CTA block, source footnote
