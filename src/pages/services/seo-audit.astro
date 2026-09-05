@@ -1,0 +1,355 @@
+---
+import Layout from "@layouts/Layout.astro";
+import JsonLDSchema from "@components/JsonLDSchema.astro";
+
+const siteURL = Astro.site?.origin || "https://www.geova.cn/";
+const pageURL = `${siteURL}/services/seo-audit/`;
+
+// Service 结构化数据
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "SEO 全站诊断服务",
+  url: pageURL,
+  serviceType: "SEO 全站诊断 / SEO 技术审计",
+  description:
+    "人工 + 工具结合的 SEO 全站诊断：技术健康度、内容与关键词、外链与权威度、竞品对标四大维度审计，交付分级问题清单与 3 个月执行路线图。",
+  provider: {
+    "@type": "Organization",
+    name: "GEO 咨询",
+    url: siteURL,
+  },
+  areaServed: {
+    "@type": "Continent",
+    name: "全球（线上服务）",
+  },
+  availableChannel: {
+    "@type": "ServiceChannel",
+    serviceUrl: `${siteURL}/contact`,
+    availableLanguage: ["zh-CN", "en"],
+  },
+};
+
+// BreadcrumbList 结构化数据
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "首页", item: siteURL },
+    { "@type": "ListItem", position: 2, name: "服务", item: `${siteURL}/services/` },
+    { "@type": "ListItem", position: 3, name: "SEO 全站诊断服务", item: pageURL },
+  ],
+};
+---
+
+<Layout
+  title="SEO 全站诊断服务 | GEO 咨询"
+  description="人工 + 工具结合的 SEO 全站诊断：技术健康度、内容与关键词、外链与权威度、竞品对标四大维度系统审计，交付分级问题清单与 3 个月执行路线图，找到网站流量停滞的真正原因。"
+>
+  <!-- Page Header -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-20 md:py-24">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-10 right-10 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
+    </div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="inline-block px-4 py-1.5 bg-blue-600/30 text-blue-200 rounded-full text-sm font-medium mb-4 border border-blue-500/30 backdrop-blur-sm">
+        🔍 SEO 全站诊断
+      </span>
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-white">SEO 全站诊断服务</h1>
+      <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+        网站流量停滞或下降，往往不是缺一篇内容、少一条外链那么简单。
+        先系统诊断，找到流量停滞的<strong class="text-white">真正原因</strong>，再决定优化方向。
+      </p>
+    </div>
+  </section>
+
+  <!-- 为什么需要诊断 -->
+  <section class="py-20 md:py-28 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider">为什么需要诊断</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-4">先诊断，再动手</h2>
+        <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+          自动扫描报告只能告诉你"哪里亮红灯"，不能告诉你问题的主次、代价与执行顺序。
+          我对你的网站做<strong>人工 + 工具结合</strong>的深度审计——像医生问诊一样先确认病因，再开药方。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+          <div class="text-3xl mb-4">🧩</div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">定位真正的瓶颈</h3>
+          <p class="text-slate-600 leading-relaxed text-sm">
+            是技术层面抓取与索引出了问题，还是内容没有覆盖搜索意图，或是权威度不足？
+            诊断把"感觉流量不行"翻译成具体、可验证的瓶颈。
+          </p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+          <div class="text-3xl mb-4">🎯</div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">分清主次与代价</h3>
+          <p class="text-slate-600 leading-relaxed text-sm">
+            全站问题少则几十、多则上百条。诊断输出按"紧急 / 重要 / 优化建议"分级的问题清单，
+            让你知道先修什么、什么影响最大、什么可以缓一缓。
+          </p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+          <div class="text-3xl mb-4">🗺️</div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">拿到执行地图</h3>
+          <p class="text-slate-600 leading-relaxed text-sm">
+            诊断不是终点。交付物包含 3 个月执行路线图与优先级排序，
+            你的团队或服务商可以照着直接落地，而不是从零摸索。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 诊断维度 -->
+  <section class="py-20 md:py-28 bg-slate-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider">诊断维度</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-4">四大维度，一次查透</h2>
+        <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+          每一维度都回答一个关键问题：网站现在处于什么状态、差距在哪里、修复的优先级是什么。
+        </p>
+      </div>
+
+      <div class="space-y-6">
+        <!-- 维度 1 -->
+        <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+          <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="lg:w-1/4 flex items-start gap-3">
+              <span class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 text-lg font-bold">1</span>
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 mb-1">技术健康度</h3>
+                <p class="text-blue-600 text-sm font-medium">问题：搜索引擎能高效地抓取和索引你的网站吗？</p>
+              </div>
+            </div>
+            <div class="lg:w-3/4">
+              <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                检查爬虫抓取效率、索引覆盖率、网站速度（Core Web Vitals）、移动端适配与站点架构合理性。
+                技术问题常表现为"页面存在但始终没有排名"或"收录突然下降"。
+              </p>
+              <div class="flex flex-wrap gap-2 text-xs">
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">抓取与索引覆盖</span>
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">页面速度与核心指标</span>
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">移动端适配</span>
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">站点架构与内链</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 维度 2 -->
+        <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+          <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="lg:w-1/4 flex items-start gap-3">
+              <span class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 text-lg font-bold">2</span>
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 mb-1">内容与关键词</h3>
+                <p class="text-blue-600 text-sm font-medium">问题：页面是否覆盖了目标用户的真实搜索意图？</p>
+              </div>
+            </div>
+            <div class="lg:w-3/4">
+              <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                评估内容质量、关键词覆盖缺口、内容结构合理性并检测重复内容。
+                很多网站不是没有内容，而是大量页面在争夺同一个关键词，或在错误的意图上竞争。
+              </p>
+              <div class="flex flex-wrap gap-2 text-xs">
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">关键词覆盖缺口分析</span>
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">搜索意图匹配度</span>
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">页面间关键词冲突</span>
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">重复内容检测</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 维度 3 -->
+        <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+          <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="lg:w-1/4 flex items-start gap-3">
+              <span class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 text-lg font-bold">3</span>
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 mb-1">外链与权威度</h3>
+                <p class="text-blue-600 text-sm font-medium">问题：网站在搜索与 AI 引擎眼中的可信度足够吗？</p>
+              </div>
+            </div>
+            <div class="lg:w-3/4">
+              <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                分析外链画像、锚文本分布、权威度评分与高质量外链机会。
+                权威度是排名与 AI 引用的共同地基——外链质量比数量重要得多。
+              </p>
+              <div class="flex flex-wrap gap-2 text-xs">
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">外链画像分析</span>
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">锚文本分布</span>
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">权威度评估</span>
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">外链机会挖掘</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 维度 4 -->
+        <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+          <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="lg:w-1/4 flex items-start gap-3">
+              <span class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 text-lg font-bold">4</span>
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 mb-1">竞品对标</h3>
+                <p class="text-blue-600 text-sm font-medium">问题：为什么竞品在涨，而你在原地？</p>
+              </div>
+            </div>
+            <div class="lg:w-3/4">
+              <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                选定 2-3 个核心竞品，对比流量结构、关键词策略与内容差异。
+                竞品数据不只看"别人做了什么"，更用来校准你自己的增长空间。
+              </p>
+              <div class="flex flex-wrap gap-2 text-xs">
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">流量结构对比</span>
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">关键词策略对比</span>
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">内容差距分析</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 交付物与适用对象 -->
+  <section class="py-20 md:py-28 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <!-- 交付物 -->
+        <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+          <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <span>📦</span> 你会拿到什么
+          </h2>
+          <p class="text-slate-500 text-sm mb-6">一套可以直接执行、也可以交给任何执行方照做的完整交付。</p>
+          <ul class="space-y-3 list-none pl-0 my-0">
+            <li class="flex items-start gap-2 text-slate-600 text-sm">
+              <span class="text-blue-500 mt-0.5">✓</span>
+              <span>完整的 SEO 诊断报告（PDF + 在线文档）</span>
+            </li>
+            <li class="flex items-start gap-2 text-slate-600 text-sm">
+              <span class="text-blue-500 mt-0.5">✓</span>
+              <span>分级问题清单：紧急 / 重要 / 优化建议，标注影响面与修复代价</span>
+            </li>
+            <li class="flex items-start gap-2 text-slate-600 text-sm">
+              <span class="text-blue-500 mt-0.5">✓</span>
+              <span>竞品分析对比报告（含可复制的策略差异点）</span>
+            </li>
+            <li class="flex items-start gap-2 text-slate-600 text-sm">
+              <span class="text-blue-500 mt-0.5">✓</span>
+              <span>3 个月执行路线图，按优先级排序、可直接排期</span>
+            </li>
+            <li class="flex items-start gap-2 text-slate-600 text-sm">
+              <span class="text-blue-500 mt-0.5">✓</span>
+              <span>60 分钟报告解读与答疑会议（可带执行团队一起听）</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 适用对象 -->
+        <div class="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-2xl p-8 border border-blue-200">
+          <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <span>🎯</span> 适合你吗？
+          </h2>
+          <p class="text-slate-500 text-sm mb-6">满足下面任意一条，就值得做一次全站诊断。</p>
+          <ul class="space-y-3 list-none pl-0 my-0">
+            <li class="flex items-start gap-3 text-slate-600 text-sm">
+              <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">1</span>
+              网站流量停滞或下降，想找到根本原因而不是继续试错
+            </li>
+            <li class="flex items-start gap-3 text-slate-600 text-sm">
+              <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">2</span>
+              准备改版或迁移，需要技术 SEO 前置评估来规避风险
+            </li>
+            <li class="flex items-start gap-3 text-slate-600 text-sm">
+              <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">3</span>
+              已做过零散优化但缺少系统性方向，想获得外部客观视角
+            </li>
+            <li class="flex items-start gap-3 text-slate-600 text-sm">
+              <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">4</span>
+              想建立传统搜索基线，再叠加 GEO 增长（AI 搜索可见度）策略
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 诊断流程 -->
+  <section class="py-20 md:py-28 bg-slate-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-12">诊断怎么进行</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="text-center relative">
+          <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg shadow-lg shadow-blue-600/20">1</div>
+          <h4 class="font-bold text-slate-900 mb-2">初步沟通</h4>
+          <p class="text-slate-600 text-sm leading-relaxed">15 分钟免费通话，了解业务目标、当前表现与你的核心疑问</p>
+        </div>
+        <div class="text-center relative">
+          <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg shadow-lg shadow-blue-600/20">2</div>
+          <h4 class="font-bold text-slate-900 mb-2">数据采集与审计</h4>
+          <p class="text-slate-600 text-sm leading-relaxed">抓取分析 + 人工核查四大维度，必要时请你配合提供 Search Console 权限</p>
+        </div>
+        <div class="text-center relative">
+          <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg shadow-lg shadow-blue-600/20">3</div>
+          <h4 class="font-bold text-slate-900 mb-2">报告撰写</h4>
+          <p class="text-slate-600 text-sm leading-relaxed">整理问题分级清单、竞品对比与 3 个月执行路线图</p>
+        </div>
+        <div class="text-center relative">
+          <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg shadow-lg shadow-blue-600/20">4</div>
+          <h4 class="font-bold text-slate-900 mb-2">报告解读会议</h4>
+          <p class="text-slate-600 text-sm leading-relaxed">60 分钟逐条讲解，现场答疑，确认执行顺序与责任人</p>
+        </div>
+      </div>
+
+      <!-- 与其他服务的关系 -->
+      <div class="mt-12 bg-white rounded-2xl p-8 border border-slate-200">
+        <h3 class="text-lg font-bold text-slate-900 mb-4">诊断之后，往哪走？</h3>
+        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+          SEO 全站诊断解决的是"传统搜索渠道"的系统问题。如果你的瓶颈其实出在 AI 搜索可见度上，
+          或希望在诊断后建立持续优化机制，我们还有对应的服务承接：
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 flex-wrap">
+          <a href="/services/geo-audit/" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium text-sm no-underline bg-blue-50 px-4 py-2.5 rounded-xl transition-colors">
+            🩺 想查品牌在 AI 搜索中的可见度？→ GEO 审计与 AI 搜索诊断
+          </a>
+          <a href="/services/training/" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium text-sm no-underline bg-blue-50 px-4 py-2.5 rounded-xl transition-colors">
+            🎓 想把执行能力留在团队内？→ 培训与团队顾问
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-gradient-to-r from-blue-600 to-emerald-600 text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-10 right-20 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+      <div class="absolute bottom-10 left-20 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+    </div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">
+        流量停在原地，先问一个"为什么"
+      </h2>
+      <p class="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+        预约免费 15 分钟咨询，说说你的网站现状——我会先给出初步判断，再决定是否值得做一次全站诊断。
+      </p>
+      <a
+        href="/contact"
+        class="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-slate-100 transition-all duration-200 no-underline text-lg shadow-lg"
+      >
+        📅 预约免费 15 分钟咨询
+      </a>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <JsonLDSchema data={serviceSchema} />
+  <JsonLDSchema data={breadcrumbSchema} />
+</Layout>

@@ -1,0 +1,345 @@
+---
+import Layout from "@layouts/Layout.astro";
+import JsonLDSchema from "@components/JsonLDSchema.astro";
+
+const siteURL = Astro.site?.origin || "https://www.geova.cn/";
+const pageURL = `${siteURL}/services/training/`;
+
+// Service 结构化数据
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "SEO/GEO 培训与团队顾问服务",
+  url: pageURL,
+  serviceType: "SEO/GEO 培训 / SEO 内训 / 搜索优化顾问",
+  description:
+    "面向企业与个人品牌的 SEO/GEO 培训与长期顾问服务：企业内训课程、1v1 策略咨询、搜索优化工作流搭建与季度策略复盘，帮助团队把搜索优化能力真正内建。",
+  provider: {
+    "@type": "Organization",
+    name: "GEO 咨询",
+    url: siteURL,
+  },
+  areaServed: {
+    "@type": "Continent",
+    name: "全球（线上服务）",
+  },
+  availableChannel: {
+    "@type": "ServiceChannel",
+    serviceUrl: `${siteURL}/contact`,
+    availableLanguage: ["zh-CN", "en"],
+  },
+};
+
+// BreadcrumbList 结构化数据
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "首页", item: siteURL },
+    { "@type": "ListItem", position: 2, name: "服务", item: `${siteURL}/services/` },
+    { "@type": "ListItem", position: 3, name: "SEO/GEO 培训与团队顾问", item: pageURL },
+  ],
+};
+---
+
+<Layout
+  title="SEO/GEO 培训与团队顾问服务 | GEO 咨询"
+  description="企业内训、1v1 策略咨询、搜索优化工作流搭建与季度复盘——把 SEO + GEO 搜索优化能力真正内建到团队。定制化课程、实操演练与长期顾问陪跑。"
+>
+  <!-- Page Header -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-20 md:py-24">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-10 right-10 w-96 h-96 bg-amber-500 rounded-full blur-3xl"></div>
+    </div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="inline-block px-4 py-1.5 bg-amber-600/30 text-amber-200 rounded-full text-sm font-medium mb-4 border border-amber-500/30 backdrop-blur-sm">
+        🎓 培训与团队顾问
+      </span>
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-white">SEO/GEO 培训与团队顾问</h1>
+      <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+        授人以鱼，不如授人以渔。培训的目标不是"听完一场讲座"，
+        而是<strong class="text-amber-300">把搜索优化能力真正内建到团队</strong>——从认知、方法到工具，一次建齐。
+      </p>
+    </div>
+  </section>
+
+  <!-- 为什么培训 -->
+  <section class="py-20 md:py-28 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+        <div>
+          <span class="text-amber-600 font-semibold text-sm uppercase tracking-wider">为什么需要培训</span>
+          <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-6">请人做一次，不如教会自己做</h2>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            搜索优化不是一次性项目，而是需要持续决策的日常工作。外部顾问帮你做完一版，
+            下一季度谁来判断方向？算法更新了，谁来跟进？
+          </p>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            企业内训把 SEO + GEO 的方法论、执行流程和工具链交给你的团队——
+            市场、内容、技术三条线的人在同一套语言下协作，优化才不依赖任何单个外部角色。
+          </p>
+          <p class="text-slate-600 leading-relaxed">
+            我们的培训强调<strong>实操</strong>：带着你自己的网站和业务案例来学，
+            课后带走的是可以直接上手的 SOP，而不是笔记本上的概念。
+          </p>
+        </div>
+        <div class="space-y-6">
+          <div class="bg-amber-50 rounded-2xl p-8 border border-amber-200">
+            <h3 class="text-lg font-bold text-slate-900 mb-4">培训解决的三个断层</h3>
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <span class="w-8 h-8 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">1</span>
+                <div>
+                  <p class="font-semibold text-slate-800 text-sm">认知断层</p>
+                  <p class="text-slate-500 text-sm mt-0.5">团队还停留在"关键词堆砌"时代，对 AI 搜索、GEO 一知半解</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="w-8 h-8 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">2</span>
+                <div>
+                  <p class="font-semibold text-slate-800 text-sm">方法断层</p>
+                  <p class="text-slate-500 text-sm mt-0.5">会零散操作，没有从诊断到执行的完整工作流</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="w-8 h-8 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">3</span>
+                <div>
+                  <p class="font-semibold text-slate-800 text-sm">工具断层</p>
+                  <p class="text-slate-500 text-sm mt-0.5">工具买了一堆，没人知道怎么串成一条可复用的产线</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 服务形式 -->
+  <section class="py-20 md:py-28 bg-slate-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <span class="text-amber-600 font-semibold text-sm uppercase tracking-wider">服务形式</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-4">四种形式，按需组合</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 形式 1 -->
+        <div class="bg-white rounded-2xl p-8 border border-slate-200 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+          <div class="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center mb-6 text-3xl">🏫</div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">企业内训课程</h3>
+          <p class="text-slate-600 leading-relaxed text-sm mb-4">
+            按团队现状定制的培训课：SEO 基础与进阶、GEO 与 AI 搜索趋势、内容策略、工具实操，
+            理论与案例结合，适合市场团队、内容团队与技术团队混合参与。
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full">半天到两天可选</span>
+            <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full">线上 / 线下均可</span>
+            <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full">带实战练习</span>
+          </div>
+        </div>
+
+        <!-- 形式 2 -->
+        <div class="bg-white rounded-2xl p-8 border border-slate-200 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+          <div class="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center mb-6 text-3xl">💬</div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">1v1 策略咨询</h3>
+          <p class="text-slate-600 leading-relaxed text-sm mb-4">
+            针对创业者与个人品牌的单点咨询：定位、内容策略、品牌可见度诊断与执行建议。
+            你带着具体问题来，带着可执行的答案走。
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full">单次 / 周期可选</span>
+            <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full">聚焦你的具体问题</span>
+          </div>
+        </div>
+
+        <!-- 形式 3 -->
+        <div class="bg-white rounded-2xl p-8 border border-slate-200 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+          <div class="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center mb-6 text-3xl">🛠️</div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">搜索优化工作流搭建</h3>
+          <p class="text-slate-600 leading-relaxed text-sm mb-4">
+            帮你把关键词研究、内容创作、技术监控到数据复盘串成一条完整产线：
+            选定工具链、定义流程节点、输出 SOP 文档，让团队知道每周该做什么、看什么数据。
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full">工具链配置</span>
+            <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full">SOP 流程文档</span>
+            <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full">数据看板建议</span>
+          </div>
+        </div>
+
+        <!-- 形式 4 -->
+        <div class="bg-white rounded-2xl p-8 border border-slate-200 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+          <div class="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center mb-6 text-3xl">📊</div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">季度策略复盘</h3>
+          <p class="text-slate-600 leading-relaxed text-sm mb-4">
+            每季度一次深度复盘：搜索数据变化、AI 可见度复测、执行结果评估与策略调整。
+            为有外部视角需求的团队提供持续的方向校准。
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full">季度节奏</span>
+            <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full">数据复盘 + 策略调整</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 课程内容框架 -->
+  <section class="py-20 md:py-28 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <span class="text-amber-600 font-semibold text-sm uppercase tracking-wider">课程模块</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-4">培训内容框架</h2>
+        <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+          每个模块都可以独立成课，也可以组合成完整训练营——按团队基础与目标裁剪。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-amber-50/60 rounded-2xl p-8 border border-amber-200">
+          <div class="text-3xl mb-4">📈</div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">SEO 系统课</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">搜索原理、关键词研究、技术 SEO 基础、内容与外链策略、数据分析归因。</p>
+        </div>
+        <div class="bg-amber-50/60 rounded-2xl p-8 border border-amber-200">
+          <div class="text-3xl mb-4">🤖</div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">GEO 与 AI 搜索课</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">GEO 是什么、AI 引擎的引用机制、结构化数据、AI 可见度度量与监测。</p>
+        </div>
+        <div class="bg-amber-50/60 rounded-2xl p-8 border border-amber-200">
+          <div class="text-3xl mb-4">✍️</div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">内容策略与写作</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">搜索意图分析、主题集群规划、AI 友好内容结构、可引用内容写作。</p>
+        </div>
+        <div class="bg-amber-50/60 rounded-2xl p-8 border border-amber-200">
+          <div class="text-3xl mb-4">🧰</div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">工具链实操</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">GSC、GA4、爬虫工具、AI 可见度检测（含我们的免费工具）、自动化工作流。</p>
+        </div>
+        <div class="bg-amber-50/60 rounded-2xl p-8 border border-amber-200">
+          <div class="text-3xl mb-4">📐</div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">工作流与协作</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">从选题到上线的跨部门流程、周报数据口径、内外协作边界。</p>
+        </div>
+        <div class="bg-gradient-to-br from-amber-100 to-amber-50 rounded-2xl p-8 border border-amber-300">
+          <h3 class="text-lg font-bold text-slate-900 mb-2">🎯 也可以"带着问题来"</h3>
+          <p class="text-slate-600 text-sm leading-relaxed mb-4">
+            不确定团队需要什么？先预约 15 分钟沟通，我们帮你判断该补哪块，再定制课程大纲。
+          </p>
+          <a href="/contact" class="text-amber-700 font-semibold text-sm no-underline hover:underline">预约免费沟通 →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 适用对象 + 交付物 -->
+  <section class="py-20 md:py-28 bg-slate-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <div class="bg-gradient-to-br from-amber-50 to-amber-100/50 rounded-2xl p-8 border border-amber-200">
+          <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <span>🎯</span> 适合谁？
+          </h2>
+          <ul class="space-y-3 list-none pl-0 my-0">
+            <li class="flex items-start gap-3 text-slate-600 text-sm">
+              <span class="w-6 h-6 bg-amber-100 text-amber-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">1</span>
+              企业市场团队：需要系统掌握 SEO/GEO，摆脱"只会执行不懂判断"
+            </li>
+            <li class="flex items-start gap-3 text-slate-600 text-sm">
+              <span class="w-6 h-6 bg-amber-100 text-amber-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">2</span>
+              内容 / 技术团队：需要理解搜索侧要求，写出和技术能被抓取、能被引用的内容
+            </li>
+            <li class="flex items-start gap-3 text-slate-600 text-sm">
+              <span class="w-6 h-6 bg-amber-100 text-amber-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">3</span>
+              创业者 / 个人品牌：想自己掌握搜索增长，而不是永远依赖外包
+            </li>
+            <li class="flex items-start gap-3 text-slate-600 text-sm">
+              <span class="w-6 h-6 bg-amber-100 text-amber-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">4</span>
+              已有基础团队：缺乏外部视角与定期复盘，需要季度陪跑校准方向
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 border border-slate-200">
+          <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <span>📦</span> 培训交付物
+          </h2>
+          <p class="text-slate-500 text-sm mb-6">培训结束后继续能用的资产，而不只是几页 PPT。</p>
+          <ul class="space-y-3 list-none pl-0 my-0">
+            <li class="flex items-start gap-2 text-slate-600 text-sm">
+              <span class="text-amber-500 mt-0.5">✓</span>
+              <span>定制化培训课件（含实操练习与参考答案）</span>
+            </li>
+            <li class="flex items-start gap-2 text-slate-600 text-sm">
+              <span class="text-amber-500 mt-0.5">✓</span>
+              <span>搜索优化 SOP 流程文档（可写入团队 wiki）</span>
+            </li>
+            <li class="flex items-start gap-2 text-slate-600 text-sm">
+              <span class="text-amber-500 mt-0.5">✓</span>
+              <span>推荐工具链配置指南</span>
+            </li>
+            <li class="flex items-start gap-2 text-slate-600 text-sm">
+              <span class="text-amber-500 mt-0.5">✓</span>
+              <span>课后 2 周答疑支持（作业批改与问题解答）</span>
+            </li>
+            <li class="flex items-start gap-2 text-slate-600 text-sm">
+              <span class="text-amber-500 mt-0.5">✓</span>
+              <span>季度复盘服务（如选配）：报告 + 策略调整建议</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 衔接说明 -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+        <h3 class="text-lg font-bold text-slate-900 mb-4">培训与诊断、优化如何配合？</h3>
+        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+          培训适合"团队要自己成长"的场景。如果你的问题更紧迫——流量在跌、品牌在 AI 里隐身——
+          先诊断再优化往往更直接：
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 flex-wrap">
+          <a href="/services/seo-audit/" class="inline-flex items-center gap-2 text-amber-700 font-medium text-sm no-underline bg-amber-50 px-4 py-2.5 rounded-xl transition-colors hover:bg-amber-100">
+            🔍 传统搜索出问题？→ SEO 全站诊断
+          </a>
+          <a href="/services/geo-audit/" class="inline-flex items-center gap-2 text-amber-700 font-medium text-sm no-underline bg-amber-50 px-4 py-2.5 rounded-xl transition-colors hover:bg-amber-100">
+            🩺 想看 AI 搜索可见度？→ GEO 审计
+          </a>
+          <a href="/services/" class="inline-flex items-center gap-2 text-amber-700 font-medium text-sm no-underline bg-amber-50 px-4 py-2.5 rounded-xl transition-colors hover:bg-amber-100">
+            🗂️ 查看全部服务
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-gradient-to-r from-blue-600 to-emerald-600 text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-10 right-20 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+      <div class="absolute bottom-10 left-20 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+    </div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">
+        想评估团队的搜索能力差距？
+      </h2>
+      <p class="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+        预约免费 15 分钟沟通，聊聊团队现状与培训目标——先给判断，再谈方案。
+      </p>
+      <a
+        href="/contact"
+        class="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-slate-100 transition-all duration-200 no-underline text-lg shadow-lg"
+      >
+        📅 预约免费 15 分钟沟通
+      </a>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <JsonLDSchema data={serviceSchema} />
+  <JsonLDSchema data={breadcrumbSchema} />
+</Layout>

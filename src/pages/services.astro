@@ -4,65 +4,85 @@ import JsonLDSchema from "@components/JsonLDSchema.astro";
 
 const siteURL = Astro.site?.origin || "https://www.geova.cn/";
 
-// ProfessionalService 结构化数据
-const professionalServiceSchema = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: "GEO 咨询 — 专业搜索优化服务",
-  url: `${siteURL}/services`,
-  description:
-    "SEO 全站诊断、GEO/AI 搜索可见度优化、团队顾问与培训——从诊断到执行，覆盖搜索流量全链路的专业服务。",
-  provider: {
-    "@type": "Person",
-    name: "GEO 咨询顾问",
-    url: siteURL,
+// 服务列表（ItemList）
+const services = [
+  {
+    id: "seo-audit",
+    icon: "🔍",
+    name: "SEO 全站诊断",
+    url: `${siteURL}/services/seo-audit/`,
+    color: "blue",
+    tagline: "传统搜索流量停滞或下降？找到真正原因",
+    summary:
+      "人工 + 工具结合，四大维度（技术健康度 / 内容与关键词 / 外链与权威度 / 竞品对标）系统审计，交付分级问题清单与 3 个月执行路线图。",
+    points: ["找到流量停滞的根本原因", "问题分级 + 修复优先级", "含竞品对标与执行路线图"],
   },
-  areaServed: {
-    "@type": "Continent",
-    name: "全球（线上服务）",
+  {
+    id: "geo-optimization",
+    icon: "🤖",
+    name: "GEO 优化服务",
+    url: `${siteURL}/services/geo-optimization/`,
+    color: "emerald",
+    tagline: "让品牌在 AI 答案中被发现、被引用、被信任",
+    summary:
+      "从 AI 可见度基线评估、实体与结构化数据，到 AI 友好内容与品牌信号建设——系统提升品牌在 ChatGPT、Perplexity 等引擎中的可见度与引用率。",
+    points: ["AI 引擎可见度基线 + 季度追踪", "实体 / 结构化数据落地", "AI 友好内容与引用优化"],
   },
-  availableChannel: {
-    "@type": "ServiceChannel",
-    serviceUrl: `${siteURL}/contact`,
-    availableLanguage: ["zh-CN", "en"],
+  {
+    id: "geo-audit",
+    icon: "🩺",
+    name: "GEO 审计与 AI 搜索诊断",
+    url: `${siteURL}/services/geo-audit/`,
+    color: "violet",
+    tagline: "看清品牌在 AI 搜索中的真实可见度",
+    summary:
+      "多引擎 × 固定问题集实测品牌被提及、被引用、被推荐的真实情况，叠加竞品对标与实体审查，交付可复测的可见度基线与执行路线图。",
+    points: ["ChatGPT / Perplexity / Gemini 实测", "竞品 AI 可见度对照", "3 个月执行路线图"],
   },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "三大核心服务",
-    itemListElement: [
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "SEO 全站诊断",
-          description:
-            "系统诊断网站的技术健康度、内容质量和外链状况。覆盖四大诊断维度：技术健康度、内容与关键词、外链与权威度、竞品对标。交付完整的 SEO 诊断报告、问题分级清单、竞品分析报告和 3 个月执行路线图。",
-          url: `${siteURL}/services#seo-audit`,
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "GEO / AI 搜索可见度优化",
-          description:
-            "提升品牌在 ChatGPT、Perplexity、Google AI Overviews、Gemini 等 AI 引擎中的被引用率和品牌可见度。涵盖 AI 引擎引用评估、Schema.org 结构化数据部署、知识图谱构建、AI 友好内容策略与多平台品牌信号建设。",
-          url: `${siteURL}/services#geo-optimization`,
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "团队顾问与培训",
-          description:
-            "为企业市场团队提供系统的 SEO + GEO 知识培训与长期顾问服务。包括企业内训课程、1v1 策略咨询辅导、搜索优化工作流搭建和季度策略复盘。",
-          url: `${siteURL}/services#training`,
-        },
-      },
-    ],
+  {
+    id: "training",
+    icon: "🎓",
+    name: "SEO/GEO 培训与团队顾问",
+    url: `${siteURL}/services/training/`,
+    color: "amber",
+    tagline: "把搜索优化能力真正内建到团队",
+    summary:
+      "企业内训、1v1 策略咨询、搜索优化工作流搭建与季度复盘——从认知、方法到工具链，帮团队建立可持续的搜索优化体系。",
+    points: ["定制化内训课程", "工作流 SOP 与工具链", "季度策略复盘可选"],
   },
-};
+];
+
+// 场景选择
+const scenarios = [
+  {
+    icon: "📉",
+    title: "网站流量停滞或下降",
+    desc: "传统搜索来的流量在跌，不知道问题出在技术、内容还是外链。",
+    cta: "先做 SEO 全站诊断",
+    url: "/services/seo-audit/",
+  },
+  {
+    icon: "🤖",
+    title: "客户问 AI 时看不到你的品牌",
+    desc: "AI 引擎的答案里没有你，或总是推荐竞争对手。",
+    cta: "先做 GEO 审计",
+    url: "/services/geo-audit/",
+  },
+  {
+    icon: "🚀",
+    title: "已有可见度基础，想系统增长",
+    desc: "知道自己在 AI 里的位置，希望进入持续优化阶段。",
+    cta: "了解 GEO 优化服务",
+    url: "/services/geo-optimization/",
+  },
+  {
+    icon: "🎓",
+    title: "想把能力沉淀在团队内部",
+    desc: "不满足于外部执行，希望团队能自己判断、自己迭代。",
+    cta: "了解培训与顾问",
+    url: "/services/training/",
+  },
+];
 
 // FAQ 结构化数据
 const faqSchema = {
@@ -95,11 +115,36 @@ const faqSchema = {
     },
   ],
 };
+
+// ItemList 结构化数据
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "SEO & GEO 专业服务",
+  url: `${siteURL}/services/`,
+  numberOfItems: services.length,
+  itemListElement: services.map((s, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: s.name,
+    url: s.url,
+  })),
+};
+
+// BreadcrumbList 结构化数据
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "首页", item: siteURL },
+    { "@type": "ListItem", position: 2, name: "服务", item: `${siteURL}/services/` },
+  ],
+};
 ---
 
 <Layout
-  title="服务项目 | GEO 咨询"
-  description="SEO 全站诊断、GEO/AI 搜索可见度优化、团队顾问与培训——从诊断到执行，覆盖搜索流量全链路的专业服务。"
+  title="SEO & GEO 服务 | GEO 咨询"
+  description="SEO 全站诊断、GEO 优化、GEO 审计与 AI 搜索诊断、团队培训顾问——从诊断到执行，覆盖传统搜索与 AI 搜索全链路。不清楚该选哪个？免费 15 分钟咨询帮你判断。"
 >
   <!-- Page Header -->
   <section class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-20 md:py-24">
@@ -110,17 +155,111 @@ const faqSchema = {
       <span class="inline-block px-4 py-1.5 bg-blue-600/30 text-blue-200 rounded-full text-sm font-medium mb-4 border border-blue-500/30 backdrop-blur-sm">
         📋 专业服务
       </span>
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-white">服务项目</h1>
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-white">SEO + GEO 专业服务</h1>
       <p class="text-lg text-slate-300 max-w-2xl mx-auto">
-        从诊断到执行，覆盖 SEO + GEO 全链路的专业服务，帮助你系统性地提升搜索可见度。
+        传统搜索与 AI 搜索正在融合。从诊断、审计到持续优化与团队能力建设——
+        四个服务覆盖搜索流量的全链路。不知道从哪开始？往下看"如何选择"。
       </p>
     </div>
   </section>
 
-  <!-- 咨询流程概览 -->
-  <section class="py-16 bg-white border-b border-slate-100">
+  <!-- 服务导览 -->
+  <section class="py-20 md:py-28 bg-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-2xl font-bold text-slate-900 text-center mb-10">咨询流程</h2>
+      <div class="text-center mb-16">
+        <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider">服务导览</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-4">四个服务，一条增长路径</h2>
+        <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+          每个服务都对应明确的搜索问题与商业目标——点进详情页看完整内容与交付物。
+        </p>
+      </div>
+
+      <div class="space-y-6">
+        {
+          services.map((s) => (
+            <div id={s.id} class={`rounded-2xl border p-8 scroll-mt-20 bg-white border-slate-200 hover:shadow-lg transition-all duration-300`}>
+              <div class="flex flex-col lg:flex-row gap-6 items-start lg:items-center">
+                <div class="lg:w-56 flex-shrink-0">
+                  <div class={`w-14 h-14 ${s.color === "blue" ? "bg-blue-100" : s.color === "emerald" ? "bg-emerald-100" : s.color === "violet" ? "bg-violet-100" : "bg-amber-100"} rounded-xl flex items-center justify-center mb-4 text-3xl`}>
+                    {s.icon}
+                  </div>
+                  <h3 class="text-xl font-bold text-slate-900">{s.name}</h3>
+                  <p class={`text-sm font-medium mt-1 ${s.color === "blue" ? "text-blue-600" : s.color === "emerald" ? "text-emerald-600" : s.color === "violet" ? "text-violet-600" : "text-amber-600"}`}>
+                    {s.tagline}
+                  </p>
+                </div>
+                <div class="flex-1">
+                  <p class="text-slate-600 leading-relaxed text-sm">{s.summary}</p>
+                  <ul class="flex flex-wrap gap-2 mt-4">
+                    {s.points.map((p) => (
+                      <li class={`text-xs px-3 py-1 rounded-full ${s.color === "blue" ? "bg-blue-50 text-blue-700" : s.color === "emerald" ? "bg-emerald-50 text-emerald-700" : s.color === "violet" ? "bg-violet-50 text-violet-700" : "bg-amber-50 text-amber-700"}`}>
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="flex-shrink-0">
+                  <a
+                    href={s.url.replace(siteURL, "")}
+                    class={`inline-flex items-center px-5 py-2.5 rounded-xl text-white font-semibold text-sm transition-colors no-underline ${
+                      s.color === "blue" ? "bg-blue-600 hover:bg-blue-700" : s.color === "emerald" ? "bg-emerald-600 hover:bg-emerald-700" : s.color === "violet" ? "bg-violet-600 hover:bg-violet-700" : "bg-amber-600 hover:bg-amber-700"
+                    }`}
+                  >
+                    查看详情 →
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 如何选择 -->
+  <section class="py-20 md:py-28 bg-slate-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider">如何选择</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-4">对号入座，找你的场景</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {
+          scenarios.map((sc) => (
+            <div class="bg-white rounded-2xl p-8 border border-slate-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <div class="text-3xl mb-4">{sc.icon}</div>
+                  <h3 class="text-xl font-bold text-slate-900 mb-2">{sc.title}</h3>
+                  <p class="text-slate-600 leading-relaxed text-sm mb-6">{sc.desc}</p>
+                </div>
+              </div>
+              <a href={sc.url} class="text-blue-600 hover:text-blue-800 font-semibold text-sm no-underline inline-flex items-center gap-1 group">
+                {sc.cta} <span class="group-hover:translate-x-0.5 transition-transform">→</span>
+              </a>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- 免费工具提示 -->
+      <div class="mt-10 bg-gradient-to-r from-blue-50 to-emerald-50 rounded-2xl p-6 border border-blue-100 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <p class="font-semibold text-slate-800">🛠️ 还不想约人？先用免费工具</p>
+          <p class="text-slate-500 text-sm mt-1">30 秒检测你的网站是否具备 AI 搜索可见度基础：爬虫放行、结构化数据、内容可读性。</p>
+        </div>
+        <a href="/tool/" class="flex-shrink-0 inline-flex items-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-sm transition-colors no-underline">
+          免费诊断 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 咨询流程 -->
+  <section class="py-20 md:py-28 bg-white border-b border-slate-100">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-12">咨询流程</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="text-center relative">
           <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg shadow-lg shadow-blue-600/20">1</div>
@@ -146,318 +285,7 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- 服务 1: SEO 全站诊断 -->
-  <section id="seo-audit" class="py-20 md:py-28 bg-white scroll-mt-20">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        <!-- 左侧：服务说明 -->
-        <div>
-          <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 text-3xl">
-            🔍
-          </div>
-          <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider">服务一</span>
-          <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-6">SEO 全站诊断</h2>
-          <p class="text-slate-600 leading-relaxed mb-4">
-            不是泛泛的自动扫描报告——我对你的网站进行<strong>人工 + 工具结合的深度审计</strong>，
-            覆盖技术、内容、外链和竞品四大维度，输出一份你可以直接拿去执行的优化路线图。
-          </p>
-
-          <h3 class="text-lg font-bold text-slate-900 mt-8 mb-3">诊断维度</h3>
-          <ul class="space-y-3 list-none pl-0 my-0">
-            <li class="flex items-start gap-3 text-slate-600">
-              <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">1</span>
-              <div>
-                <strong class="text-slate-800">技术健康度</strong>
-                <p class="text-sm mt-0.5">爬虫抓取效率、索引覆盖率、网站速度（Core Web Vitals）、移动端适配、站点架构合理性</p>
-              </div>
-            </li>
-            <li class="flex items-start gap-3 text-slate-600">
-              <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">2</span>
-              <div>
-                <strong class="text-slate-800">内容与关键词</strong>
-                <p class="text-sm mt-0.5">内容质量评估、关键词覆盖缺口分析、内容结构优化建议、重复内容检测</p>
-              </div>
-            </li>
-            <li class="flex items-start gap-3 text-slate-600">
-              <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">3</span>
-              <div>
-                <strong class="text-slate-800">外链与权威度</strong>
-                <p class="text-sm mt-0.5">外链画像分析、锚文本分布、权威度评分、高质量外链机会挖掘</p>
-              </div>
-            </li>
-            <li class="flex items-start gap-3 text-slate-600">
-              <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">4</span>
-              <div>
-                <strong class="text-slate-800">竞品对标</strong>
-                <p class="text-sm mt-0.5">选定 2-3 个核心竞品，对比分析流量结构、关键词策略和内容差异</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <!-- 右侧：交付物与适用对象 -->
-        <div class="lg:sticky lg:top-24 space-y-6">
-          <!-- 标准交付物 -->
-          <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
-            <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <span>📦</span> 标准交付物
-            </h3>
-            <ul class="space-y-3 list-none pl-0 my-0">
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-blue-500 mt-1">✓</span>
-                <span>完整的 SEO 诊断报告（PDF + 在线文档）</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-blue-500 mt-1">✓</span>
-                <span>问题分级清单（紧急 / 重要 / 优化建议）</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-blue-500 mt-1">✓</span>
-                <span>竞品分析对比报告</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-blue-500 mt-1">✓</span>
-                <span>3 个月执行路线图（含优先级排序）</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-blue-500 mt-1">✓</span>
-                <span>60 分钟报告解读与答疑会议</span>
-              </li>
-            </ul>
-          </div>
-
-          <!-- 适用对象 -->
-          <div class="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-2xl p-8 border border-blue-200">
-            <h3 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-              <span>🎯</span> 适用对象
-            </h3>
-            <ul class="space-y-2 list-none pl-0 my-0 text-slate-600">
-              <li class="flex items-start gap-2">
-                <span class="text-blue-500">•</span> 网站流量停滞或下降，需要找到根本原因
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-blue-500">•</span> 准备做网站改版或迁移，需要技术 SEO 前置评估
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-blue-500">•</span> 已有 SEO 基础但缺乏系统性的优化方向
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-blue-500">•</span> 想了解自身在 AI 搜索中的表现基准线
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 服务 2: GEO/AI 搜索可见度优化 -->
-  <section id="geo-optimization" class="py-20 md:py-28 bg-slate-50 scroll-mt-20">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        <div>
-          <div class="w-14 h-14 bg-emerald-100 rounded-xl flex items-center justify-center mb-6 text-3xl">
-            🤖
-          </div>
-          <span class="text-emerald-600 font-semibold text-sm uppercase tracking-wider">服务二</span>
-          <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-6">GEO / AI 搜索可见度优化</h2>
-          <p class="text-slate-600 leading-relaxed mb-4">
-            这是目前市面上最稀缺的服务之一。我帮助你系统性地提升品牌在 ChatGPT、Perplexity、Google AI Overviews、Gemini
-            等 AI 引擎中的<strong>被引用率和品牌可见度</strong>。
-          </p>
-
-          <h3 class="text-lg font-bold text-slate-900 mt-8 mb-3">优化方向</h3>
-          <ul class="space-y-3 list-none pl-0 my-0">
-            <li class="flex items-start gap-3 text-slate-600">
-              <span class="w-6 h-6 bg-emerald-100 text-emerald-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">1</span>
-              <div>
-                <strong class="text-slate-800">AI 引擎引用现状评估</strong>
-                <p class="text-sm mt-0.5">在 ChatGPT、Perplexity、Gemini 等平台测试品牌被提及和引用的现状，建立可见度基准线</p>
-              </div>
-            </li>
-            <li class="flex items-start gap-3 text-slate-600">
-              <span class="w-6 h-6 bg-emerald-100 text-emerald-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">2</span>
-              <div>
-                <strong class="text-slate-800">结构化数据与知识图谱</strong>
-                <p class="text-sm mt-0.5">部署 Schema.org 标记体系，建立实体间关系，帮助 AI 准确理解品牌与核心业务</p>
-              </div>
-            </li>
-            <li class="flex items-start gap-3 text-slate-600">
-              <span class="w-6 h-6 bg-emerald-100 text-emerald-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">3</span>
-              <div>
-                <strong class="text-slate-800">AI 友好内容策略</strong>
-                <p class="text-sm mt-0.5">重构内容架构为 AI 可解析的"知识单元"格式，优化 FAQ 和知识库结构</p>
-              </div>
-            </li>
-            <li class="flex items-start gap-3 text-slate-600">
-              <span class="w-6 h-6 bg-emerald-100 text-emerald-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">4</span>
-              <div>
-                <strong class="text-slate-800">多平台品牌信号建设</strong>
-                <p class="text-sm mt-0.5">在权威平台建立一致的品牌信息矩阵，增强 AI 训练数据中的品牌存在感</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <div class="lg:sticky lg:top-24 space-y-6">
-          <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
-            <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <span>📦</span> 标准交付物
-            </h3>
-            <ul class="space-y-3 list-none pl-0 my-0">
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-emerald-500 mt-1">✓</span>
-                <span>AI 搜索可见度基准评估报告</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-emerald-500 mt-1">✓</span>
-                <span>Schema.org 结构化数据部署方案</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-emerald-500 mt-1">✓</span>
-                <span>知识图谱实体关系设计文档</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-emerald-500 mt-1">✓</span>
-                <span>AI 友好内容优化方案（含 3-5 篇示例改写）</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-emerald-500 mt-1">✓</span>
-                <span>品牌多平台信号建设清单</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-emerald-500 mt-1">✓</span>
-                <span>季度 AI 引用变化追踪报告</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="bg-gradient-to-br from-emerald-50 to-emerald-100/50 rounded-2xl p-8 border border-emerald-200">
-            <h3 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-              <span>🎯</span> 适用对象
-            </h3>
-            <ul class="space-y-2 list-none pl-0 my-0 text-slate-600">
-              <li class="flex items-start gap-2">
-                <span class="text-emerald-500">•</span> 品牌在 AI 搜索中曝光不足，想建立 AI 可见度
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-emerald-500">•</span> 已有 SEO 基础，希望升级到 GEO 策略
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-emerald-500">•</span> 内容型网站希望内容被 AI 引擎引用为来源
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-emerald-500">•</span> 想走在搜索营销趋势前沿的创新团队
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 服务 3: 团队顾问与培训 -->
-  <section id="training" class="py-20 md:py-28 bg-white scroll-mt-20">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        <div>
-          <div class="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center mb-6 text-3xl">
-            🎓
-          </div>
-          <span class="text-amber-600 font-semibold text-sm uppercase tracking-wider">服务三</span>
-          <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-6">团队顾问与培训</h2>
-          <p class="text-slate-600 leading-relaxed mb-4">
-            授人以鱼不如授人以渔。我为企业和个人提供<strong>系统的 SEO + GEO 知识培训</strong>和长期顾问服务，
-            帮助团队建立内部的搜索优化能力。
-          </p>
-
-          <h3 class="text-lg font-bold text-slate-900 mt-8 mb-3">服务形式</h3>
-          <ul class="space-y-3 list-none pl-0 my-0">
-            <li class="flex items-start gap-3 text-slate-600">
-              <span class="w-6 h-6 bg-amber-100 text-amber-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">1</span>
-              <div>
-                <strong class="text-slate-800">企业内训课程</strong>
-                <p class="text-sm mt-0.5">定制化培训内容，涵盖 SEO 基础、GEO 认知、AI 搜索趋势、内容策略与工具实操，适合市场团队和技术团队</p>
-              </div>
-            </li>
-            <li class="flex items-start gap-3 text-slate-600">
-              <span class="w-6 h-6 bg-amber-100 text-amber-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">2</span>
-              <div>
-                <strong class="text-slate-800">1v1 策略咨询辅导</strong>
-                <p class="text-sm mt-0.5">针对个人品牌或创业者，提供一对一的搜索策略辅导——从定位到执行，全程陪跑</p>
-              </div>
-            </li>
-            <li class="flex items-start gap-3 text-slate-600">
-              <span class="w-6 h-6 bg-amber-100 text-amber-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">3</span>
-              <div>
-                <strong class="text-slate-800">搜索优化工作流搭建</strong>
-                <p class="text-sm mt-0.5">帮助团队搭建从关键词研究、内容创作、技术监控到数据分析的完整工作流和工具链</p>
-              </div>
-            </li>
-            <li class="flex items-start gap-3 text-slate-600">
-              <span class="w-6 h-6 bg-amber-100 text-amber-600 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">4</span>
-              <div>
-                <strong class="text-slate-800">季度策略复盘</strong>
-                <p class="text-sm mt-0.5">每季度深度复盘搜索数据变化，调整优化策略和优先级，确保方向始终正确</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <div class="lg:sticky lg:top-24 space-y-6">
-          <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
-            <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <span>📦</span> 标准交付物
-            </h3>
-            <ul class="space-y-3 list-none pl-0 my-0">
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-amber-500 mt-1">✓</span>
-                <span>定制化培训课件（含实操练习）</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-amber-500 mt-1">✓</span>
-                <span>搜索优化 SOP 流程文档</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-amber-500 mt-1">✓</span>
-                <span>推荐工具链配置指南</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-amber-500 mt-1">✓</span>
-                <span>月度/季度策略复盘报告</span>
-              </li>
-              <li class="flex items-start gap-2 text-slate-600">
-                <span class="text-amber-500 mt-1">✓</span>
-                <span>紧急问题响应通道（48h 内回复）</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="bg-gradient-to-br from-amber-50 to-amber-100/50 rounded-2xl p-8 border border-amber-200">
-            <h3 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-              <span>🎯</span> 适用对象
-            </h3>
-            <ul class="space-y-2 list-none pl-0 my-0 text-slate-600">
-              <li class="flex items-start gap-2">
-                <span class="text-amber-500">•</span> 企业市场团队需要系统学习 SEO/GEO
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-amber-500">•</span> 希望将搜索优化能力内建到团队中
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-amber-500">•</span> 个人品牌/创业者需要方向性指导
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-amber-500">•</span> 已有基础但缺乏持续的外部视角和复盘
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 常见问题 -->
+  <!-- FAQ -->
   <section class="py-20 bg-slate-50">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-3xl font-bold text-slate-900 text-center mb-12">常见问题</h2>
@@ -496,7 +324,7 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- 预约 CTA -->
+  <!-- CTA -->
   <section class="py-20 bg-gradient-to-r from-blue-600 to-emerald-600 text-white relative overflow-hidden">
     <div class="absolute inset-0 opacity-10">
       <div class="absolute top-10 right-20 w-64 h-64 bg-white rounded-full blur-3xl"></div>
@@ -518,7 +346,23 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- JSON-LD 结构化数据 -->
-  <JsonLDSchema data={professionalServiceSchema} />
+  <!-- JSON-LD -->
+  <JsonLDSchema data={itemListSchema} />
   <JsonLDSchema data={faqSchema} />
+  <JsonLDSchema data={breadcrumbSchema} />
+
+  <!-- 旧锚点兼容：/services#seo-audit 等旧链接跳转到独立服务页 -->
+  <script is:inline>
+    (function () {
+      var LEGACY_MAP = {
+        "seo-audit": "/services/seo-audit/",
+        "geo-optimization": "/services/geo-optimization/",
+        "training": "/services/training/",
+      };
+      var hash = window.location.hash.replace("#", "");
+      if (LEGACY_MAP[hash]) {
+        window.location.replace(LEGACY_MAP[hash]);
+      }
+    })();
+  </script>
 </Layout>
