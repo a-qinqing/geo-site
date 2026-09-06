@@ -1,0 +1,47 @@
+# Geova — GEO 咨询与 AI 搜索优化
+
+> Geova 专注 SEO 与 GEO（生成式引擎优化）咨询，提供 AI 搜索可见度审计、GEO 优化、团队培训与免费诊断工具，服务覆盖 ChatGPT、Perplexity、Google AI Overviews 与国内主流大模型搜索。
+
+## 首页与关于
+
+- [首页](https://www.geova.cn/): SEO/GEO 咨询服务总览，免费 15 分钟咨询入口
+- [关于我](https://www.geova.cn/about/): 10+ 年 SEO/GEO 实践者的背景与理念
+- [博客](https://www.geova.cn/blog/): 全部文章索引：策略指南、实战案例与行业追踪
+- [预约咨询](https://www.geova.cn/contact/): 免费 15 分钟搜索策略咨询预约
+
+## 服务
+
+- [SEO & GEO 服务总览](https://www.geova.cn/services/): 诊断、优化、审计、培训全链路服务介绍
+- [GEO 审计与 AI 搜索诊断](https://www.geova.cn/services/geo-audit/): 人工深度实测品牌在 ChatGPT、Perplexity、Gemini 中的提及与引用，交付可见度基线报告
+- [GEO 优化服务](https://www.geova.cn/services/geo-optimization/): 从实体、结构化数据到 AI 友好内容，系统提升 AI 引擎中的可见度与引用率
+- [SEO 全站诊断服务](https://www.geova.cn/services/seo-audit/): 技术健康度、内容、外链、竞品四维审计，附 3 个月执行路线图
+- [SEO/GEO 培训与团队顾问](https://www.geova.cn/services/training/): 企业内训、1v1 策略咨询与季度复盘
+- [GEO 站点健康度诊断工具](https://www.geova.cn/tool/): 免费检测 AI 爬虫访问策略、JSON-LD 与可读性，输出 0-100 健康度
+
+## GEO 入门与实战指南
+
+- [什么是 GEO？](https://www.geova.cn/blog/what-is-geo/): 生成式引擎优化完整入门：定义、与 SEO 的区别、为何需要
+- [从 SEO 到 GEO：2026 抢占 AI 搜索流量](https://www.geova.cn/blog/seo-to-geo-2026/): 趋势、策略、技术、实战四维系统方法论
+- [企业 SEO→GEO 转型实战案例](https://www.geova.cn/blog/seo-to-geo-transition/): 真实企业过渡全过程：挑战、方案与成果
+- [结构化数据与 Schema.org](https://www.geova.cn/blog/structured-data-guide/): 让 AI 搜索引擎理解内容实体与关系的技术基石
+- [GEO 时代的内容策略](https://www.geova.cn/blog/geo-content-strategy/): 创建能被 AI 优先引用与推荐的内容体系
+- [GEO 品牌诊断实战指南](https://www.geova.cn/blog/geo-brand-diagnosis-guide/): 六步框架量化品牌在 AI 引擎中的可见度
+- [GEO 幽灵引用诊断与修复](https://www.geova.cn/blog/ghost-citations-geo-2026/): 62%-73% 的 AI 引用不带品牌？品牌锚定策略
+- [AI 就绪度三层断层实测](https://www.geova.cn/blog/ai-search-readiness-audit/): 50 站探针实测：语义标注层平均仅 38.5%
+
+## 前沿解读与行业追踪
+
+- [产品页吃掉 24.1% 的 AI 引用](https://www.geova.cn/blog/ai-citations-product-pages/): 7,387 次引用实测，B2B GEO 主战场已定
+- [AI 引用波动，先查模型版本](https://www.geova.cn/blog/ai-mode-model-churn-guide/): Gemini Flash 三周一换：模型换代噪声与观测标版本方法
+- [ChatGPT 答案页开始卖广告](https://www.geova.cn/blog/chatgpt-ads-era-geo/): 自然引用与广告位同台，品牌基线快照清单
+- [豆包 + DeepSeek 国内 GEO 指南](https://www.geova.cn/blog/doubao-deepseek-domestic-geo-guide/): 双引擎引用机制拆解与可验证落地打法
+- [六大模型官方规则拆解](https://www.geova.cn/blog/geo-2026-08-26-ai-citation-guide/): 国内外前三 AI 引擎的收录与引用机制对比 + 终局方案
+- [AI 引用进入"证据采购"时代](https://www.geova.cn/blog/geo-2026-08-citation-evidence-sourcing/): 社交平台引用出清、创作者崛起与国内交易闭环
+- [2026 年 8 月 GEO 行业剧变](https://www.geova.cn/blog/geo-2026-08-recap/): 团体标准落地、GPT-5.6 引用骤降、微信 AI 搜索入局
+- [搜索从"给链接"变成"给交付"](https://www.geova.cn/blog/geo-2026-08-w4-search-to-delivery/): 官方源红利、工具页截流与 AI Mode 首年数据
+- [AI 搜索进入"算账时代"](https://www.geova.cn/blog/geo-ai-search-accounting-era/): 22.4% 误记直接访问等四本影响品牌的新账
+- [品牌提及取代链接成主战场](https://www.geova.cn/blog/geo-daily-2026-08-27/): 官方站仅 2.8% 被引用：GEO 重心转向全网提及
+- [搜索的规则正在裂开](https://www.geova.cn/blog/geo-daily-2026-08-28/): Google 分区域执法、AI Mode 交易闭环、FAQ 富媒体终止
+- [流量分配权移交 AI 引用](https://www.geova.cn/blog/geo-daily-2026-08-31/): AI Overviews 自动展开与 Google 首次分轨
+- [GSC 生成式 AI 报告全球上线](https://www.geova.cn/blog/geo-daily-2026-09-01/): AI 可见性告别黑箱：三件正在改变搜索的事
+- [GEO 进入"执法季"](https://www.geova.cn/blog/google-august-spam-update-geo-enforcement/): Google 8 月垃圾更新三条 AI 反操纵红线拆解
