@@ -370,6 +370,19 @@ const faqSchema = {
     );
   }
 
+  // P0-1 漏斗修复：服务端固定建议文案「可预约人工诊断服务」原本经 esc() 后为纯文本、
+  // 无导航目标；此处先转义再将该短语包裹为真实 <a href>（文案与诊断内容不变，
+  // 不依赖 JavaScript 完成导航）。
+  function renderRecommendation(rec) {
+    const safe = esc(rec);
+    const phrase = "可预约人工诊断服务";
+    if (!safe.includes(phrase)) return safe;
+    return safe.replace(
+      phrase,
+      `<a href="/services/geo-audit/" class="text-blue-600 hover:text-blue-700 font-medium no-underline hover:underline">${phrase}</a>`
+    );
+  }
+
   function scoreTextClass(score) {
     if (score >= 85) return "text-emerald-500";
     if (score >= 70) return "text-blue-500";
@@ -513,7 +526,7 @@ const faqSchema = {
       (rec) => `
         <div class="flex items-start gap-3">
           <span class="w-6 h-6 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">▶</span>
-          <p class="text-slate-700 leading-relaxed text-sm md:text-base">${esc(rec)}</p>
+          <p class="text-slate-700 leading-relaxed text-sm md:text-base">${renderRecommendation(rec)}</p>
         </div>`
     ).join("");
 
