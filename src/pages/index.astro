@@ -2,132 +2,16 @@
 import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import JsonLDSchema from "@components/JsonLDSchema.astro";
+import {
+  organizationSchema,
+  websiteSchema,
+  professionalServiceSchema,
+} from "../lib/schema-entities";
 
 const posts = await getCollection("blog");
 const latestPosts = posts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
-
-// ===== JSON-LD 结构化数据 =====
-const siteURL = Astro.site?.origin || "https://www.geova.cn/";
-
-// Person 实体
-const personSchema = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "GEO 咨询顾问",
-  url: siteURL,
-  jobTitle: "SEO & GEO 策略顾问",
-  description: "专注于 SEO 与 GEO（生成式引擎优化）策略，10+ 年搜索优化经验，帮助企业与个人在 AI 时代重构搜索流量。",
-  sameAs: [
-    "https://twitter.com/q1404929834",
-    "https://www.linkedin.com/in/geova-qin/",
-  ],
-  knowsAbout: [
-    "Search Engine Optimization",
-    "Generative Engine Optimization",
-    "AI Search Visibility",
-    "Structured Data",
-    "Content Strategy",
-  ],
-  contactPoint: {
-    "@type": "ContactPoint",
-    contactType: "customer service",
-    email: "contact@geova.cn",
-    availableLanguage: ["zh-CN", "en"],
-  },
-};
-
-// ProfessionalService 实体
-const professionalServiceSchema = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: "GEO 咨询 — SEO & GEO 搜索优化服务",
-  url: siteURL,
-  description: "提供 SEO 全站诊断、GEO/AI 搜索可见度优化、团队顾问与培训三大核心服务。从诊断到执行，覆盖搜索流量全链路。",
-  provider: {
-    "@type": "Person",
-    name: "GEO 咨询顾问",
-  },
-  areaServed: {
-    "@type": "Continent",
-    name: "全球（线上服务）",
-  },
-  availableChannel: {
-    "@type": "ServiceChannel",
-    serviceUrl: `${siteURL}/contact`,
-    availableLanguage: ["zh-CN", "en"],
-  },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "核心服务",
-    itemListElement: [
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "SEO 全站诊断",
-          url: `${siteURL}/services/seo-audit/`,
-          description: "系统诊断网站技术健康度、内容质量和外链状况，交付可落地的优化路线图。",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "GEO / AI 搜索可见度优化",
-          url: `${siteURL}/services/geo-optimization/`,
-          description: "提升品牌在 ChatGPT、Perplexity、Gemini 等 AI 引擎中的被引用率与可见度。",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "团队顾问与培训",
-          url: `${siteURL}/services/training/`,
-          description: "为企业市场团队提供 SEO + GEO 能力建设，从认知培训到策略陪跑。",
-        },
-      },
-    ],
-  },
-};
-
-// WebSite 实体（含 SearchAction）
-const webSiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "GEO 咨询",
-  url: siteURL,
-  description: "专注 SEO & GEO 优化，帮企业与个人重构搜索流量。提供搜索策略知识分享与专业咨询服务。",
-  inLanguage: "zh-CN",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: `${siteURL}/search?q={search_term_string}`,
-    },
-    "query-input": "required name=search_term_string",
-  },
-};
-
-// Organization 实体
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "GEO 咨询",
-  url: siteURL,
-  description: "专注 SEO 与 GEO（生成式引擎优化）策略的知识分享与咨询服务",
-  email: "contact@geova.cn",
-  founder: {
-    "@type": "Person",
-    name: "GEO 咨询顾问",
-  },
-  sameAs: [
-    "https://twitter.com/q1404929834",
-    "https://www.linkedin.com/in/geova-qin/",
-  ],
-};
 ---
 
 <Layout
@@ -401,9 +285,8 @@ const organizationSchema = {
     </div>
   </section>
 
-  <!-- JSON-LD 结构化数据 -->
-  <JsonLDSchema data={personSchema} />
+  <!-- JSON-LD 结构化数据（实体统一来自 src/lib/schema-entities.ts） -->
   <JsonLDSchema data={organizationSchema} />
   <JsonLDSchema data={professionalServiceSchema} />
-  <JsonLDSchema data={webSiteSchema} />
+  <JsonLDSchema data={websiteSchema} />
 </Layout>

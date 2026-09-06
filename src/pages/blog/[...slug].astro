@@ -2,6 +2,13 @@
 import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import JsonLDSchema from "@components/JsonLDSchema.astro";
+import Breadcrumb from "@components/Breadcrumb.astro";
+import {
+  SITE_URL,
+  personSchema,
+  organizationSchema,
+  breadcrumbSchema as buildBreadcrumb,
+} from "../../lib/schema-entities";
 
 // output: "server" 模式下保持博客文章静态预渲染（保留 sitemap 收录与构建期生成）
 export const prerender = true;
@@ -17,13 +24,15 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 
-const siteURL = Astro.site?.origin || "https://www.geova.cn/";
-const articleURL = new URL(`/blog/${post.slug}`, siteURL).href;
+const articleURL = new URL(`/blog/${post.slug}`, SITE_URL).href;
 
-// Article 结构化数据
+// Article 结构化数据：
+// - @type 由 frontmatter articleType 决定（默认 BlogPosting；structured-data-guide 为 TechArticle）
+// - author 统一引用 /about 的真实 Person（#person）
+// - publisher 统一引用 Organization 根实体（#organization），不再内联孤立副本
 const articleSchema = {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": post.data.articleType ?? "BlogPosting",
   headline: post.data.title,
   description: post.data.description,
   url: articleURL,
@@ -33,13 +42,15 @@ const articleSchema = {
     : post.data.pubDate.toISOString(),
   author: {
     "@type": "Person",
-    name: post.data.author || "GEO 咨询团队",
-    url: siteURL,
+    "@id": personSchema["@id"],
+    name: personSchema.name,
+    url: personSchema.url,
   },
   publisher: {
     "@type": "Organization",
-    name: "GEO 咨询",
-    url: siteURL,
+    "@id": organizationSchema["@id"],
+    name: organizationSchema.name,
+    url: organizationSchema.url,
   },
   mainEntityOfPage: {
     "@type": "WebPage",
@@ -49,31 +60,13 @@ const articleSchema = {
   inLanguage: "zh-CN",
 };
 
-// BreadcrumbList 结构化数据
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "首页",
-      item: siteURL,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "博客",
-      item: `${siteURL}/blog`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: post.data.title,
-      item: articleURL,
-    },
-  ],
-};
+// 面包屑：可见 UI 与 BreadcrumbList JSON-LD 共用同一数据源
+const breadcrumbItems = [
+  { name: "首页", url: SITE_URL },
+  { name: "博客", url: `${SITE_URL}/blog` },
+  { name: post.data.title, url: articleURL },
+];
+const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
 ---
 
 <Layout
@@ -123,6 +116,8 @@ const breadcrumbSchema = {
   <!-- Article Content -->
   <article class="py-16 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- 可见面包屑（置于正文内容区顶部，不占用 Hero 首屏） -->
+      <Breadcrumb items={breadcrumbItems} />
       <div class="prose prose-slate prose-lg max-w-none
         prose-headings:text-slate-900
         prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4

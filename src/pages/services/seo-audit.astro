@@ -1,45 +1,31 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import JsonLDSchema from "@components/JsonLDSchema.astro";
+import Breadcrumb from "@components/Breadcrumb.astro";
+import {
+  SITE_URL,
+  serviceSchema as buildServiceSchema,
+  breadcrumbSchema as buildBreadcrumb,
+} from "../../lib/schema-entities";
 
-const siteURL = Astro.site?.origin || "https://www.geova.cn/";
-const pageURL = `${siteURL}/services/seo-audit/`;
+const pageURL = `${SITE_URL}/services/seo-audit/`;
 
-// Service 结构化数据
-const serviceSchema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
+// Service 结构化数据（实体统一来自 src/lib/schema-entities.ts）
+const serviceSchema = buildServiceSchema({
+  path: "/services/seo-audit/",
   name: "SEO 全站诊断服务",
-  url: pageURL,
   serviceType: "SEO 全站诊断 / SEO 技术审计",
   description:
     "人工 + 工具结合的 SEO 全站诊断：技术健康度、内容与关键词、外链与权威度、竞品对标四大维度审计，交付分级问题清单与 3 个月执行路线图。",
-  provider: {
-    "@type": "Organization",
-    name: "GEO 咨询",
-    url: siteURL,
-  },
-  areaServed: {
-    "@type": "Continent",
-    name: "全球（线上服务）",
-  },
-  availableChannel: {
-    "@type": "ServiceChannel",
-    serviceUrl: `${siteURL}/contact`,
-    availableLanguage: ["zh-CN", "en"],
-  },
-};
+});
 
-// BreadcrumbList 结构化数据
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "首页", item: siteURL },
-    { "@type": "ListItem", position: 2, name: "服务", item: `${siteURL}/services/` },
-    { "@type": "ListItem", position: 3, name: "SEO 全站诊断服务", item: pageURL },
-  ],
-};
+// 面包屑：可见 UI 与 BreadcrumbList JSON-LD 共用同一数据源
+const breadcrumbItems = [
+  { name: "首页", url: SITE_URL },
+  { name: "服务", url: `${SITE_URL}/services/` },
+  { name: "SEO 全站诊断服务", url: pageURL },
+];
+const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
 ---
 
 <Layout
@@ -66,6 +52,8 @@ const breadcrumbSchema = {
   <!-- 为什么需要诊断 -->
   <section class="py-20 md:py-28 bg-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- 可见面包屑（置于正文内容区顶部，不占用 Hero 首屏） -->
+      <Breadcrumb items={breadcrumbItems} />
       <div class="text-center mb-16">
         <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider">为什么需要诊断</span>
         <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-4">先诊断，再动手</h2>

@@ -1,25 +1,38 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import JsonLDSchema from "@components/JsonLDSchema.astro";
+import Breadcrumb from "@components/Breadcrumb.astro";
+import {
+  SITE_URL,
+  organizationRef,
+  breadcrumbSchema as buildBreadcrumb,
+} from "../lib/schema-entities";
 
-const siteURL = Astro.site?.origin || "https://www.geova.cn/";
-
-// WebApplication 结构化数据
+// WebApplication 结构化数据（provider 统一引用 #organization）
 const webAppSchema = {
   "@context": "https://schema.org",
+  "@id": `${SITE_URL}/tool#web-application`,
   "@type": "WebApplication",
   name: "GEO 站点健康度诊断工具",
-  url: `${siteURL}/tool`,
+  url: `${SITE_URL}/tool`,
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Web",
   description:
     "免费在线诊断工具：检测 GPTBot / PerplexityBot / ClaudeBot / Bytespider 等 AI 爬虫访问策略、JSON-LD 结构化数据与 HTML 正文可读性，输出 0-100 分 GEO 健康度报告。",
+  provider: organizationRef,
   offers: {
     "@type": "Offer",
     price: "0",
     priceCurrency: "CNY",
   },
 };
+
+// 面包屑：可见 UI 与 BreadcrumbList JSON-LD 共用同一数据源
+const breadcrumbItems = [
+  { name: "首页", url: SITE_URL },
+  { name: "工具", url: `${SITE_URL}/tool` },
+];
+const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
 
 // FAQ 结构化数据
 const faqSchema = {
@@ -77,6 +90,8 @@ const faqSchema = {
   <!-- 诊断工具 -->
   <section class="py-16 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- 可见面包屑（置于正文内容区顶部，不占用 Hero 首屏） -->
+      <Breadcrumb items={breadcrumbItems} />
       <div class="bg-white rounded-2xl border border-slate-200 shadow-xl shadow-slate-900/5 p-6 md:p-10">
         <!-- URL 输入 -->
         <form id="scan-form" class="space-y-3">
@@ -290,6 +305,7 @@ const faqSchema = {
   <!-- JSON-LD 结构化数据 -->
   <JsonLDSchema data={webAppSchema} />
   <JsonLDSchema data={faqSchema} />
+  <JsonLDSchema data={breadcrumbSchema} />
 </Layout>
 
 <script>

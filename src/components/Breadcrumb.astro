@@ -1,0 +1,37 @@
+---
+/**
+ * 可见面包屑（浅色小字，不破坏现有设计体系）
+ *
+ * 仅渲染可见 UI；BreadcrumbList JSON-LD 由页面负责输出，
+ * 且页面需保证两者共用同一 items 数据源（schema 与可见内容一一对应）。
+ */
+interface Props {
+  items: { name: string; url: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="面包屑">
+  <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 pl-0 my-0 list-none text-xs text-slate-400">
+    {
+      items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        return (
+          <li class="flex items-center gap-x-1.5">
+            {index > 0 && <span aria-hidden="true" class="text-slate-300">›</span>}
+            {isLast ? (
+              <span class="text-slate-500 font-medium" aria-current="page">
+                {item.name}
+              </span>
+            ) : (
+              <a href={item.url} class="text-slate-400 hover:text-blue-600 no-underline transition-colors">
+                {item.name}
+              </a>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>

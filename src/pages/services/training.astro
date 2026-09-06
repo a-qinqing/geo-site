@@ -1,45 +1,31 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import JsonLDSchema from "@components/JsonLDSchema.astro";
+import Breadcrumb from "@components/Breadcrumb.astro";
+import {
+  SITE_URL,
+  serviceSchema as buildServiceSchema,
+  breadcrumbSchema as buildBreadcrumb,
+} from "../../lib/schema-entities";
 
-const siteURL = Astro.site?.origin || "https://www.geova.cn/";
-const pageURL = `${siteURL}/services/training/`;
+const pageURL = `${SITE_URL}/services/training/`;
 
-// Service 结构化数据
-const serviceSchema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
+// Service 结构化数据（实体统一来自 src/lib/schema-entities.ts）
+const serviceSchema = buildServiceSchema({
+  path: "/services/training/",
   name: "SEO/GEO 培训与团队顾问服务",
-  url: pageURL,
   serviceType: "SEO/GEO 培训 / SEO 内训 / 搜索优化顾问",
   description:
     "面向企业与个人品牌的 SEO/GEO 培训与长期顾问服务：企业内训课程、1v1 策略咨询、搜索优化工作流搭建与季度策略复盘，帮助团队把搜索优化能力真正内建。",
-  provider: {
-    "@type": "Organization",
-    name: "GEO 咨询",
-    url: siteURL,
-  },
-  areaServed: {
-    "@type": "Continent",
-    name: "全球（线上服务）",
-  },
-  availableChannel: {
-    "@type": "ServiceChannel",
-    serviceUrl: `${siteURL}/contact`,
-    availableLanguage: ["zh-CN", "en"],
-  },
-};
+});
 
-// BreadcrumbList 结构化数据
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "首页", item: siteURL },
-    { "@type": "ListItem", position: 2, name: "服务", item: `${siteURL}/services/` },
-    { "@type": "ListItem", position: 3, name: "SEO/GEO 培训与团队顾问", item: pageURL },
-  ],
-};
+// 面包屑：可见 UI 与 BreadcrumbList JSON-LD 共用同一数据源
+const breadcrumbItems = [
+  { name: "首页", url: SITE_URL },
+  { name: "服务", url: `${SITE_URL}/services/` },
+  { name: "SEO/GEO 培训与团队顾问", url: pageURL },
+];
+const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
 ---
 
 <Layout
@@ -66,6 +52,8 @@ const breadcrumbSchema = {
   <!-- 为什么培训 -->
   <section class="py-20 md:py-28 bg-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- 可见面包屑（置于正文内容区顶部，不占用 Hero 首屏） -->
+      <Breadcrumb items={breadcrumbItems} />
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
         <div>
           <span class="text-amber-600 font-semibold text-sm uppercase tracking-wider">为什么需要培训</span>

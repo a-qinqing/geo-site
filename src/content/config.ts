@@ -10,6 +10,7 @@ const blogCollection = defineCollection({
     category: z.string().default("GEO"),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    articleType: z.enum(["BlogPosting", "TechArticle"]).default("BlogPosting"),
     author: z.string().default("GEO 咨询团队"),
     image: z.string().optional(),
   }),
