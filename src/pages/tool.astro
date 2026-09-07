@@ -195,7 +195,7 @@ const faqSchema = {
 
           <p class="mt-8 text-sm text-slate-500 text-center leading-relaxed">
             本工具检测 3 类 GEO 基础信号（爬虫策略 / 结构化数据 / 内容可读性）。
-            <a href="/services/geo-audit/" class="text-blue-600 hover:text-blue-700 font-medium">人工深度诊断</a>
+            <a href="/services/geo-audit/" data-cta-name="human_audit" class="text-blue-600 hover:text-blue-700 font-medium">人工深度诊断</a>
             还覆盖 AI 引用评估、竞品对标与知识图谱建设。
           </p>
         </div>
@@ -288,12 +288,14 @@ const faqSchema = {
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
         <a
           href="/services/geo-audit/"
+          data-cta-name="human_audit"
           class="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-slate-100 transition-all duration-200 no-underline text-lg shadow-lg"
         >
           🩺 了解 GEO 人工深度诊断
         </a>
         <a
           href="/contact"
+          data-cta-name="book_consultation"
           class="inline-flex items-center px-8 py-4 bg-white/10 text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-200 no-underline backdrop-blur-sm"
         >
           📅 或先预约免费咨询
@@ -309,6 +311,8 @@ const faqSchema = {
 </Layout>
 
 <script>
+  import { track, safePageUrl } from "../lib/analytics";
+
   const form = document.getElementById("scan-form");
   const input = document.getElementById("url-input");
   const scanBtn = document.getElementById("scan-btn");
@@ -328,6 +332,9 @@ const faqSchema = {
   const resultSummary = document.getElementById("result-summary");
   const resultUrl = document.getElementById("result-url");
   const resultMeta = document.getElementById("result-meta");
+
+  // 最近一次成功报告得分：结果区 CTA（tool_cta_click）需要时附带 score
+  let lastScore = null;
 
   // 2 * PI * 78（仪表盘半径）
   const GAUGE_CIRCUMFERENCE = 490.09;
@@ -379,7 +386,7 @@ const faqSchema = {
     if (!safe.includes(phrase)) return safe;
     return safe.replace(
       phrase,
-      `<a href="/services/geo-audit/" class="text-blue-600 hover:text-blue-700 font-medium no-underline hover:underline">${phrase}</a>`
+      `<a href="/services/geo-audit/" data-cta-name="human_audit" class="text-blue-600 hover:text-blue-700 font-medium no-underline hover:underline">${phrase}</a>`
     );
   }
 
@@ -433,6 +440,10 @@ const faqSchema = {
     }
 
     resultsBox.classList.add("hidden");
+    // 埋点：用户真正开始执行扫描（校验通过，即将请求 /api/scan）。
+    // 空输入校验失败不产生事件（尚未开始扫描）。source_url 已清洗为 origin+path。
+    const scanSource = safePageUrl(value);
+    track("tool_scan_start", scanSource ? { source_url: scanSource } : {});
     setLoading(true);
     try {
       const res = await fetch("/api/scan", {
@@ -447,18 +458,41 @@ const faqSchema = {
         // 非 JSON 响应，按失败处理
       }
       if (!res.ok || !data || !data.success) {
+        // 埋点：API 明确返回错误 / 非成功响应。只上报粗粒度 error_type，不上报报错原文，
+        // 避免错误信息里回显的目标站点细节或用户输入进入 GA4。
+        track("tool_scan_error", { error_type: "api_error" });
         showError((data && data.error) || `诊断失败（HTTP ${res.status}），请稍后重试`);
         return;
       }
       renderResults(data);
+      // 埋点：扫描成功返回即同步渲染报告，二者是同一用户动作、无中间步骤，
+      // 故 tool_scan_complete 与 tool_report_view 合并为一次上报（见验收报告说明）。
+      const reportUrl = safePageUrl(data.url || value);
+      track("tool_scan_complete", { score: data.score, ...(reportUrl ? { source_url: reportUrl } : {}) });
     } catch {
+      track("tool_scan_error", { error_type: "network_error" });
       showError("网络异常，无法完成诊断，请稍后重试");
     } finally {
       setLoading(false);
     }
   });
 
+  // tool_cta_click：结果区 / 页尾 CTA 点击（带 data-cta-name 的链接）。
+  // 埋点不阻断导航：同步 push、不 preventDefault；GTM/GA4 加载失败也不影响跳转。
+  document.addEventListener("click", (event) => {
+    const anchor = event.target instanceof Element ? event.target.closest("a[data-cta-name]") : null;
+    if (!anchor) return;
+    const payload = {
+      cta_name: anchor.getAttribute("data-cta-name") || "",
+      cta_target: anchor.getAttribute("href") || "",
+    };
+    if (lastScore !== null) payload.score = lastScore;
+    track("tool_cta_click", payload);
+  });
+
   function renderResults(data) {
+    // 记录当前展示报告的得分，供结果区 CTA 埋点附 score
+    lastScore = typeof data.score === "number" ? data.score : null;
     // 摘要信息
     resultSummary.textContent = data.summary || "";
     resultUrl.textContent = data.url || "";

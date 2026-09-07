@@ -364,10 +364,10 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
           从检测到持续优化，我们的服务可以按需组合：
         </p>
         <div class="flex flex-col sm:flex-row gap-3 flex-wrap">
-          <a href="/tool/" class="inline-flex items-center gap-2 text-emerald-700 font-medium text-sm no-underline bg-emerald-50 px-4 py-2.5 rounded-xl transition-colors hover:bg-emerald-100">
+          <a href="/tool/" data-cta-name="back_to_tool" class="inline-flex items-center gap-2 text-emerald-700 font-medium text-sm no-underline bg-emerald-50 px-4 py-2.5 rounded-xl transition-colors hover:bg-emerald-100">
             🛠️ 免费工具检测基础健康度
           </a>
-          <a href="/services/geo-audit/" class="inline-flex items-center gap-2 text-emerald-700 font-medium text-sm no-underline bg-emerald-50 px-4 py-2.5 rounded-xl transition-colors hover:bg-emerald-100">
+          <a href="/services/geo-audit/" data-cta-name="human_audit" class="inline-flex items-center gap-2 text-emerald-700 font-medium text-sm no-underline bg-emerald-50 px-4 py-2.5 rounded-xl transition-colors hover:bg-emerald-100">
             🩺 GEO 人工审计：先看清 AI 里的真实可见度
           </a>
           <a href="/services/geo-optimization/" class="inline-flex items-center gap-2 text-emerald-700 font-medium text-sm no-underline bg-emerald-50 px-4 py-2.5 rounded-xl transition-colors hover:bg-emerald-100">
@@ -434,6 +434,7 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
       </p>
       <a
         href="/contact"
+        data-cta-name="book_consultation"
         class="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-slate-100 transition-all duration-200 no-underline text-lg shadow-lg"
       >
         📅 预约免费 15 分钟咨询
@@ -446,3 +447,19 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
   <JsonLDSchema data={faqSchema} />
   <JsonLDSchema data={breadcrumbSchema} />
 </Layout>
+
+<script>
+  import { track } from "../../lib/analytics";
+
+  // geo_optimization_cta_click：页面 CTA 点击（带 data-cta-name 的链接；
+  // 「GEO 持续优化（当前页面）」为自链接，无漏斗转移，故不埋点）。
+  // 埋点不阻断导航：同步 push、不 preventDefault；GTM/GA4 加载失败也不影响跳转。
+  document.addEventListener("click", (event) => {
+    const anchor = event.target instanceof Element ? event.target.closest("a[data-cta-name]") : null;
+    if (!anchor) return;
+    track("geo_optimization_cta_click", {
+      cta_name: anchor.getAttribute("data-cta-name") || "",
+      cta_target: anchor.getAttribute("href") || "",
+    });
+  });
+</script>

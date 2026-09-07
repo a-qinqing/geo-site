@@ -204,19 +204,44 @@ import Layout from "@layouts/Layout.astro";
     </div>
   </section>
 <script>
+  import { track } from "../lib/analytics";
+
   const form = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
   const messageEl = document.getElementById('form-message');
 
+  // contact_start：用户真正开始填写表单——首次对任意字段（input/select/textarea）
+  // 的 focusin 或 input（用「input」事件同时覆盖输入与下拉选择）。只触发一次；
+  // 提交按钮的聚焦不算「开始填写」，不触发。
+  let contactStarted = false;
+  function handleFirstInteraction(event) {
+    if (contactStarted) return;
+    const target = event.target;
+    if (!(target instanceof Element) || !target.matches('input, select, textarea')) return;
+    contactStarted = true;
+    track('contact_start');
+    form.removeEventListener('focusin', handleFirstInteraction);
+    form.removeEventListener('input', handleFirstInteraction);
+  }
+  form.addEventListener('focusin', handleFirstInteraction);
+  form.addEventListener('input', handleFirstInteraction);
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    const formData = new FormData(form);
+
+    // contact_submit_attempt：用户点击提交且通过浏览器必填校验（submit 事件触发时）。
+    // 只上报 service（下拉选项枚举值），不上报姓名/邮箱/电话/留言等任何 PII。
+    // 注意：这里不是 generate_lead——lead 只在下方 Web3Forms 返回成功后触发。
+    const service = String(formData.get('service') || '');
+    if (service) track('contact_submit_attempt', { service });
 
     // 进入提交状态
     submitBtn.disabled = true;
     submitBtn.textContent = '⏳ 发送中...';
     messageEl.classList.add('hidden');
 
-    const formData = new FormData(form);
     const payload = {
       access_key: 'e132d0dc-64f5-4e97-a85b-8d672d0828b5',
       name: formData.get('name'),
@@ -241,9 +266,9 @@ import Layout from "@layouts/Layout.astro";
         messageEl.className = 'text-sm font-medium rounded-xl p-4 bg-green-50 text-green-700 border border-green-200';
         form.reset();
 
-        // GA4 转化事件
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: 'generate_lead' });
+        // GA4 转化事件（保留原事件，仅在提交成功后触发；补充 service 参数，不含 PII）。
+        // source_url 不补充：当前为静态多页面架构，无可靠的来源页信息，GA4 会自动附带 page_location。
+        track('generate_lead', service ? { service } : {});
       } else {
         // 服务端返回失败
         messageEl.textContent = '❌ 提交失败，请稍后重试或直接发送邮件至 contact@geova.cn。';

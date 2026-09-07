@@ -367,13 +367,13 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
           持续落地；或先免费检测着，等项目成型再深度投入。
         </p>
         <div class="flex flex-col sm:flex-row gap-3 justify-center flex-wrap">
-          <a href="/tool/" class="inline-flex items-center justify-center gap-2 text-violet-700 font-medium text-sm no-underline bg-violet-50 px-5 py-2.5 rounded-xl transition-colors hover:bg-violet-100">
+          <a href="/tool/" data-cta-name="back_to_tool" class="inline-flex items-center justify-center gap-2 text-violet-700 font-medium text-sm no-underline bg-violet-50 px-5 py-2.5 rounded-xl transition-colors hover:bg-violet-100">
             🛠️ 先用免费工具自测
           </a>
-          <a href="/services/geo-optimization/" class="inline-flex items-center justify-center gap-2 text-violet-700 font-medium text-sm no-underline bg-violet-50 px-5 py-2.5 rounded-xl transition-colors hover:bg-violet-100">
+          <a href="/services/geo-optimization/" data-cta-name="optimization" class="inline-flex items-center justify-center gap-2 text-violet-700 font-medium text-sm no-underline bg-violet-50 px-5 py-2.5 rounded-xl transition-colors hover:bg-violet-100">
             🚀 了解 GEO 优化服务
           </a>
-          <a href="/contact" class="inline-flex items-center justify-center gap-2 text-white font-medium text-sm no-underline bg-violet-600 px-5 py-2.5 rounded-xl transition-colors hover:bg-violet-700">
+          <a href="/contact" data-cta-name="book_consultation" class="inline-flex items-center justify-center gap-2 text-white font-medium text-sm no-underline bg-violet-600 px-5 py-2.5 rounded-xl transition-colors hover:bg-violet-700">
             📅 预约人工诊断
           </a>
         </div>
@@ -396,6 +396,7 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
       </p>
       <a
         href="/contact"
+        data-cta-name="book_consultation"
         class="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-slate-100 transition-all duration-200 no-underline text-lg shadow-lg"
       >
         📅 预约免费 15 分钟咨询
@@ -407,3 +408,18 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
   <JsonLDSchema data={serviceSchema} />
   <JsonLDSchema data={breadcrumbSchema} />
 </Layout>
+
+<script>
+  import { track } from "../../lib/analytics";
+
+  // geo_audit_cta_click：页面 CTA 点击（带 data-cta-name 的链接）。
+  // 埋点不阻断导航：同步 push、不 preventDefault；GTM/GA4 加载失败也不影响跳转。
+  document.addEventListener("click", (event) => {
+    const anchor = event.target instanceof Element ? event.target.closest("a[data-cta-name]") : null;
+    if (!anchor) return;
+    track("geo_audit_cta_click", {
+      cta_name: anchor.getAttribute("data-cta-name") || "",
+      cta_target: anchor.getAttribute("href") || "",
+    });
+  });
+</script>
