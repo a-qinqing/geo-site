@@ -8,17 +8,33 @@
  *  1. 抓取目标站点的 /robots.txt，检测 GPTBot / PerplexityBot / ClaudeBot / Bytespider 的访问策略
  *  2. 抓取首页 HTML，检测 JSON-LD 结构化数据（Organization / FAQPage / Article 等）
  *  3. 统计 <body> 纯文本字数，预警 CSR 动态渲染（AI 爬虫通常不执行 JavaScript）
+ *  4. Crawler Access Test（HTTP UA Probe，见 src/lib/crawler-access.ts）：对 8 个 AI 爬虫
+ *     各发起一次真实 GET（官方 UA），把「robots.txt 声明」与「实际 HTTP 响应」并置对比，
+ *     用于暴露「声明放行、边缘 / 服务器实际拦截」这类冲突。**不计分**，不影响第 1–3 项结果。
  *
  * 评分体系（总分 100）：
  *  - AI 爬虫访问 40 分（每个爬虫 10 分）
  *  - 结构化数据 30 分（Organization 15 / FAQPage 8 / Article 7）
  *  - 内容可读性 30 分（按正文纯文本量分级）
  *
+ * SSRF：目标 URL 来自不可信用户输入。入场校验、robots.txt / 首页 HTML 抓取（含每一次
+ * redirect）、8 次 UA 探测全部走同一套 checkTargetSafety()（仅 http/https、仅 80/443、
+ * 禁凭据、禁 localhost / 私网 / 链路本地 / metadata / IPv6 私有段、域名必须经公共 DoH
+ * 解析且全部 IP 为公网地址）；无法安全确认时 fail closed（拒绝或跳过，绝不发请求）。
+ *
  * 注意：该路由需要 on-demand rendering（SSR）运行环境。
  * 若 `astro build` 报 "Output is static" 类错误，需要在 astro.config.mjs 中
  * 设置 output: "server" 并安装对应适配器（如 @astrojs/cloudflare），本文件无需改动。
  */
 import type { APIRoute } from "astro";
+import {
+  runCrawlerAccessTest,
+  checkTargetSafety,
+  createDnsCache,
+  type CrawlerAccessReport,
+  type DnsResolver,
+  type RobotsAccess,
+} from "../../lib/crawler-access";
 
 export const prerender = false;
 
@@ -199,95 +215,110 @@ function normalizeUrl(raw: string): URL | null {
   }
 }
 
-/** 基础 SSRF 防护：拦截 localhost / 私网 IP 与非常用端口（DNS 层防护依赖部署平台） */
-function isForbiddenUrl(url: URL): boolean {
-  if (url.port && url.port !== "80" && url.port !== "443") return true;
-
-  const host = url.hostname.toLowerCase().replace(/^\[|\]$/g, "");
-  if (
-    host === "localhost" ||
-    host.endsWith(".localhost") ||
-    host.endsWith(".local") ||
-    host.endsWith(".internal")
-  ) {
-    return true;
-  }
-
-  // IPv4 字面量
-  const ipv4 = host.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
-  if (ipv4) {
-    const [a, b] = ipv4.slice(1).map(Number);
-    if ([a, b].some((n) => Number.isNaN(n) || n > 255)) return true;
-    if (a === 10) return true; // 10.0.0.0/8
-    if (a === 172 && b >= 16 && b <= 31) return true; // 172.16.0.0/12
-    if (a === 192 && b === 168) return true; // 192.168.0.0/16
-    if (a === 127) return true; // 回环
-    if (a === 0) return true; // 0.0.0.0/8
-    if (a === 169 && b === 254) return true; // 链路本地
-    if (a === 100 && b >= 64 && b <= 127) return true; // CGNAT 100.64.0.0/10
-    return false;
-  }
-
-  // IPv6 字面量
-  if (host.includes(":")) {
-    const h = host.toLowerCase();
-    if (h === "::1" || h === "::") return true; // 回环 / 未指定
-    if (h.startsWith("fe80") || h.startsWith("fc") || h.startsWith("fd")) return true; // 链路本地 / ULA
-  }
-
-  return false;
-}
-
-/** 带超时与体积上限的抓取（兼容 Node / Cloudflare Workers 运行时） */
+/**
+ * 文档类抓取：带超时、体积上限与**逐跳 SSRF 校验**（兼容 Node / Cloudflare Workers 运行时）。
+ *
+ * 每完成一次 redirect 都会重新走 checkTargetSafety()——与 HTTP UA Probe 使用同一套安全校验，
+ * 防止公网站点把抓取重定向到内网 / metadata 地址（DNS rebinding 同理按跳转重新解析）。
+ * 单次抓取最多 5 跳，避免重定向环；每次运行共用同一份 DNS 缓存。
+ */
 async function fetchWithLimit(
   url: string,
   timeoutMs: number,
-  maxBytes: number
+  maxBytes: number,
+  resolveDns?: DnsResolver
 ): Promise<FetchOutcome> {
+  const maxRedirects = 5;
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const failure = (error: string, httpStatus = 0): FetchOutcome => ({
+    ok: false,
+    httpStatus,
+    found: false,
+    text: "",
+    truncated: false,
+    error,
+  });
+
   try {
-    const res = await fetch(url, {
-      redirect: "follow",
-      signal: controller.signal,
-      headers: {
-        "User-Agent": SCAN_UA,
-        Accept: "text/html,text/plain,application/xhtml+xml;q=0.9,*/*;q=0.8",
-      },
-    });
-
-    if (!res.ok || !res.body) {
-      return { ok: false, httpStatus: res.status, found: false, text: "", truncated: false };
+    let current: URL;
+    try {
+      current = new URL(url);
+    } catch {
+      return failure("目标 URL 非法");
     }
 
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let text = "";
-    let received = 0;
-    let truncated = false;
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      received += value.byteLength;
-      if (received > maxBytes) {
-        truncated = true;
-        const keep = value.byteLength - (received - maxBytes);
-        if (keep > 0) text += decoder.decode(value.subarray(0, keep), { stream: false });
-        await reader.cancel().catch(() => undefined);
-        break;
+    let redirects = 0;
+    for (;;) {
+      const safety = await checkTargetSafety(current, {
+        resolveDns,
+        resolveSignal: controller.signal,
+      });
+      if (!safety.safe) {
+        return failure(`${redirects === 0 ? "目标" : `第 ${redirects} 次跳转的目标`}未通过安全校验：${safety.reason}`);
       }
-      text += decoder.decode(value, { stream: true });
-    }
-    if (!truncated) text += decoder.decode(); // flush 剩余字节
 
-    return {
-      ok: true,
-      httpStatus: res.status,
-      found: res.status >= 200 && res.status < 300,
-      text,
-      truncated,
-    };
+      const res = await fetch(current.href, {
+        redirect: "manual",
+        signal: controller.signal,
+        headers: {
+          "User-Agent": SCAN_UA,
+          Accept: "text/html,text/plain,application/xhtml+xml;q=0.9,*/*;q=0.8",
+        },
+      });
+
+      if (res.status >= 300 && res.status < 400) {
+        const location = res.headers.get("location");
+        if (!location) {
+          return failure("重定向响应缺少可读取的 Location，已停止跟随", res.status);
+        }
+        if (redirects >= maxRedirects) {
+          return failure(`重定向次数超过上限（${maxRedirects}）`, res.status);
+        }
+        try {
+          current = new URL(location, current);
+        } catch {
+          return failure("重定向目标 URL 非法", res.status);
+        }
+        redirects += 1;
+        if (res.body) void res.body.cancel().catch(() => undefined);
+        continue;
+      }
+
+      if (!res.ok || !res.body) {
+        return { ok: false, httpStatus: res.status, found: false, text: "", truncated: false };
+      }
+
+      // 限制读取体积：只读取上限内的字节，超出即截断
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let text = "";
+      let received = 0;
+      let truncated = false;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        received += value.byteLength;
+        if (received > maxBytes) {
+          truncated = true;
+          const keep = value.byteLength - (received - maxBytes);
+          if (keep > 0) text += decoder.decode(value.subarray(0, keep), { stream: false });
+          await reader.cancel().catch(() => undefined);
+          break;
+        }
+        text += decoder.decode(value, { stream: true });
+      }
+      if (!truncated) text += decoder.decode(); // flush 剩余字节
+
+      return {
+        ok: true,
+        httpStatus: res.status,
+        found: res.status >= 200 && res.status < 300,
+        text,
+        truncated,
+      };
+    }
   } catch (err) {
     const aborted = err instanceof DOMException && err.name === "AbortError";
     return {
@@ -353,6 +384,74 @@ function resolveBotAccess(
     };
   }
   return { status: "allowed", rule: "未发现全站拦截规则，默认允许抓取" };
+}
+
+/* ==================== Crawler Access Test（HTTP UA Probe） ==================== */
+
+/**
+ * 把已抓取的 robots.txt 结果映射为 Crawler Access Test 所需的「声明层」结论
+ * （Allow / Disallow / Unknown / Error）。
+ *
+ * 解析逻辑与 analyzeCrawlers() 完全共用 parseRobotsGroups / resolveBotAccess，
+ * 保证两处对 robots.txt 的口径一致；这里只是把 allowed / blocked 收敛为
+ * Allow / Disallow，并把「无匹配组」单列为 Unknown。
+ */
+function buildRobotsAccessor(robots: FetchOutcome): (crawlerName: string) => RobotsAccess {
+  if (robots.error) {
+    return () => ({
+      verdict: "Error",
+      rule: `robots.txt 获取失败（${robots.error}），无法确认声明策略`,
+    });
+  }
+  if (!robots.found) {
+    return () => ({
+      verdict: "Unknown",
+      rule: "robots.txt 不存在，无声明规则（按默认放行理解，无法确认）",
+    });
+  }
+
+  const groups = parseRobotsGroups(robots.text);
+  return (crawlerName: string) => {
+    const name = crawlerName.toLowerCase();
+    const matched = groups.find((g) => g.agents.includes(name)) ?? groups.find((g) => g.agents.includes("*"));
+    if (!matched) {
+      return { verdict: "Unknown", rule: "robots.txt 未声明该爬虫（无匹配组），默认允许抓取" };
+    }
+    const resolved = resolveBotAccess(groups, crawlerName);
+    return {
+      verdict: resolved.status === "blocked" ? "Disallow" : "Allow",
+      rule: resolved.rule,
+    };
+  };
+}
+
+/** Crawler Access Test 兜底报告：任何异常都不得影响其余诊断结果 */
+function fallbackCrawlerAccessReport(targetUrl: string, err: unknown): CrawlerAccessReport {
+  return {
+    enabled: false,
+    targetUrl,
+    robotsUrl: "",
+    probeTimeoutMs: 0,
+    maxRedirects: 0,
+    concurrency: 0,
+    skipped: true,
+    skipReason: err instanceof Error ? err.message : "Crawler Access Test 执行失败",
+    summary: {
+      total: 0,
+      robotsAllow: 0,
+      robotsDisallow: 0,
+      robotsUnknown: 0,
+      httpSuccess: 0,
+      httpBlocked: 0,
+      httpSkipped: 0,
+      httpOther: 0,
+      mismatch: 0,
+    },
+    note: "Crawler Access Test 未完成，其余诊断结果不受影响。",
+    disclaimer: "",
+    results: [],
+    error: "probe_failed",
+  };
 }
 
 /* ==================== HTML 解析 ==================== */
@@ -702,7 +801,8 @@ function buildChecklist(d: {
 
 function buildRecommendations(
   d: { crawlers: CrawlersDimension; structuredData: StructuredDataDimension; content: ContentDimension },
-  score: number
+  score: number,
+  crawlerAccess?: CrawlerAccessReport
 ): string[] {
   const recs: string[] = [];
 
@@ -721,6 +821,14 @@ function buildRecommendations(
   }
   if (!d.crawlers.robotsFound && d.crawlers.status !== "error") {
     recs.push("创建 robots.txt 并显式放行主流 AI 爬虫，避免默认策略带来的不确定性。");
+  }
+
+  // Crawler Access Test 发现的「声明层 vs 执行层」冲突（原有 robots.txt 解析无法发现）
+  if (crawlerAccess && crawlerAccess.summary.mismatch > 0) {
+    const names = crawlerAccess.results.filter((r) => r.mismatch).map((r) => r.name);
+    recs.push(
+      `排查 ${names.join("、")} 的抓取冲突：robots.txt 声明与实际 HTTP 响应不一致（声明放行 / 实际被拒，或反之）。常见原因是 Cloudflare / WAF 的 AI 爬虫拦截规则、Bot Fight Mode 或服务器级 UA 黑名单——请在边缘或服务器侧放行这些 UA，否则 AI 引擎无法抓取你的内容。`
+    );
   }
 
   for (const check of d.structuredData.checks) {
@@ -772,14 +880,39 @@ export const POST: APIRoute = async ({ request }) => {
   if (!url) {
     return respondError(400, "URL 格式不正确，请输入 http/https 开头的完整网址");
   }
-  if (isForbiddenUrl(url)) {
-    return respondError(400, "出于安全考虑，不支持内网地址（localhost / 私网 IP / 非常用端口）");
+
+  // 入场校验：与 HTTP UA Probe 共用同一套 SSRF 规则（http/https、80/443、禁凭据、
+  // 禁 localhost / 私网 / 链路本地 / metadata / IPv6 私有段；域名必须经公共 DoH 解析
+  // 且全部 A/AAAA 均为公网地址）。无法安全确认时直接拒绝，不发起任何请求。
+  // 本次运行的 DNS 结果在此缓存，后续抓取与 8 次探测复用同一份解析。
+  const resolveDns = createDnsCache();
+  const safety = await checkTargetSafety(url, { resolveDns });
+  if (!safety.safe) {
+    return respondError(400, `出于安全考虑，已拒绝该目标：${safety.reason}`);
   }
 
-  // 并发抓取 robots.txt 与首页 HTML
-  const [robots, html] = await Promise.all([
-    fetchWithLimit(`${url.origin}/robots.txt`, ROBOTS_TIMEOUT_MS, ROBOTS_MAX_BYTES),
-    fetchWithLimit(url.href, HTML_TIMEOUT_MS, HTML_MAX_BYTES),
+  // 并发启动：robots.txt、首页 HTML、Crawler Access Test（8 次爬虫 UA 探测）。
+  // 探测的 HTTP 请求不依赖 robots.txt；只有结果里的「声明层」结论会等待 robots.txt。
+  const robotsPromise = fetchWithLimit(
+    `${url.origin}/robots.txt`,
+    ROBOTS_TIMEOUT_MS,
+    ROBOTS_MAX_BYTES,
+    resolveDns
+  );
+  let robotsAccessor: ((crawlerName: string) => RobotsAccess) | null = null;
+  const crawlerAccessPromise = runCrawlerAccessTest(
+    url.href,
+    async (crawlerName) => {
+      robotsAccessor ??= buildRobotsAccessor(await robotsPromise);
+      return robotsAccessor(crawlerName);
+    },
+    { resolveDns }
+  ).catch((err: unknown) => fallbackCrawlerAccessReport(url.href, err));
+
+  const [robots, html, crawlerAccess] = await Promise.all([
+    robotsPromise,
+    fetchWithLimit(url.href, HTML_TIMEOUT_MS, HTML_MAX_BYTES, resolveDns),
+    crawlerAccessPromise,
   ]);
 
   const crawlers = analyzeCrawlers(url, robots);
@@ -802,8 +935,9 @@ export const POST: APIRoute = async ({ request }) => {
     grade,
     summary: buildSummary(score, grade, dimensions),
     dimensions,
+    crawlerAccess: crawlerAccess,
     checklist: buildChecklist(dimensions),
-    recommendations: buildRecommendations(dimensions, score),
+    recommendations: buildRecommendations(dimensions, score, crawlerAccess),
   };
 
   return new Response(JSON.stringify(result), { status: 200, headers: JSON_HEADERS });

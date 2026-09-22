@@ -185,6 +185,17 @@ const faqSchema = {
             <div id="checklist" class="bg-white border border-slate-200 rounded-2xl divide-y divide-slate-100 overflow-hidden"></div>
           </div>
 
+          <!-- Crawler Access Test（HTTP UA Probe） -->
+          <div id="crawler-access-section" class="mt-10 hidden">
+            <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+              <span>🛰️</span> Crawler Access Test
+            </h2>
+            <p class="text-sm text-slate-500 mb-4 leading-relaxed">
+              robots.txt 只是「声明」，服务器 / CDN 边缘仍可能拦截。下表对 8 个 AI 爬虫各发起一次 HTTP UA 探测，并置对比声明与实际响应。
+            </p>
+            <div id="crawler-access" class="bg-white border border-slate-200 rounded-2xl overflow-hidden"></div>
+          </div>
+
           <!-- 优化建议 -->
           <div class="mt-10">
             <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
@@ -328,6 +339,8 @@ const faqSchema = {
   const dimensionsBox = document.getElementById("dimensions");
   const checklistBox = document.getElementById("checklist");
   const recommendationsBox = document.getElementById("recommendations");
+  const crawlerAccessSection = document.getElementById("crawler-access-section");
+  const crawlerAccessBox = document.getElementById("crawler-access");
 
   const resultSummary = document.getElementById("result-summary");
   const resultUrl = document.getElementById("result-url");
@@ -369,6 +382,26 @@ const faqSchema = {
     { key: "structuredData", label: "结构化数据", icon: "🧩" },
     { key: "content", label: "内容可读性", icon: "📄" },
   ];
+
+  // Crawler Access Test（HTTP UA Probe）：声明层 robots.txt × 执行层 HTTP 响应
+  const ROBOTS_BADGES = {
+    Allow: "bg-emerald-100 text-emerald-700",
+    Disallow: "bg-red-100 text-red-700",
+    Unknown: "bg-slate-100 text-slate-500",
+    Error: "bg-slate-200 text-slate-500",
+  };
+
+  const HTTP_RESULT_BADGES = {
+    Success: "bg-emerald-100 text-emerald-700",
+    Blocked: "bg-red-100 text-red-700",
+    RateLimited: "bg-amber-100 text-amber-700",
+    NotFound: "bg-amber-100 text-amber-700",
+    ServerError: "bg-amber-100 text-amber-700",
+    RedirectUnresolved: "bg-amber-100 text-amber-700",
+    Timeout: "bg-amber-100 text-amber-700",
+    Error: "bg-slate-200 text-slate-600",
+    Skipped: "bg-slate-100 text-slate-500",
+  };
 
   function esc(value) {
     return String(value).replace(
@@ -490,6 +523,77 @@ const faqSchema = {
     track("tool_cta_click", payload);
   });
 
+  function crawlerAccessBadge(text, cls, title) {
+    return `<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full ${cls}"${
+      title ? ` title="${esc(title)}"` : ""
+    }>${esc(text)}</span>`;
+  }
+
+  // Crawler Access Test 渲染：每个爬虫并置展示 robots.txt 声明与 HTTP UA 探测结果。
+  // 无数据（旧接口 / 探测整体失败）时隐藏整个区块，不影响原有结果展示。
+  function renderCrawlerAccess(report) {
+    const results = report && Array.isArray(report.results) ? report.results : [];
+    if (!results.length) {
+      crawlerAccessSection.classList.add("hidden");
+      return;
+    }
+
+    const summary = report.summary || {};
+    const mismatch = summary.mismatch || 0;
+    const headCls =
+      mismatch > 0
+        ? "bg-amber-50 border-amber-200 text-amber-900"
+        : "bg-emerald-50 border-emerald-200 text-emerald-900";
+
+    const rows = results
+      .map((item) => {
+        const robotsCls = ROBOTS_BADGES[item.robots] || ROBOTS_BADGES.Unknown;
+        const httpCls = HTTP_RESULT_BADGES[item.httpResult] || HTTP_RESULT_BADGES.Error;
+        const httpText = item.httpStatus ? `${item.httpStatus} ${item.httpResult}` : String(item.httpResult);
+
+        const meta = [];
+        if (typeof item.httpResponseTimeMs === "number") meta.push(`耗时 ${item.httpResponseTimeMs} ms`);
+        if (item.redirects) meta.push(`跳转 ${item.redirects} 次`);
+        if (item.finalUrl) meta.push(`最终 URL：${item.finalUrl}`);
+
+        return `
+        <div class="px-6 py-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-semibold text-slate-800 text-sm">${esc(item.name)}</span>
+            <span class="text-[11px] px-2 py-0.5 bg-slate-100 text-slate-500 rounded-full">${esc(item.group || "")}</span>
+            ${
+              item.mismatch
+                ? '<span class="text-[11px] px-2 py-0.5 bg-amber-100 text-amber-700 rounded-full">声明与执行不一致</span>'
+                : ""
+            }
+          </div>
+          <p class="mt-1 text-sm ${item.mismatch ? "text-amber-700 font-medium" : "text-slate-500"} break-words">${esc(item.message || "")}</p>
+          <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-500">
+            <span class="inline-flex items-center gap-1.5">robots.txt: ${crawlerAccessBadge(item.robots, robotsCls, item.robotsRule)}</span>
+            <span class="inline-flex items-center gap-1.5">HTTP Access: ${crawlerAccessBadge(httpText, httpCls)}</span>
+          </div>
+          ${meta.length ? `<p class="mt-1.5 text-xs text-slate-400 break-all">${esc(meta.join(" · "))}</p>` : ""}
+        </div>`;
+      })
+      .join("");
+
+    crawlerAccessBox.innerHTML = `
+      <div class="px-6 py-4 border-b border-slate-100 ${headCls}">
+        <p class="text-sm font-semibold">${esc(report.note || "")}</p>
+        <p class="mt-1 text-xs opacity-80">
+          robots.txt：放行 ${summary.robotsAllow || 0} · 禁止 ${summary.robotsDisallow || 0} · 未声明/失败 ${summary.robotsUnknown || 0}
+          ｜ HTTP 探测：成功 ${summary.httpSuccess || 0} · 被拒绝 ${summary.httpBlocked || 0} · 未探测 ${summary.httpSkipped || 0} · 其它 ${summary.httpOther || 0}
+        </p>
+      </div>
+      <div class="divide-y divide-slate-100">${rows}</div>
+      ${
+        report.disclaimer
+          ? `<div class="px-6 py-4 bg-slate-50 border-t border-slate-100"><p class="text-xs text-slate-500 leading-relaxed">${esc(report.disclaimer)}</p></div>`
+          : ""
+      }`;
+    crawlerAccessSection.classList.remove("hidden");
+  }
+
   function renderResults(data) {
     // 记录当前展示报告的得分，供结果区 CTA 埋点附 score
     lastScore = typeof data.score === "number" ? data.score : null;
@@ -554,6 +658,9 @@ const faqSchema = {
           </div>
         </div>`;
     }).join("");
+
+    // Crawler Access Test（声明层 × 执行层）
+    renderCrawlerAccess(data.crawlerAccess);
 
     // 优化建议
     recommendationsBox.innerHTML = (data.recommendations || []).map(

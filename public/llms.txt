@@ -28,6 +28,11 @@
 - [GEO 品牌诊断实战指南](https://www.geova.cn/blog/geo-brand-diagnosis-guide/): 六步框架量化品牌在 AI 引擎中的可见度
 - [GEO 幽灵引用诊断与修复](https://www.geova.cn/blog/ghost-citations-geo-2026/): 62%-73% 的 AI 引用不带品牌？品牌锚定策略
 - [AI 就绪度三层断层实测](https://www.geova.cn/blog/ai-search-readiness-audit/): 50 站探针实测：语义标注层平均仅 38.5%
+- [GEO 和 SEO 的区别](https://www.geova.cn/blog/geo-vs-seo-difference/): SEO 争排名、GEO 争引用的根源差异：模型守门人框架与六个维度逐项对比
+- [GEO 优化怎么做](https://www.geova.cn/blog/how-to-do-geo/): 不是功能清单而是执行顺序：基线、技术通道、实体、内容、品牌信号五层推进
+- [如何让 AI 引用我的网站](https://www.geova.cn/blog/how-to-get-cited-by-ai/): AI 引用的三道关：检得到、信得过、摘得走，逐关诊断与 30 天行动清单
+- [品牌如何被 AI 搜索推荐](https://www.geova.cn/blog/how-to-get-recommended-by-ai/): 推荐是另一套计算：品类归属、可比事实、第三方共识决定 AI 推荐名单
+- [ChatGPT 搜索优化](https://www.geova.cn/blog/chatgpt-optimization/): 从搜全网转向点名取数：取数门、域名门、快照门三道门拆解
 
 ## 前沿解读与行业追踪
 
