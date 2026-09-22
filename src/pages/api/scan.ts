@@ -17,6 +17,11 @@
  *  - 结构化数据 30 分（Organization 15 / FAQPage 8 / Article 7）
  *  - 内容可读性 30 分（按正文纯文本量分级）
  *
+ * 其中 AI 爬虫访问 = 声明层（robots.txt）+ 执行层修正：声明放行但实际 HTTP UA 探测被
+ * 明确拒绝（403 / 401 / 451）时，该爬虫由 10 分降为 5 分（见 analyzeCrawlers()）。
+ * 其余情况（探测 200、超时/错误/被安全策略跳过、robots.txt 缺省、robots Disallow）
+ * 一律保持原分不变。
+ *
  * SSRF：目标 URL 来自不可信用户输入。入场校验、robots.txt / 首页 HTML 抓取（含每一次
  * redirect）、8 次 UA 探测全部走同一套 checkTargetSafety()（仅 http/https、仅 80/443、
  * 禁凭据、禁 localhost / 私网 / 链路本地 / metadata / IPv6 私有段、域名必须经公共 DoH
@@ -32,6 +37,7 @@ import {
   checkTargetSafety,
   createDnsCache,
   type CrawlerAccessReport,
+  type CrawlerProbeResult,
   type DnsResolver,
   type RobotsAccess,
 } from "../../lib/crawler-access";
@@ -121,7 +127,7 @@ const JSON_HEADERS = {
 } as const;
 
 const SCORE = {
-  crawlers: { max: 40, perBot: 10, unknownPoints: 5 },
+  crawlers: { max: 40, perBot: 10, unknownPoints: 5, executionBlockedPoints: 5 },
   structuredData: { max: 30 },
   content: { max: 30 },
 } as const;
@@ -512,10 +518,37 @@ function extractBodyText(html: string): string {
 
 /* ==================== 维度分析 ==================== */
 
-function analyzeCrawlers(url: URL, robots: FetchOutcome): CrawlersDimension {
+/**
+ * 爬虫访问维度（满分 40 = 4 个爬虫 × 10）。
+ *
+ * 两层判定：
+ *  1. **声明层**：解析 robots.txt（allow / disallow / 缺省）；
+ *  2. **执行层修正**：若 Crawler Access Test 对该爬虫的 HTTP UA 探测结果为「明确被拒绝」
+ *     （403 / 401 / 451 → Blocked），且声明层是放行（allow 或未声明），则本爬虫
+ *     由 perBot(10) 降为 executionBlockedPoints(5) —— 只扣 5 分，不降为 0。
+ *
+ * 不参与修正的情况（保持原分）：
+ *  - 该爬虫没有探测数据（如 Bytespider 不在 8 个探测目标内）；
+ *  - 探测不可用（Timeout / Error / 被 SSRF 安全策略跳过）—— 不能把工具侧失败算到站点头上；
+ *  - robots.txt 不存在（unknown = 5 分）：探测成功也不加分、被拒也不扣分；
+ *  - robots.txt 明确 Disallow（0 分）：HTTP 探测为 200 也不加分，仅由 Crawler Access Test
+ *    标记为「配置冲突」。
+ */
+function analyzeCrawlers(
+  url: URL,
+  robots: FetchOutcome,
+  crawlerAccess?: CrawlerAccessReport
+): CrawlersDimension {
   const robotsUrl = `${url.origin}/robots.txt`;
-  const { max, perBot, unknownPoints } = SCORE.crawlers;
+  const { max, perBot, unknownPoints, executionBlockedPoints } = SCORE.crawlers;
   const groups = robots.found ? parseRobotsGroups(robots.text) : [];
+
+  // 执行层探测结果（按 crawler key 对齐；key 见 lib/crawler-access.ts 的 CRAWLER_TARGETS）
+  const probes = new Map<string, CrawlerProbeResult>(
+    (crawlerAccess?.results ?? []).map((r) => [r.key, r])
+  );
+
+  let executionBlockedCount = 0;
 
   const bots: BotCheck[] = AI_BOTS.map((bot) => {
     if (robots.error) {
@@ -539,13 +572,30 @@ function analyzeCrawlers(url: URL, robots: FetchOutcome): CrawlersDimension {
       };
     }
     const resolved = resolveBotAccess(groups, bot.name);
+    const baseRule = resolved.rule;
+    const basePoints = resolved.status === "allowed" ? perBot : 0;
+
+    // 执行层修正：声明放行（含未声明）+ 实际探测被明确拒绝 → 扣 5 分
+    const probe = probes.get(bot.key);
+    if (resolved.status === "allowed" && probe?.httpResult === "Blocked") {
+      executionBlockedCount += 1;
+      return {
+        key: bot.key,
+        name: bot.name,
+        vendor: bot.vendor,
+        status: "allowed",
+        rule: `${baseRule}；但实际 HTTP UA 探测被拒绝（HTTP ${probe.httpStatus}）——声明层放行、执行层拦截，已按执行层修正扣分`,
+        points: executionBlockedPoints,
+      };
+    }
+
     return {
       key: bot.key,
       name: bot.name,
       vendor: bot.vendor,
       status: resolved.status,
-      rule: resolved.rule,
-      points: resolved.status === "allowed" ? perBot : 0,
+      rule: baseRule,
+      points: basePoints,
     };
   });
 
@@ -563,6 +613,9 @@ function analyzeCrawlers(url: URL, robots: FetchOutcome): CrawlersDimension {
   } else if (blockedCount > 0) {
     status = "warning";
     note = `${blockedCount} 个 AI 爬虫被 robots.txt 拦截`;
+  } else if (executionBlockedCount > 0) {
+    status = "warning";
+    note = `${executionBlockedCount} 个爬虫的 robots.txt 声明与实际访问不一致：实际 HTTP UA 探测被拒绝（已按执行层修正扣分）`;
   } else {
     status = "pass";
     note = "主流 AI 爬虫全部放行";
@@ -915,7 +968,7 @@ export const POST: APIRoute = async ({ request }) => {
     crawlerAccessPromise,
   ]);
 
-  const crawlers = analyzeCrawlers(url, robots);
+  const crawlers = analyzeCrawlers(url, robots, crawlerAccess);
   const structuredData = analyzeStructuredData(html);
   const content = analyzeContent(html);
   const dimensions = { crawlers, structuredData, content };
