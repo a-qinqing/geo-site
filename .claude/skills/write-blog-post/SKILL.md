@@ -99,21 +99,33 @@ Report back: article title and slug, build status, commit hash, live URL `https:
 
 ---
 
-## CTA Template (current site version — use exactly this)
+## CTA 规则（当前站点口径｜2026-09-22 更新）
+
+**CTA 目标按 Search Intent 与用户阶段选择，不强制 `/contact`**（完整规则表见 `.claude/skills/geo-day-content/SKILL.md` 的「CTA」段，两处口径一致）：
+
+- 信息 / 问题型 → 相关工具（`/tool`）、相关旧文、GEO Audit（`/services/geo-audit`）
+- 诊断型 → `/tool` → `/services/geo-audit`
+- 商业意图 → `/services/geo-optimization` 或 `/contact`
+- 采购意图（外包 / 预算 / 验收）→ `/services/` 或 `/contact`
+- 研究 / 实验型 → 相关方法论与工具，不强制 `/contact`
+
+站点已验证的路径：**免费工具 → GEO 审计 → GEO 优化服务**（W1–W5 即此路径，无需回改）。
+
+### CTA 块结构（照此写，导语与目标链接按意图替换）
 
 ```markdown
 ## 📩 需要帮助？GEO 咨询团队可以为你做什么
 
-面对本周的变化，我们为 B2B 与专业技术品牌提供：
+<导语：时事文可用"面对本周的变化…"；常青文改写为与本文问题匹配的一句>
 
 - **服务项一**：一句话说明
 - **服务项二**：一句话说明
 - **服务项三**：一句话说明
 
-[联系我们，获取免费的 GEO 初步诊断 →](/contact)
+[<按意图选择的锚文本> →](<目标链接>)
 ```
 
-(Do NOT use the older "预约免费 15 分钟 GEO 咨询 + 微信" variant — it has been retired on the site.)
+**禁用**退役版"预约免费 15 分钟 GEO 咨询 + 微信"（站点已下线）。
 
 ---
 
