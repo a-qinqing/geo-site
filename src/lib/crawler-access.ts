@@ -67,6 +67,8 @@ export interface CrawlerProbeResult {
   message: string;
   /** 被安全策略跳过时的原因 */
   safetyReason: string | null;
+  /** 运行时报错原文（截断；用于排查 Workers / Node 等运行环境差异） */
+  errorDetail: string | null;
 }
 
 export interface CrawlerAccessSummary {
@@ -598,6 +600,8 @@ interface ProbeOutcome {
   finalUrl: string | null;
   redirects: number;
   safetyReason: string | null;
+  /** 运行时报错原文（截断，便于排查运行环境差异，如 Workers / Node 行为不同） */
+  errorDetail: string | null;
 }
 
 /** 单爬虫探测：跟随最多 maxRedirects 次跳转，每次跳转前重新校验目标 */
@@ -617,6 +621,7 @@ async function probeCrawler(
     finalUrl: null,
     redirects,
     safetyReason: reason,
+    errorDetail: null,
   });
 
   try {
@@ -659,6 +664,7 @@ async function probeCrawler(
             finalUrl: current.href,
             redirects,
             safetyReason: null,
+            errorDetail: "请求超时（超过探测超时上限）",
           };
         }
         return {
@@ -668,6 +674,7 @@ async function probeCrawler(
           finalUrl: current.href,
           redirects,
           safetyReason: null,
+          errorDetail: describeError(err),
         };
       }
       discardBody(res);
@@ -685,6 +692,7 @@ async function probeCrawler(
             finalUrl: current.href,
             redirects,
             safetyReason: "重定向响应未提供可校验的 Location，已停止跟随",
+            errorDetail: null,
           };
         }
         if (redirects >= limits.maxRedirects) {
@@ -695,6 +703,7 @@ async function probeCrawler(
             finalUrl: current.href,
             redirects,
             safetyReason: `超出最大跳转次数（${limits.maxRedirects}）`,
+            errorDetail: null,
           };
         }
         let next: URL;
@@ -708,6 +717,7 @@ async function probeCrawler(
             finalUrl: current.href,
             redirects,
             safetyReason: "重定向目标 URL 非法",
+            errorDetail: null,
           };
         }
         redirects += 1;
@@ -722,6 +732,7 @@ async function probeCrawler(
         finalUrl: current.href,
         redirects,
         safetyReason: null,
+        errorDetail: null,
       };
     }
   } finally {
@@ -790,6 +801,16 @@ function buildMessage(
               ? "重定向无法安全跟随"
               : "请求失败";
   return { message: `${detail}（HTTP ${httpStatus || "-"}，${httpResult}）。`, mismatch: false };
+}
+
+/** 把异常收敛成一行可读文本（截断 160 字符），避免把整栈信息带进 API 响应 */
+function describeError(err: unknown): string {
+  if (err instanceof Error) {
+    const cause = (err as { cause?: unknown }).cause;
+    const causeText = cause instanceof Error ? ` ← ${cause.message}` : "";
+    return `${err.name}: ${err.message}${causeText}`.slice(0, 160);
+  }
+  return String(err).slice(0, 160);
 }
 
 /** HTTP 结论的中文短标签（用于汇总句） */
@@ -884,7 +905,10 @@ export async function runCrawlerAccessTest(
   const timeoutMs = options.timeoutMs ?? PROBE_TIMEOUT_MS;
   const maxRedirects = options.maxRedirects ?? PROBE_MAX_REDIRECTS;
   const concurrency = options.concurrency ?? PROBE_CONCURRENCY;
-  const fetchImpl = options.fetchImpl ?? (fetch as FetchLike);
+  // 注意：必须用箭头函数包一层，把全局 fetch 作为**自由变量**调用。
+  // workerd（Cloudflare Workers）运行时下，把 fetch 存成对象属性后再以 obj.fetch(...) 形式调用
+  // 会抛异常（调用接收者不是全局对象），实测表现为 8 个爬虫全部瞬时 "Error"。
+  const fetchImpl: FetchLike = options.fetchImpl ?? ((input, init) => fetch(input, init));
   const resolveDns = options.resolveDns ?? defaultResolveDns;
 
   const base: Omit<CrawlerAccessReport, "note" | "summary" | "results"> = {
@@ -957,13 +981,14 @@ export async function runCrawlerAccessTest(
     };
   }
 
-  const errorOutcome = (safetyReason: string | null): ProbeOutcome => ({
+  const errorOutcome = (safetyReason: string | null, errorDetail: string | null = null): ProbeOutcome => ({
     httpStatus: 0,
     httpResult: safetyReason ? "Skipped" : "Error",
     httpResponseTimeMs: null,
     finalUrl: null,
     redirects: 0,
     safetyReason,
+    errorDetail,
   });
 
   // 1) robots.txt 声明层结论（由调用方注入，与 HTTP 探测并行准备）
@@ -981,7 +1006,7 @@ export async function runCrawlerAccessTest(
   const outcomes: ProbeOutcome[] = entrySafety.safe
     ? await mapWithConcurrency(CRAWLER_TARGETS, concurrency, (target) =>
         probeCrawler(target, startUrl, { fetchImpl, resolveDns: cachedResolve }, { timeoutMs, maxRedirects }).catch(
-          () => errorOutcome(null)
+          (err: unknown) => errorOutcome(null, describeError(err))
         )
       )
     : CRAWLER_TARGETS.map(() => errorOutcome(entrySafety.reason));
@@ -1010,6 +1035,7 @@ export async function runCrawlerAccessTest(
       mismatch,
       message,
       safetyReason: outcome.safetyReason,
+      errorDetail: outcome.errorDetail,
     };
   });
 
