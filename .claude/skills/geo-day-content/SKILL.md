@@ -139,8 +139,8 @@ git push origin main
 | Day | 标题 | 状态 | 线上 / commit |
 | --- | --- | --- | --- |
 | 1 | AI 说错了你的品牌信息：先分清四类错误，再按顺序修事实源 | ✅ 已发布 | https://www.geova.cn/blog/ai-brand-info-error/ ｜ `4edcaa0` |
-| 2 | AI 可见度对标：把 5 个竞品放进同一份提问集 | ⏳ 待执行 | — |
+| 2 | AI 可见度对标：把 5 个竞品放进同一份提问集 | 📝 已生成草稿（待发布） | `blog-drafts/ai-competitor-benchmark.md` ｜ `/blog/ai-competitor-benchmark/` |
 
-> 「执行今天」= 上表第一个 ⏳ 的 Day。
+> 「执行今天」= 上表第一个 ⏳ 的 Day（📝 表示草稿已生成、等「发布 Day X」）。
 
 **CTA 口径（2026-09-22 定为按 Intent 动态选择，不强制 `/contact`）**：Day 1 的 CTA 为「免费工具 `/tool` → 品牌事实源诊断 → `/contact`」，属**已发布的版本，不回改**；若后续判定需要统一口径，再单独决定。
