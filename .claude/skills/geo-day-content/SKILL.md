@@ -139,7 +139,8 @@ git push origin main
 | Day | 标题 | 状态 | 线上 / commit |
 | --- | --- | --- | --- |
 | 1 | AI 说错了你的品牌信息：先分清四类错误，再按顺序修事实源 | ✅ 已发布 | https://www.geova.cn/blog/ai-brand-info-error/ ｜ `4edcaa0` |
-| 2 | AI 可见度对标：把 5 个竞品放进同一份提问集 | 📝 已生成草稿（待发布） | `blog-drafts/ai-competitor-benchmark.md` ｜ `/blog/ai-competitor-benchmark/` |
+| 2 | AI 可见度对标：把 5 个竞品放进同一份提问集 | ✅ 已发布 | https://www.geova.cn/blog/ai-competitor-benchmark/ ｜ `97fff3d` |
+| 3 | AI 搜索流量不转化：先分清三种「AI 访问」再谈优化 | ⏳ 待执行 | — |
 
 > 「执行今天」= 上表第一个 ⏳ 的 Day（📝 表示草稿已生成、等「发布 Day X」）。
 
