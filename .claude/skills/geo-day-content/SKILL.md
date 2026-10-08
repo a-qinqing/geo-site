@@ -143,6 +143,7 @@ git push origin main
 | 3 | AI 搜索流量不转化：先分清三种「AI 访问」再谈优化 | ✅ 已发布 | https://www.geova.cn/blog/ai-search-conversion-rate/ ｜ `96230f3` |
 | 4 | 网站改版或域名迁移后 AI 引用掉了：5 个断点排查 | ✅ 已发布 | https://www.geova.cn/blog/ai-citations-drop-after-migration/ ｜ `f085ade` |
 | 5 | 中英文站点：为什么只有一边进得了 AI 答案 | ✅ 已发布 | https://www.geova.cn/blog/bilingual-site-ai-visibility/ ｜ `bf47223` |
+| 6 | 搜自己品牌名，AI 答案里没有官网：品牌实体归属治理 | ✅ 已发布 | https://www.geova.cn/blog/brand-entity-ownership/ ｜ `342b666` |
 
 > 「执行今天」= 上表第一个 ⏳ 的 Day（📝 表示草稿已生成、等「发布 Day X」）。
 
