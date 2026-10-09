@@ -1,9 +1,10 @@
 # GEOVA Day 07 执行包｜你的产品叫法 AI 不认识：把内部术语映射成 AI 的词汇表
 
-- **状态**：📝 草稿已生成（未发布，等「发布 Day 7」）
+- **状态**：✅ 已发布（2026-10-09）
+- **线上**：https://www.geova.cn/blog/ai-terminology-mapping/ ｜ commit `61d9e98`
 - **日期**：2026-10-09
 - **计划来源**：`GEOVA_30天内容战略与选题规划.md` → 第五节 A 桶 Day 7（语义审查第十节 10.3 B 类「保留但需明确边界」；优先级 **P2**）
-- **发布用文件（canonical）**：`blog-drafts/ai-terminology-mapping.md`（含 frontmatter，可整体 mv 到 `src/content/blog/`）
+- **发布用文件（canonical）**：`src/content/blog/ai-terminology-mapping.md`（由 `blog-drafts/ai-terminology-mapping.md` mv 而来）
 - **本文件**：执行记录（审计 + 元信息 + 正文 + 清单 + 报告），正文与 canonical 文件逐字一致
 
 ---
@@ -310,7 +311,7 @@ Google 官方文档说明，AI Overviews 与 AI Mode 可能使用 query fan-out�
 GEOVA Day X 执行报告
 
 状态：
-✅ 完成（草稿已生成，未发布）
+✅ 完成（2026-10-09 已发布）
 
 标题：
 你的产品叫法 AI 不认识：把内部术语映射成 AI 的词汇表
@@ -349,12 +350,31 @@ Problem Solving × 词表层排障 → GEO 优化服务（/services/geo-optimiza
 建议核验 1 项 —— 主关键词「行业术语 AI 收录」不在库内（已检索 V2.2 全部 11 个工作表确认），标注「待 SERP 验证」，建议发布后用工具校准真实搜索量与用词变体
 
 文件：
-blog-drafts/ai-terminology-mapping.md（canonical，待发布）
+src/content/blog/ai-terminology-mapping.md（canonical，已发布）
 GEOVA_Day07_ai-terminology-mapping.md（本执行包）
 ```
 
 ---
 
-## 十一、发布记录
+## 十一、发布记录（2026-10-09）
 
-_（未发布。用户确认「发布 Day 7」后在此追加：mv → npx astro build → 校验 dist → commit → push → 线上复验。）_
+```text
+mv blog-drafts/ai-terminology-mapping.md → src/content/blog/ai-terminology-mapping.md
+npx astro build            # 本地验证：dist/blog/ai-terminology-mapping/index.html 生成，
+                           # sitemap-0.xml 含新 URL，Title / H1 / 10 个 H2 / BlogPosting + Person
+                           # + Organization + WebPage + BreadcrumbList Schema 渲染正确
+git commit 61d9e98         # feat(blog): publish ai-terminology-mapping (Day 7)
+git push origin main       # 2bd6108..61d9e98（经 http.proxy 127.0.0.1:7897）
+```
+
+线上复验（https://www.geova.cn/blog/ai-terminology-mapping/）：
+
+- 状态码 200（第 3 次轮询，Cloudflare Pages 自动部署完成）
+- Title / H1 一致；H2 数 10；Schema：BlogPosting · Person · Organization · WebPage · BreadcrumbList
+- canonical 正确；正文 0 处百分比断言；无任何草稿残留
+- 10 处内链全部可达：`/tool`、`/services/geo-optimization` 直返 200；
+  其余 8 条博客内链经站点既有的 308 尾斜杠重定向后均为 200
+
+**发布前额外动作**：§六 第一条的 Google 政策口径复核——多处独立来源一致引用官方生成式 AI 优化指南与 scaled content abuse 政策，措辞保留"可能"边界；Sources 表已同步更新。
+
+后续动作：`.claude/skills/geo-day-content/SKILL.md` 执行进度表已更新 Day 7 为 ✅。

@@ -144,6 +144,7 @@ git push origin main
 | 4 | 网站改版或域名迁移后 AI 引用掉了：5 个断点排查 | ✅ 已发布 | https://www.geova.cn/blog/ai-citations-drop-after-migration/ ｜ `f085ade` |
 | 5 | 中英文站点：为什么只有一边进得了 AI 答案 | ✅ 已发布 | https://www.geova.cn/blog/bilingual-site-ai-visibility/ ｜ `bf47223` |
 | 6 | 搜自己品牌名，AI 答案里没有官网：品牌实体归属治理 | ✅ 已发布 | https://www.geova.cn/blog/brand-entity-ownership/ ｜ `342b666` |
+| 7 | 你的产品叫法 AI 不认识：把内部术语映射成 AI 的词汇表 | ✅ 已发布 | https://www.geova.cn/blog/ai-terminology-mapping/ ｜ `61d9e98` |
 
 > 「执行今天」= 上表第一个 ⏳ 的 Day（📝 表示草稿已生成、等「发布 Day X」）。
 
