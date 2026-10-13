@@ -145,6 +145,7 @@ git push origin main
 | 5 | 中英文站点：为什么只有一边进得了 AI 答案 | ✅ 已发布 | https://www.geova.cn/blog/bilingual-site-ai-visibility/ ｜ `bf47223` |
 | 6 | 搜自己品牌名，AI 答案里没有官网：品牌实体归属治理 | ✅ 已发布 | https://www.geova.cn/blog/brand-entity-ownership/ ｜ `342b666` |
 | 7 | 你的产品叫法 AI 不认识：把内部术语映射成 AI 的词汇表 | ✅ 已发布 | https://www.geova.cn/blog/ai-terminology-mapping/ ｜ `61d9e98` |
+| 8 | B2B 企业做 GEO：采购决策链上有 4 种提问，分别归谁管 | ✅ 已发布 | https://www.geova.cn/blog/b2b-geo-optimization/ ｜ `1c609fe` |
 
 > 「执行今天」= 上表第一个 ⏳ 的 Day（📝 表示草稿已生成、等「发布 Day X」）。
 
