@@ -437,4 +437,15 @@ Commercial Investigation × 大规模站点 → GEO 审计（/services/geo-audit
 
 ### 线上复验
 
-（推送后立即轮询 `https://www.geova.cn/blog/large-site-geo-priority/` 至 200，复验标题 / H2 数 / Schema / 内链可达性，结果记于此。）
+| 检查项 | 结果 |
+| --- | --- |
+| 线上状态码 | `https://www.geova.cn/blog/large-site-geo-priority/` → **200**（推送后约 2 分钟内可达；Cloudflare Pages git 集成自动构建部署，不需手动上传 dist） |
+| 标题 / H1 | `<title>` = 大规模站点 GEO：上万页里，先改哪 100 页？ ｜ GEO 咨询；H1 唯一且与 Title 一致 |
+| H2 数 | **11**（TL;DR + 7 编号章节 + 行动清单 + 结语 + CTA 块），与本地构建一致 |
+| Canonical / Schema | canonical = `https://www.geova.cn/blog/large-site-geo-priority/`；Schema = `BlogPosting / BreadcrumbList / ListItem / Organization / Person / WebPage`，与 Day 9 页面逐项一致 |
+| Meta Description | 138 字，线上渲染正常 |
+| 结构完整性 | TL;DR / 行动清单 / 结语 / CTA 块均在线上 HTML 中存在；无草稿残留词 |
+| 内链可达 | 文章 11 个内链目标线上逐一复验：`/tool` **200**、`/services/geo-audit` **200**、其余博客内链 **308 → 200**（无尾斜杠写法由站点 308 跳转到带斜杠规范 URL，符合站内既有约定）；对照用的不存在路径 `/blog/nonexistent-check` 返回 **404**，说明该探测能区分真假 404 |
+| CTA 目标 | 线上 CTA 块内 `/tool` 与 `/services/geo-audit` 均存在且可达 |
+
+**复验口径说明**：本机直连 geova.cn 失败（curl 返回 000），线上复验统一经本地代理 `curl -x http://127.0.0.1:7897` 完成；个别请求出现偶发 000（连接失败），已重试确认，非 404。
