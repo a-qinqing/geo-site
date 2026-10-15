@@ -147,6 +147,7 @@ git push origin main
 | 7 | 你的产品叫法 AI 不认识：把内部术语映射成 AI 的词汇表 | ✅ 已发布 | https://www.geova.cn/blog/ai-terminology-mapping/ ｜ `61d9e98` |
 | 8 | B2B 企业做 GEO：采购决策链上有 4 种提问，分别归谁管 | ✅ 已发布 | https://www.geova.cn/blog/b2b-geo-optimization/ ｜ `1c609fe` |
 | 9 | 出海企业 GEO：英文站与中文站，应该分开做吗？ | ✅ 已发布 | https://www.geova.cn/blog/geo-for-overseas-brands/ ｜ `32899ec` |
+| 10 | 大规模站点 GEO：上万页里，先改哪 100 页？ | ✅ 已发布 | https://www.geova.cn/blog/large-site-geo-priority/ ｜ `f491bf8` |
 
 > 「执行今天」= 上表第一个 ⏳ 的 Day（📝 表示草稿已生成、等「发布 Day X」）。
 
