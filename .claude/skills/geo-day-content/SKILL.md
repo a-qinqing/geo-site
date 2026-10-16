@@ -148,6 +148,7 @@ git push origin main
 | 8 | B2B 企业做 GEO：采购决策链上有 4 种提问，分别归谁管 | ✅ 已发布 | https://www.geova.cn/blog/b2b-geo-optimization/ ｜ `1c609fe` |
 | 9 | 出海企业 GEO：英文站与中文站，应该分开做吗？ | ✅ 已发布 | https://www.geova.cn/blog/geo-for-overseas-brands/ ｜ `32899ec` |
 | 10 | 大规模站点 GEO：上万页里，先改哪 100 页？ | ✅ 已发布 | https://www.geova.cn/blog/large-site-geo-priority/ ｜ `f491bf8` |
+| 11 | 企业官网的 GEO 交接：市场部与 IT 各负责哪一半 | ✅ 已发布 | https://www.geova.cn/blog/enterprise-geo-handoff/ ｜ `b322e70` |
 
 > 「执行今天」= 上表第一个 ⏳ 的 Day（📝 表示草稿已生成、等「发布 Day X」）。
 
