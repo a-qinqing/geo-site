@@ -1,6 +1,6 @@
 ---
 title: "想被 AI 引用，先看懂六大模型的官方规则：国内外前三 AI 机制拆解与 2026 GEO 终局方案"
-description: "国外前三（ChatGPT、Gemini、Claude）与国内前三（豆包、千问、DeepSeek）的官方收录与引用机制逐项拆解：OpenAI 官方爬虫分工、Google 官方辟谣 llms.txt、Anthropic 三爬虫体系、豆包四层信源金字塔、千问引证核验、DeepSeek 联网触发率——附六大引擎对比表与『先做对官方规则，再做对内容』的 GEO 最终行动方案，全部基于官方文档口径。"
+description: "AI 引用规则不透明，内容做了却不被引用？本文拆国外前三（ChatGPT、Gemini、Claude）与国内前三（豆包、千问、DeepSeek）官方收录与引用机制：爬虫分工、llms.txt 辟谣、信源金字塔、联网触发率，附六大引擎对比表。文末有官方规则自测清单，先做对规则，再做对内容。"
 pubDate: 2026-08-26
 category: "GEO 指南"
 tags: ["GEO", "AI搜索", "ChatGPT", "Gemini", "Claude", "豆包", "千问", "DeepSeek", "官方文档", "引用机制", "2026趋势"]

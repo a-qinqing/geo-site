@@ -1,6 +1,6 @@
 ---
 title: "Gemini Flash 三周一换：AI 引用波动，先查模型版本再改内容"
-description: "9/2 Google 发布 Gemini 3.8 Flash 当天进入 AI Mode——AI Mode 底层模型进入\"三周一换\"常态，AI 引用波动很可能是模型换代噪声而非站点问题；同日 Mueller 炮轰 sitemap 时间戳技巧、Lily Ray 实测 69% 概率 AI 无视你的\"自评第一\"。观测怎么标版本、内容怎么做才不被 AI 无视，一文说清。"
+description: "AI 引用波动原因，先别急着改内容——很可能只是模型又换代了。本文拆解 Gemini Flash「三周一换」带来的观测噪声，告诉你巡检记录为什么要标模型版本、69% 的「自评第一」为什么被 AI 无视，并给出可复现的复测口径与行动清单。文末附模型版本记录模板，照着做就能少走弯路。"
 pubDate: 2026-09-03
 category: "行业动态"
 tags: ["GEO", "AI搜索", "AI Mode", "Gemini", "内容策略"]

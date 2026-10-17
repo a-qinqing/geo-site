@@ -1,6 +1,6 @@
 ---
 title: "什么是 GEO？生成式引擎优化的完整指南"
-description: "深入了解生成式引擎优化（Generative Engine Optimization）的核心概念、与 SEO 的区别，以及为什么你的企业在 AI 时代需要它。"
+description: "什么是 GEO？简单说，就是让品牌成为 AI 答案里的证据来源，而不是被 AI 忽略的旁观者。本文用大白话讲清 GEO 与 SEO 的区别、五大支柱与起步顺序，附企业自测清单与常见误区。文末提供免费诊断工具入口，30 秒看懂你的品牌在 AI 搜索中的提及率与基础健康度。"
 pubDate: 2026-08-01
 category: "GEO 基础"
 tags: ["GEO", "AI搜索", "入门指南"]
