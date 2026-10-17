@@ -79,4 +79,4 @@ author: "GEO 咨询团队"
 
 GEO 转型是一个旅程，不是目的地。重要的是现在就开始行动。
 
-如果不想把第一步走成“全面重写”，可以先从 <a href="/services/geo-optimization">GEO 优化服务</a> 的基线评估开始——先看清差距，再决定改造顺序。
+如果不想把第一步走成“全面重写”，可以先从 <a href="/services/geo-optimization">GEO 优化服务</a> 的基线评估开始——先看清差距，再决定改造顺序。如果转型的起点是现有 SEO 基础不清，先做一次 [SEO 全站诊断](/services/seo-audit) 会更快定位技术债。

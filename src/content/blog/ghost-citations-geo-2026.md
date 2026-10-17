@@ -132,6 +132,8 @@ image: "/images/blog/ghost-citations.png"
 
 动手之前，先用 <a href="/tool">GEO 站点健康度诊断工具</a> 检查 AI 爬虫通道、结构化数据与正文可读性——幽灵引用往往不是内容不够好，而是证据没有被 AI 读到、读对。
 
+如果要把幽灵引用审计、品牌锚定改写和跨平台监测做成一套持续流程，可以看 [GEO 优化服务](/services/geo-optimization) 的交付范围。
+
 ---
 
 ## 📩 需要帮助？GEO 咨询团队可以为你做什么
