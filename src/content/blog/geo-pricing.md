@@ -176,6 +176,17 @@ GEO 的价格是范围与深度的价格；周期是“哪一层先通、哪一�
 
 ---
 
+<div style="margin: 2.5rem 0 0; padding: 1.6rem 1.8rem; border: 1px solid #a7f3d0; border-radius: 1.1rem; background: linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 55%, #fffbeb 100%); box-shadow: 0 10px 30px rgba(16,185,129,0.12);">
+  <p style="margin: 0 0 .8rem; font-size: 1.15rem; font-weight: 800; color: #065f46; line-height: 1.5;">🏷️ 拿不准该为 GEO 优化编排多少预算？</p>
+  <p style="margin: 0 0 1rem; color: #334155; line-height: 1.85;">在生成式引擎（GEO）优化领域，任何不看站点规模、不测品牌当前 AI 提及率的“一口价盲目报价”，都是不负责任的。为了帮您在内部最快通过立项、拿到合理的预算审批，我们为您提供预算对标支持。</p>
+  <p style="margin: 0 0 1rem; font-size: 1.05rem; font-weight: 700; color: #047857;">👉 加微信：<code style="background: #d1fae5; color: #065f46; padding: .15rem .5rem; border-radius: .4rem; font-size: 1.05rem; font-weight: 800; letter-spacing: .02em;">q1404929834</code>，备注暗号【预算表】</p>
+  <ul style="margin: 0 0 1rem; padding-left: 1.3rem; color: #334155; line-height: 1.85; list-style: disc;">
+    <li style="margin-bottom: .65rem;"><strong style="color: #065f46;">福利 1：</strong>立即获取由 10 年 SEO 顾问精编的《2026 企业 GEO/SEO 落地预算测算与 ROI 评估模板（Excel 版）》，可直接作为您向老板汇报的立项附件。</li>
+    <li><strong style="color: #065f46;">福利 2：</strong>工作日限定前 5 位添加的企业主，主理人将基于您的官网，在线提供一份“按您当前规模，最合理的 GEO 阶梯式投入预算建议”，帮您在核算成本时少踩大坑。</li>
+  </ul>
+  <p style="margin: 0; padding-top: .85rem; border-top: 1px solid #a7f3d0; color: #64748b; font-size: .9rem; line-height: 1.75;">⚠️ 提示：为了保障咨询质量，我们每日仅接待 3 位深度业务交流。添加时请备注您的“公司官网”，我们会提前为您做基础排查。</p>
+</div>
+
 ## 📩 需要帮助？GEO 咨询团队可以为你做什么
 
 正在比较 GEO 报价，或想确定从哪一层开始？
