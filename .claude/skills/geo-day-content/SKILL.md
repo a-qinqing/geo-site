@@ -149,6 +149,7 @@ git push origin main
 | 9 | 出海企业 GEO：英文站与中文站，应该分开做吗？ | ✅ 已发布 | https://www.geova.cn/blog/geo-for-overseas-brands/ ｜ `32899ec` |
 | 10 | 大规模站点 GEO：上万页里，先改哪 100 页？ | ✅ 已发布 | https://www.geova.cn/blog/large-site-geo-priority/ ｜ `f491bf8` |
 | 11 | 企业官网的 GEO 交接：市场部与 IT 各负责哪一半 | ✅ 已发布 | https://www.geova.cn/blog/enterprise-geo-handoff/ ｜ `b322e70` |
+| 12 | GEO 优化多少钱、多久见效：把报价单拆开给你看 | ✅ 已发布 | https://www.geova.cn/blog/geo-pricing/ ｜ `925feae` |
 
 > 「执行今天」= 上表第一个 ⏳ 的 Day（📝 表示草稿已生成、等「发布 Day X」）。
 
