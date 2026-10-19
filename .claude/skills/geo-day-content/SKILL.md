@@ -151,6 +151,7 @@ git push origin main
 | 11 | 企业官网的 GEO 交接：市场部与 IT 各负责哪一半 | ✅ 已发布 | https://www.geova.cn/blog/enterprise-geo-handoff/ ｜ `b322e70` |
 | 12 | GEO 优化多少钱、多久见效：把报价单拆开给你看 | ✅ 已发布 | https://www.geova.cn/blog/geo-pricing/ ｜ `925feae` |
 | 13 | GEO 外包的需求与验收：给代理商的 brief 与验收清单 | ✅ 已发布 | https://www.geova.cn/blog/geo-outsourcing-brief/ ｜ `6b91155` |
+| 14 | 排名第一也不被引用：把「SEO 已达标」和「AI 可引用」两套条件分开查 | ✅ 已发布 | https://www.geova.cn/blog/seo-ranking-ai-citation/ ｜ `4da967e` |
 
 > 「执行今天」= 上表第一个 ⏳ 的 Day（📝 表示草稿已生成、等「发布 Day X」）。
 
