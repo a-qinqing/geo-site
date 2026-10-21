@@ -153,6 +153,7 @@ git push origin main
 | 13 | GEO 外包的需求与验收：给代理商的 brief 与验收清单 | ✅ 已发布 | https://www.geova.cn/blog/geo-outsourcing-brief/ ｜ `6b91155` |
 | 14 | 排名第一也不被引用：把「SEO 已达标」和「AI 可引用」两套条件分开查 | ✅ 已发布 | https://www.geova.cn/blog/seo-ranking-ai-citation/ ｜ `4da967e` |
 | 15 | SEO 审计如何加 GEO 检查项：把 AI 抓取与引用纳入技术审计 | ✅ 已发布 | https://www.geova.cn/blog/seo-audit-geo-checklist/ ｜ `25399b9` |
+| 18 | AI 抓不到、也读不懂：robots.txt、CDN/WAF 与 JS 渲染排查 | ✅ 已发布 | https://www.geova.cn/blog/ai-crawlers/ ｜ `03380c2` |
 
 > 「执行今天」= 上表第一个 ⏳ 的 Day（📝 表示草稿已生成、等「发布 Day X」）。
 
