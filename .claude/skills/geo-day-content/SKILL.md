@@ -154,6 +154,7 @@ git push origin main
 | 14 | 排名第一也不被引用：把「SEO 已达标」和「AI 可引用」两套条件分开查 | ✅ 已发布 | https://www.geova.cn/blog/seo-ranking-ai-citation/ ｜ `4da967e` |
 | 15 | SEO 审计如何加 GEO 检查项：把 AI 抓取与引用纳入技术审计 | ✅ 已发布 | https://www.geova.cn/blog/seo-audit-geo-checklist/ ｜ `25399b9` |
 | 18 | AI 抓不到、也读不懂：robots.txt、CDN/WAF 与 JS 渲染排查 | ✅ 已发布 | https://www.geova.cn/blog/ai-crawlers/ ｜ `03380c2` |
+| 22 | AI Mode 是什么：不是更大的 AI Overviews，而是另一种搜索入口 | ✅ 已发布 | https://www.geova.cn/blog/google-ai-mode/ ｜ `ba6497c` |
 
 > 「执行今天」= 上表第一个 ⏳ 的 Day（📝 表示草稿已生成、等「发布 Day X」）。
 
