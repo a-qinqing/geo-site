@@ -1,6 +1,6 @@
 # GEOVA Day 22 执行包｜AI Mode 是什么：不是更大的 AI Overviews，而是另一种搜索入口
 
-> 状态：📝 已生成，未发布（等待「发布 Day 22」）
+> 状态：✅ 已发布（2026-10-22）
 > 生成日期：2026-10-22
 
 ## 一、Pre-Writing Audit
@@ -336,7 +336,7 @@ AI Mode 带来的变化，不是“又多了一个要讨好的平台”。它把
 GEOVA Day 22 执行报告
 
 状态：
-✅ 完成（已生成，未发布）
+✅ 已发布（2026-10-22）
 
 标题：
 AI Mode 是什么：不是更大的 AI Overviews，而是另一种搜索入口
@@ -373,19 +373,27 @@ CTA：
 建议发布前复核 Google 官方文档与 Ahrefs 研究链接是否仍可访问；AI Mode 产品迭代较快，发布时间若晚于 2026-10 较久，需重核 I/O 2026 数据与默认模型口径。
 
 文件：
-blog-drafts/google-ai-mode.md
+src/content/blog/google-ai-mode.md
 GEOVA_Day22_google-ai-mode.md
 ```
 
 ---
 
-## 十一、发布前待办（未执行）
+## 十一、发布与线上验证
 
-- [ ] 用户确认「发布 Day 22」
-- [ ] `mv blog-drafts/google-ai-mode.md src/content/blog/google-ai-mode.md`
-- [ ] `npx astro build`（不要用 `npm run build`，避免 postbuild 提前向 IndexNow 外发）
-- [ ] 核对 `dist/blog/google-ai-mode/index.html`、`dist/sitemap-0.xml`、Title/H1/Schema 与内链
-- [ ] `git add src/content/blog/google-ai-mode.md` → `git commit -m "feat(blog): publish google-ai-mode (Day 22)"` → `git push origin main`
-- [ ] 轮询 `https://www.geova.cn/blog/google-ai-mode/` 至 200，复验标题/H2/Schema/内链
-- [ ] 更新 `.claude/skills/geo-day-content/SKILL.md` 进度表并提交 `chore(content): mark Day 22 published in geo-day-content progress table`
-- [ ] 发布后清理 `blog-drafts/google-ai-mode.md`（若仍存在）
+| 项 | 结果 |
+| --- | --- |
+| 发布提交 | `ba6497c` feat(blog): publish google-ai-mode (Day 22) |
+| 进度表提交 | `36dd2a9` chore(content): mark Day 22 published in geo-day-content progress table |
+| 构建 | `npx astro build` 通过；`dist/blog/google-ai-mode/index.html` 生成 |
+| 本地产物 | Title / H1 / 10 个 H2 / canonical 正确；BlogPosting、BreadcrumbList、Organization 均存在；`dist/sitemap-0.xml` 含新 URL |
+| 线上 URL | https://www.geova.cn/blog/google-ai-mode/ ｜ 2026-10-22 19:47 返回 200（经代理复验） |
+| 线上 Title / H1 | 与 frontmatter 一致 |
+| 线上 H2 数 | 10 |
+| 线上 canonical | `https://www.geova.cn/blog/google-ai-mode/` |
+| 线上 Schema | BlogPosting、BreadcrumbList、Organization |
+| 线上 sitemap | `sitemap-0.xml` 已含 `/blog/google-ai-mode/` |
+| 内链复验 | 8 个正文/CTA 目标全部返回 200：chatgpt-optimization、geo-2026-08-26-ai-citation-guide、geo-daily-2026-08-31、how-to-get-cited-by-ai、geo-daily-2026-09-01、ai-mode-model-churn-guide、/tool、/services/seo-audit |
+| 未清理标记 | 线上 HTML 扫描未发现任何标记词 |
+
+发布后 `blog-drafts/google-ai-mode.md` 已随 `mv` 移入 `src/content/blog/google-ai-mode.md`，无遗留文件。
