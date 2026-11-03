@@ -157,6 +157,7 @@ git push origin main
 | 17 | 内链与实体：把 SEO 内链策略升级到 AI 可理解的实体层 | ✅ 已发布 | https://www.geova.cn/blog/internal-links-ai-crawling/ ｜ `78b2cd1` |
 | 18 | AI 抓不到、也读不懂：robots.txt、CDN/WAF 与 JS 渲染排查 | ✅ 已发布 | https://www.geova.cn/blog/ai-crawlers/ ｜ `03380c2` |
 | 19 | canonical、noindex、hreflang：三个自己挡 AI 的设置 | ✅ 已发布 | https://www.geova.cn/blog/canonical-noindex-hreflang/ ｜ `0b9c627` |
+| 20 | llms.txt 到底要不要做：官方口径、可验证收益与替代方案 | ✅ 已发布 | https://www.geova.cn/blog/llms-txt-decision/ ｜ `d5c8a3f` |
 | 22 | AI Mode 是什么：不是更大的 AI Overviews，而是另一种搜索入口 | ✅ 已发布 | https://www.geova.cn/blog/google-ai-mode/ ｜ `ba6497c` |
 | 29 | GEOVA GEO 框架 1.0：抓取 → 采信 → 摘录 → 推荐 | ✅ 已发布 | https://www.geova.cn/blog/geo-framework/ ｜ `1b65fe6` |
 
