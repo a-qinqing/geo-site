@@ -160,6 +160,7 @@ git push origin main
 | 20 | llms.txt 到底要不要做：官方口径、可验证收益与替代方案 | ✅ 已发布 | https://www.geova.cn/blog/llms-txt-decision/ ｜ `d5c8a3f` |
 | 21 | ChatGPT vs Perplexity：同一个问题，两套引用风格 | ✅ 已发布 | https://www.geova.cn/blog/chatgpt-vs-perplexity-citation-style/ ｜ `19d7cd8` |
 | 22 | AI Mode 是什么：不是更大的 AI Overviews，而是另一种搜索入口 | ✅ 已发布 | https://www.geova.cn/blog/google-ai-mode/ ｜ `ba6497c` |
+| 23 | 国内 vs 海外 AI：同一套内容，为什么两头表现不同 | ✅ 已发布 | https://www.geova.cn/blog/domestic-vs-overseas-ai-visibility/ ｜ `10d7628` |
 | 29 | GEOVA GEO 框架 1.0：抓取 → 采信 → 摘录 → 推荐 | ✅ 已发布 | https://www.geova.cn/blog/geo-framework/ ｜ `1b65fe6` |
 
 > 「执行今天」= 上表第一个 ⏳ 的 Day（📝 表示草稿已生成、等「发布 Day X」）。
