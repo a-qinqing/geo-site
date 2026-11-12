@@ -17,6 +17,9 @@ const serviceSchema = buildServiceSchema({
   serviceType: "GEO 优化 / AI 搜索可见度优化 / AI 引用优化",
   description:
     "系统提升品牌在 ChatGPT、Perplexity、Google AI Overviews、Gemini 等 AI 引擎中的可见度、引用率与推荐率：从可见度基线评估、实体与结构化数据建设，到 AI 友好内容策略与多平台品牌信号。",
+  // 与页面「价格与周期」区块的公开起价保持一致（90 天启动计划 ¥28,000/季度）
+  offerPrice: 28000,
+  offerUnit: "季度",
 });
 
 // FAQ 结构化数据（与页面可见 FAQ 一致）
@@ -46,6 +49,14 @@ const faqSchema = {
       acceptedAnswer: {
         "@type": "Answer",
         text: "可以先用免费工具初步检测，或预约 15 分钟咨询了解现状。正式项目建议先做 GEO 人工审计建立基线——看清品牌在 AI 引擎中被提及、被引用的真实情况，再进入持续优化。",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "GEO 优化多少钱？价格包含什么？",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "三档公开报价：GEO 可见度诊断 ¥6,800/次（5 个工作日）；90 天启动计划 ¥28,000 起/季度（含诊断、技术整改清单、每月 4 篇内容、月度复测）；年度陪跑 ¥98,000/年（每年限 3 家）。诊断费在 30 天内转 90 天计划时可全额抵扣。价格不包含付费媒体投放、软文发稿采购、第三方工具订阅与网站开发改码。",
       },
     },
   ],
@@ -378,6 +389,103 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
     </div>
   </section>
 
+  <!-- 价格与周期 -->
+  <section class="py-20 md:py-28 bg-white" id="pricing">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-3">价格与周期</h2>
+        <p class="text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          价格公开写在下面，不用先填表再等报价。三档按介入深度划分，可只买第一档。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+
+        <!-- 诊断 -->
+        <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200 h-full flex flex-col">
+          <p class="text-xs font-semibold text-slate-500 tracking-wider mb-3">第一档 · 入口</p>
+          <h3 class="text-xl font-bold text-slate-900 mb-2">GEO 可见度诊断</h3>
+          <p class="text-3xl font-extrabold text-slate-900 mb-1">¥6,800<span class="text-sm font-medium text-slate-500"> / 次</span></p>
+          <p class="text-sm text-slate-500 mb-5">5 个工作日交付</p>
+          <ul class="text-sm text-slate-600 space-y-2.5 mb-6 flex-1">
+            <li class="flex gap-2"><span class="text-emerald-600 font-bold">·</span>固定问题集跨 5 个 AI 平台实测</li>
+            <li class="flex gap-2"><span class="text-emerald-600 font-bold">·</span>品牌被提及 / 被引用 / 被推荐的真实记录</li>
+            <li class="flex gap-2"><span class="text-emerald-600 font-bold">·</span>技术抓取与结构化数据检查</li>
+            <li class="flex gap-2"><span class="text-emerald-600 font-bold">·</span>按影响 × 可执行性排序的整改清单</li>
+            <li class="flex gap-2"><span class="text-emerald-600 font-bold">·</span>30 分钟线上解读</li>
+          </ul>
+          <a href="/contact/" data-cta-name="pricing_diagnosis" class="block text-center bg-slate-900 text-white font-semibold py-3 rounded-xl no-underline hover:bg-slate-800 transition-colors">
+            预约诊断
+          </a>
+        </div>
+
+        <!-- 90 天 -->
+        <div class="bg-gradient-to-br from-slate-900 to-blue-950 text-white rounded-2xl p-8 border-2 border-emerald-500 relative h-full flex flex-col shadow-xl shadow-slate-900/10">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full">多数客户从这里开始</span>
+          <p class="text-xs font-semibold text-emerald-300 tracking-wider mb-3">第二档 · 主力</p>
+          <h3 class="text-xl font-bold mb-2">90 天启动计划</h3>
+          <p class="text-3xl font-extrabold mb-1">¥28,000<span class="text-sm font-medium text-emerald-200"> 起 / 季</span></p>
+          <p class="text-sm text-emerald-200 mb-5">按季度签约，不绑年框</p>
+          <ul class="text-sm text-slate-200 space-y-2.5 mb-6 flex-1">
+            <li class="flex gap-2"><span class="text-emerald-400 font-bold">·</span>含第一档诊断全部内容</li>
+            <li class="flex gap-2"><span class="text-emerald-400 font-bold">·</span>技术整改清单 + 站长平台提交流程</li>
+            <li class="flex gap-2"><span class="text-emerald-400 font-bold">·</span>每月 4 篇 AI 友好内容（选题、写作、发布）</li>
+            <li class="flex gap-2"><span class="text-emerald-400 font-bold">·</span>实体与结构化数据落地</li>
+            <li class="flex gap-2"><span class="text-emerald-400 font-bold">·</span>月度复测报告（同一问题集、同一口径）</li>
+            <li class="flex gap-2"><span class="text-emerald-400 font-bold">·</span>随时可微信/邮件提问，48 小时内回复</li>
+          </ul>
+          <a href="/contact/" data-cta-name="pricing_90days" class="block text-center bg-emerald-500 text-white font-semibold py-3 rounded-xl no-underline hover:bg-emerald-400 transition-colors">
+            预约 15 分钟沟通
+          </a>
+        </div>
+
+        <!-- 年度 -->
+        <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200 h-full flex flex-col">
+          <p class="text-xs font-semibold text-slate-500 tracking-wider mb-3">第三档 · 长期</p>
+          <h3 class="text-xl font-bold text-slate-900 mb-2">年度陪跑</h3>
+          <p class="text-3xl font-extrabold text-slate-900 mb-1">¥98,000<span class="text-sm font-medium text-slate-500"> / 年</span></p>
+          <p class="text-sm text-slate-500 mb-5">每年只接 3 家</p>
+          <ul class="text-sm text-slate-600 space-y-2.5 mb-6 flex-1">
+            <li class="flex gap-2"><span class="text-emerald-600 font-bold">·</span>含 90 天计划全部内容，延长至 12 个月</li>
+            <li class="flex gap-2"><span class="text-emerald-600 font-bold">·</span>每季度一次深度复盘与策略调整</li>
+            <li class="flex gap-2"><span class="text-emerald-600 font-bold">·</span>内部团队答疑与工作流搭建</li>
+            <li class="flex gap-2"><span class="text-emerald-600 font-bold">·</span>重大改版 / 迁移前的可见度风险评估</li>
+            <li class="flex gap-2"><span class="text-emerald-600 font-bold">·</span>竞品 AI 可见度季度对标</li>
+          </ul>
+          <a href="/contact/" data-cta-name="pricing_annual" class="block text-center bg-slate-900 text-white font-semibold py-3 rounded-xl no-underline hover:bg-slate-800 transition-colors">
+            咨询名额
+          </a>
+        </div>
+      </div>
+
+      <!-- 价格说明 -->
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-6">
+          <h3 class="font-bold text-slate-900 mb-3 flex items-center gap-2">✅ 诊断费可全额抵扣</h3>
+          <p class="text-sm text-slate-700 leading-relaxed">
+            先做诊断（¥6,800），若 30 天内决定进入 90 天计划，<strong>诊断费全额抵扣</strong>。
+            也就是说：如果决定继续，这次诊断等于免费；如果决定不做，你也拿到了一份能自己执行的清单。
+          </p>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+          <h3 class="font-bold text-slate-900 mb-3 flex items-center gap-2">📋 价格包含与不包含</h3>
+          <p class="text-sm text-slate-700 leading-relaxed mb-2"><strong>包含：</strong>分析与策略、内容撰写与发布、技术整改指导、复测报告、线上答疑。</p>
+          <p class="text-sm text-slate-700 leading-relaxed"><strong>不包含：</strong>付费媒体投放、软文发稿采购、第三方工具订阅费、网站开发改代码（提供可直接交给开发的整改说明）。</p>
+        </div>
+      </div>
+
+      <!-- 不建议做的情形 -->
+      <div class="mt-6 bg-amber-50 border border-amber-200 rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-3">⚠️ 三种情况我会建议你不要做</h3>
+        <ul class="text-sm text-slate-700 space-y-2 leading-relaxed">
+          <li><strong>1. 网站连基础收录都有问题。</strong>先修抓取和索引，那属于 SEO 范畴，做 GEO 是浪费钱——我会直接告诉你先去做哪件事。</li>
+          <li><strong>2. 你的客户根本不用 AI 搜这类产品。</strong>B2B 大宗采购如果全靠线下关系，GEO 的边际收益很低，不如把预算放展会。</li>
+          <li><strong>3. 期望三个月内看到询盘翻倍。</strong>AI 引用是概率性输出，任何承诺"保证被推荐"的人都在骗你。我能承诺的是过程可验证，不是结果保证。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="py-20 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -413,6 +521,19 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
             或预约 15 分钟咨询了解现状。正式项目建议先做
             <a href="/services/geo-audit/" class="text-emerald-600 font-medium no-underline hover:underline">GEO 人工审计</a>
             建立基线——看清品牌在 AI 引擎中被提及、被引用的真实情况，再进入持续优化。
+          </p>
+        </details>
+        <details class="group bg-slate-50 rounded-xl border border-slate-200 p-6 hover:border-emerald-300 transition-colors">
+          <summary class="font-semibold text-slate-900 cursor-pointer list-none flex items-center justify-between">
+            GEO 优化多少钱？价格包含什么？
+            <span class="text-emerald-500 text-lg group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <p class="text-slate-600 mt-4 leading-relaxed text-sm">
+            三档公开报价：<strong>诊断 ¥6,800/次</strong>（5 个工作日）、<strong>90 天启动计划 ¥28,000 起/季</strong>
+            （含诊断、技术整改清单、每月 4 篇内容、月度复测）、<strong>年度陪跑 ¥98,000/年</strong>（每年限 3 家）。
+            诊断费在 30 天内转 90 天计划时可全额抵扣，详见
+            <a href="#pricing" class="text-emerald-600 font-medium no-underline hover:underline">价格与周期</a>。
+            价格不包含付费媒体投放、软文发稿采购、第三方工具订阅与网站开发改码。
           </p>
         </details>
       </div>

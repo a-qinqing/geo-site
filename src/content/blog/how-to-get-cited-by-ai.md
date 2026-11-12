@@ -113,7 +113,7 @@ author: "GEO 咨询团队"
 | **Perplexity** | 自建爬虫，引用密度在主流引擎中最高 | 社交源出清后（YouTube -88%、TikTok -72%），引用转向第一方与权威第三方 | 把产品页与文档页做成可摘录的事实页 |
 | **国内（豆包 / DeepSeek）** | 豆包走字节自建信源池；DeepSeek 走 Bing 系外部检索 | 两者机制相反，一套打法不通用 | 见站内国内引擎专文 |
 
-各引擎的官方规则逐项拆解见 [六大模型官方规则](/blog/geo-2026-08-26-ai-citation-guide)；国内两个引擎的机制差异见 [豆包 + DeepSeek 双引擎拆解](/blog/doubao-deepseek-domestic-geo-guide)。
+各引擎的官方规则逐项拆解见 [六大模型官方规则](/blog/geo-2026-08-26-ai-citation-guide)；国内两个引擎的机制差异见 [豆包 + DeepSeek 双引擎拆解](/blog/doubao-deepseek-domestic-geo-guide)。ChatGPT 这一栏尤其值得单独看——它已经不搜全网，而是按域名点名取数，站内拆过它的取数、域名与快照三道门：[ChatGPT 搜索优化](/blog/chatgpt-optimization)。
 
 这里有一个必须纠正的预期：**Google 官方明确说明，AI Overviews 和 AI Mode 与经典搜索共用同一个索引，不存在第二套“AI 排名”。** 所以“AI 优化”不是另起一套排名体系，而是在同一索引上追加三个条件——放行、可读懂、可摘录。
 

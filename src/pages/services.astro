@@ -18,6 +18,7 @@ const services = [
     summary:
       "人工 + 工具结合，四大维度（技术健康度 / 内容与关键词 / 外链与权威度 / 竞品对标）系统审计，交付分级问题清单与 3 个月执行路线图。",
     points: ["找到流量停滞的根本原因", "问题分级 + 修复优先级", "含竞品对标与执行路线图"],
+    price: "按项目报价",
   },
   {
     id: "geo-optimization",
@@ -29,6 +30,7 @@ const services = [
     summary:
       "从 AI 可见度基线评估、实体与结构化数据，到 AI 友好内容与品牌信号建设——系统提升品牌在 ChatGPT、Perplexity 等引擎中的可见度与引用率。",
     points: ["AI 引擎可见度基线 + 季度追踪", "实体 / 结构化数据落地", "AI 友好内容与引用优化"],
+    price: "¥28,000 起 / 季度",
   },
   {
     id: "geo-audit",
@@ -40,6 +42,7 @@ const services = [
     summary:
       "多引擎 × 固定问题集实测品牌被提及、被引用、被推荐的真实情况，叠加竞品对标与实体审查，交付可复测的可见度基线与执行路线图。",
     points: ["ChatGPT / Perplexity / Gemini 实测", "竞品 AI 可见度对照", "3 个月执行路线图"],
+    price: "¥6,800 / 次",
   },
   {
     id: "training",
@@ -51,6 +54,7 @@ const services = [
     summary:
       "企业内训、1v1 策略咨询、搜索优化工作流搭建与季度复盘——从认知、方法到工具链，帮团队建立可持续的搜索优化体系。",
     points: ["定制化内训课程", "工作流 SOP 与工具链", "季度策略复盘可选"],
+    price: "¥15,000 / 天",
   },
 ];
 
@@ -142,8 +146,8 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
 ---
 
 <Layout
-  title="SEO & GEO 服务 | GEO 咨询"
-  description="SEO 全站诊断、GEO 优化、GEO 审计与 AI 搜索诊断、团队培训顾问——从诊断到执行，覆盖传统搜索与 AI 搜索全链路。不清楚该选哪个？免费 15 分钟咨询帮你判断。"
+  title="SEO & GEO 服务与价格｜诊断 ¥6,800、优化 ¥28,000 起"
+  description="四类服务公开报价：GEO 审计诊断 ¥6,800/次、90 天优化计划 ¥28,000 起/季度、年度陪跑 ¥98,000/年、企业内训 ¥15,000/天，SEO 全站诊断按项目报价。不清楚该选哪个？15 分钟免费咨询帮你判断。"
 >
   <!-- Page Header -->
   <section class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-20 md:py-24">
@@ -188,6 +192,7 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
                   <p class={`text-sm font-medium mt-1 ${s.color === "blue" ? "text-blue-600" : s.color === "emerald" ? "text-emerald-600" : s.color === "violet" ? "text-violet-600" : "text-amber-600"}`}>
                     {s.tagline}
                   </p>
+                  <p class="text-sm font-bold text-slate-900 mt-2">{s.price}</p>
                 </div>
                 <div class="flex-1">
                   <p class="text-slate-600 leading-relaxed text-sm">{s.summary}</p>

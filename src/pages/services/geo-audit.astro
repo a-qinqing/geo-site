@@ -17,6 +17,9 @@ const serviceSchema = buildServiceSchema({
   serviceType: "GEO 审计 / GEO 网站诊断 / AI 搜索可见度诊断",
   description:
     "人工 GEO 深度诊断：在 ChatGPT、Perplexity、Gemini 等 AI 引擎中实测品牌被提及、被引用、被推荐的真实情况，叠加竞品对标、实体与内容审查，交付可见度基线报告与 3 个月执行路线图。",
+  // 与页面公开报价一致
+  offerPrice: 6800,
+  offerUnit: "次",
 });
 
 // 面包屑：可见 UI 与 BreadcrumbList JSON-LD 共用同一数据源
@@ -29,8 +32,8 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
 ---
 
 <Layout
-  title="GEO 审计与 AI 搜索诊断服务 | GEO 咨询"
-  description="GEO 审计（人工深度诊断）：实测品牌在 ChatGPT、Perplexity、Gemini 等 AI 引擎中被提及、被引用、被推荐的真实情况，叠加竞品对标与实体审查，交付 AI 搜索可见度基线报告与执行路线图。"
+  title="GEO 审计与 AI 搜索诊断：¥6,800 看清 AI 里谁在替你说话"
+  description="GEO 审计（人工深度诊断）¥6,800/次，5 个工作日交付：实测品牌在 ChatGPT、Perplexity、Gemini、豆包、DeepSeek 中被提及与被引用的真实情况，叠加竞品对标与实体审查，交付可见度基线报告与 3 个月执行路线图。"
 >
   <!-- Page Header -->
   <section class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-20 md:py-24">
@@ -358,6 +361,30 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
   <!-- 审计之后 -->
   <section class="py-16 bg-slate-50">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- 价格 -->
+      <div class="bg-white rounded-2xl p-8 border-2 border-violet-200 mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
+          <div>
+            <p class="text-xs font-semibold text-violet-600 tracking-wider mb-2">公开报价</p>
+            <h2 class="text-2xl font-bold text-slate-900">GEO 审计 · ¥6,800 / 次</h2>
+            <p class="text-sm text-slate-500 mt-1">5 个工作日交付，含 30 分钟线上解读</p>
+          </div>
+          <a href="/contact/" data-cta-name="pricing_audit" class="inline-flex items-center justify-center bg-violet-600 text-white font-semibold px-6 py-3 rounded-xl no-underline hover:bg-violet-700 transition-colors whitespace-nowrap">
+            预约审计
+          </a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm text-slate-600">
+          <p>✅ 固定问题集跨 5 个 AI 平台实测</p>
+          <p>✅ 品牌被提及 / 被引用 / 被推荐的真实记录</p>
+          <p>✅ 技术抓取与结构化数据检查</p>
+          <p>✅ 按影响 × 可执行性排序的整改清单</p>
+        </div>
+        <p class="text-sm text-slate-700 bg-violet-50 border border-violet-200 rounded-xl px-4 py-3 mt-5 leading-relaxed">
+          <strong>诊断费可抵扣：</strong>若 30 天内进入 90 天启动计划，¥6,800 全额抵扣，等于这次诊断免费。
+        </p>
+      </div>
+
       <div class="bg-white rounded-2xl p-8 border border-slate-200 text-center">
         <h2 class="text-xl font-bold text-slate-900 mb-3">审计之后，下一步是？</h2>
         <p class="text-slate-600 text-sm leading-relaxed mb-6 max-w-2xl mx-auto">

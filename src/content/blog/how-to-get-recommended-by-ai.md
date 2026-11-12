@@ -135,7 +135,7 @@ AI Mode 的购物与选品场景实测显示，它的“货架”不是从网页
 
 > 对企业的翻译：**平台数据层不在你官网的控制范围内。** 在这类问题里，能做的只有两件事——进入平台的数据体系（保证价格、库存、可用性、评价的可得与一致），或者接受自己在这类推荐题里不可见。把官网内容做到满分，也换不来平台货架上的一个位置。
 
-各引擎推荐题的证据来源并不相同，机制层面的逐条拆解见 [六大模型官方规则](/blog/geo-2026-08-26-ai-citation-guide) 与 [豆包 + DeepSeek 双引擎拆解](/blog/doubao-deepseek-domestic-geo-guide)。
+各引擎推荐题的证据来源并不相同，机制层面的逐条拆解见 [六大模型官方规则](/blog/geo-2026-08-26-ai-citation-guide) 与 [豆包 + DeepSeek 双引擎拆解](/blog/doubao-deepseek-domestic-geo-guide)。其中 ChatGPT 是"最品牌向"的引擎——电商类回答 99.3% 会提及品牌名，但它的引用最分散，站内单独拆过它怎么取数、怎么决定推荐谁：[ChatGPT 搜索优化](/blog/chatgpt-optimization)。
 
 ---
 

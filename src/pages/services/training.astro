@@ -17,6 +17,9 @@ const serviceSchema = buildServiceSchema({
   serviceType: "SEO/GEO 培训 / SEO 内训 / 搜索优化顾问",
   description:
     "面向企业与个人品牌的 SEO/GEO 培训与长期顾问服务：企业内训课程、1v1 策略咨询、搜索优化工作流搭建与季度策略复盘，帮助团队把搜索优化能力真正内建。",
+  // 企业内训公开起价（不含差旅与材料）
+  offerPrice: 15000,
+  offerUnit: "天",
 });
 
 // 面包屑：可见 UI 与 BreadcrumbList JSON-LD 共用同一数据源
@@ -29,8 +32,8 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
 ---
 
 <Layout
-  title="SEO/GEO 培训与团队顾问服务 | GEO 咨询"
-  description="GEO 培训 / SEO 培训，解决「外包做完不会复用、团队接不住」的问题：从企业内训、1v1 策略顾问到搜索优化工作流搭建与季度复盘，按你的团队基础定制课程与实操演练。文末可查看课程结构并预约诊断，先把能力建在团队里，再谈长期增长。"
+  title="SEO/GEO 内训与团队顾问：把搜索优化能力内建到团队"
+  description="GEO / SEO 企业内训 ¥15,000 起/天（两天连排 ¥28,000）：课前诊断团队现状、按你的站点定制课件、课堂当场拆解真实页面、课后 30 天书面答疑。另提供 1v1 策略顾问与搜索优化工作流搭建，把能力建在团队里，而不是永远依赖外包。"
 >
   <!-- Page Header -->
   <section class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-20 md:py-24">
@@ -167,6 +170,42 @@ const breadcrumbSchema = buildBreadcrumb(breadcrumbItems);
           <div class="flex flex-wrap gap-2 text-xs">
             <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full">季度节奏</span>
             <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full">数据复盘 + 策略调整</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 价格 -->
+      <div id="pricing" class="mt-12 bg-white rounded-2xl border border-amber-200 p-8 md:p-10">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-2">内训价格：¥15,000 / 天</h3>
+            <p class="text-slate-600 leading-relaxed text-sm max-w-2xl">
+              一天 6 小时，线上或线下；包含课前需求沟通、按团队现状定制的课件、课堂实战练习与课后 30 天的问答支持。
+              两天连排按 ¥28,000 计。差旅与场地费用另计。
+            </p>
+          </div>
+          <div class="shrink-0 text-left md:text-right">
+            <p class="text-3xl font-extrabold text-slate-900 mb-1">¥15,000<span class="text-sm font-medium text-slate-500"> / 天</span></p>
+            <p class="text-xs text-slate-500">不含差旅与场地</p>
+          </div>
+        </div>
+        <div class="mt-6 pt-6 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <div>
+            <h4 class="font-bold text-slate-900 mb-2">包含</h4>
+            <ul class="text-slate-600 space-y-1 leading-relaxed">
+              <li>· 课前 60 分钟需求沟通与团队现状诊断</li>
+              <li>· 按你的行业与站点定制的课件（不是通用模板）</li>
+              <li>· 课堂实战：当场拆解你自己的页面与关键词</li>
+              <li>· 课后 30 天内一次书面答疑</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-bold text-slate-900 mb-2">不包含</h4>
+            <ul class="text-slate-600 space-y-1 leading-relaxed">
+              <li>· 差旅、住宿与场地费用</li>
+              <li>· 培训后的代运营与内容代写（另按项目报价）</li>
+              <li>· 第三方工具订阅费用</li>
+            </ul>
           </div>
         </div>
       </div>

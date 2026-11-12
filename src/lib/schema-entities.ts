@@ -96,52 +96,14 @@ export const professionalServiceSchema = {
     serviceUrl: `${SITE_URL}/contact`,
     availableLanguage: ["zh-CN", "en"],
   },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "核心服务",
-    itemListElement: [
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "SEO 全站诊断",
-          url: `${SITE_URL}/services/seo-audit/`,
-          description:
-            "系统诊断网站技术健康度、内容质量和外链状况，交付可落地的优化路线图。",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "GEO 优化服务",
-          url: `${SITE_URL}/services/geo-optimization/`,
-          description:
-            "提升品牌在 ChatGPT、Perplexity、Gemini 等 AI 引擎中的被引用率与可见度。",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "GEO 审计与 AI 搜索诊断",
-          url: `${SITE_URL}/services/geo-audit/`,
-          description:
-            "在 ChatGPT、Perplexity、Gemini 等 AI 引擎中实测品牌被提及、被引用、被推荐的真实情况，交付可见度基线报告与执行路线图。",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "SEO/GEO 培训与团队顾问",
-          url: `${SITE_URL}/services/training/`,
-          description:
-            "为企业市场团队提供 SEO + GEO 能力建设，从认知培训到策略陪跑。",
-        },
-      },
-    ],
-  },
+  /*
+   * 这里原本有一个 hasOfferCatalog，内含 4 个 Offer 但不含 price / priceCurrency。
+   * schema.org 校验会报 4×2=8 个 error（MissingRequired: price、priceCurrency），
+   * 且因为缺价格，OfferCatalog 实际拿不到任何富结果——比不写更糟。
+   *
+   * 处理方式：整体移除。服务清单改由各服务页自身 Service + offers 声明，
+   * 价格只写真实公开的那几档（见 serviceSchema 的 offerPrice 参数），不编造。
+   */
 };
 
 export interface ServicePageSchemaParams {
@@ -150,6 +112,13 @@ export interface ServicePageSchemaParams {
   name: string;
   serviceType: string;
   description: string;
+  /**
+   * 公开起价（人民币元）。只在页面上真实公开了价格时才传。
+   * 不传则完全不输出 offers —— 宁可不写，也不要输出没有 price 的 Offer（那会产生校验 error）。
+   */
+  offerPrice?: number;
+  /** 计价单位，默认「每季度」。会写进 priceSpecification.unitText */
+  offerUnit?: string;
 }
 
 /** 服务页 Service 工厂：每页独立 @id（...#service）、provider 统一引用 #organization */
@@ -158,9 +127,11 @@ export function serviceSchema({
   name,
   serviceType,
   description,
+  offerPrice,
+  offerUnit = "季度",
 }: ServicePageSchemaParams) {
   const url = `${SITE_URL}${path}`;
-  return {
+  const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@id": `${url}#service`,
     "@type": "Service",
@@ -179,6 +150,25 @@ export function serviceSchema({
       availableLanguage: ["zh-CN", "en"],
     },
   };
+
+  if (typeof offerPrice === "number" && Number.isFinite(offerPrice)) {
+    schema.offers = {
+      "@type": "Offer",
+      price: offerPrice.toFixed(2),
+      priceCurrency: "CNY",
+      url,
+      availability: "https://schema.org/InStock",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: offerPrice.toFixed(2),
+        priceCurrency: "CNY",
+        unitText: offerUnit,
+      },
+      seller: organizationRef,
+    };
+  }
+
+  return schema;
 }
 
 export interface Crumb {
