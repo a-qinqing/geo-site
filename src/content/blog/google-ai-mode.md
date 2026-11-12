@@ -1,6 +1,6 @@
 ---
-title: "AI Mode 是什么：不是更大的 AI Overviews，而是另一种搜索入口"
-description: "AI Mode 是 Google 搜索里的独立对话式入口，不是 AI Overviews 的长版本。本文用官方口径拆清它与 AI Overviews、经典搜索的关系，并用 73 万组回答的分析说明：为什么同一个答案会引用不同来源，以及企业该把页面改造成什么样。"
+title: "AI Mode 来了：为什么同一个问题，AI 引用了别人没引用你"
+description: "AI Mode 是 Google 搜索里的独立对话入口，不是 AI Overviews 的长版本。用官方口径拆清两者关系，并用 73 万组回答的数据说明：答案可以很像，但证据来源只重合 13.7%——你的页面该怎么改才能被选中。"
 pubDate: 2026-10-22
 category: "实战指南"
 tags: ["GEO", "AI Mode", "AI Overviews", "Google 搜索"]

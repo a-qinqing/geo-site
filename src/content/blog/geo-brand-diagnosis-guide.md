@@ -1,6 +1,6 @@
 ---
-title: "品牌 AI 可见度诊断：8 个问题量出你在 AI 答案里的位置（附打分表）"
-description: "不用猜 AI 有没有推荐你：8 个固定问题、四档打分卡、四种问题模式，量出品牌在 ChatGPT、Perplexity、Google AI 里的真实位置，并给出修复顺序。"
+title: "怎么知道 AI 有没有推荐我的公司？8 个问题自测（附打分表）"
+description: "AI 到底有没有提到你？不用猜。8 个固定问题、四档打分卡、四种典型问题模式，10 分钟内量出品牌在 ChatGPT、Perplexity、Google AI 里的真实位置，并给出该先修哪一项。"
 pubDate: 2026-08-11
 category: "GEO 实战"
 tags: ["GEO", "品牌诊断", "ChatGPT", "Perplexity", "结构化数据", "AI搜索"]

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>geova.cn · AI 搜索体检报告（运营版）</title>
+<style>
+:root{
+  --purple:#6956a8; --purple-soft:#f2eefa; --orange:#e89a14; --teal:#16777c;
+  --red:#e34d59; --green:#0e9f6e;
+  --ink:#1f2733; --sub:#59657a; --muted:#8a94a6;
+  --line:#e7ebf2; --bg:#f5f7fa; --card:#fff;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:14px;line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 64px}
+header.hd{background:linear-gradient(135deg,#6956a8,#8b78c7);color:#fff;
+  border-radius:14px;padding:26px 28px;margin-bottom:20px}
+header.hd .eyebrow{font-size:12px;letter-spacing:.14em;opacity:.85;margin-bottom:6px}
+header.hd h1{margin:0;font-size:24px;font-weight:700;letter-spacing:.01em}
+header.hd .meta{margin-top:12px;font-size:12.5px;opacity:.9;display:flex;flex-wrap:wrap;gap:18px}
+section.card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:22px 24px;margin-bottom:18px}
+section.card > h2{margin:0 0 16px;font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
+section.card > h2::before{content:"";width:3px;height:15px;background:var(--purple);border-radius:2px}
+.tag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;line-height:1.7}
+.tag.ok{background:#e6f7f0;color:var(--green)}
+.tag.warn{background:#fdf3e2;color:#b87a08}
+.tag.bad{background:#fdeaec;color:var(--red)}
+.tag.none{background:#f0f2f5;color:var(--muted)}
+.tag.purple{background:var(--purple-soft);color:var(--purple)}
+
+/* 结论 */
+.headline{font-size:17px;line-height:1.85;font-weight:500;margin:0}
+.headline.bad{color:var(--red)} .headline.warn{color:#b87a08} .headline.ok{color:var(--green)}
+
+/* 综合分 */
+.score-wrap{display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:start}
+.score-num{font-size:52px;font-weight:700;color:var(--purple);line-height:1}
+.score-den{color:var(--muted);font-size:14px;margin-left:6px}
+.score-side{margin-top:10px;font-size:12.5px;color:var(--sub)}
+.dim{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.dim-name{width:170px;flex:none;font-size:13px;color:var(--sub)}
+.dim-bar{flex:1;height:9px;background:#f0f2f5;border-radius:5px;overflow:hidden}
+.dim-bar i{display:block;height:100%;border-radius:5px}
+.dim-rate{width:46px;text-align:right;font-size:12.5px;color:var(--sub);flex:none}
+
+/* 四指标 */
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.pillar{border:1px solid var(--line);border-radius:11px;padding:16px 17px;background:#fafbfd}
+.pillar .q{font-size:12px;color:var(--muted);line-height:1.6;min-height:38px}
+.pillar .lab{font-size:15px;font-weight:600;margin:6px 0 8px}
+.pillar .num{font-size:22px;font-weight:700;line-height:1.2}
+.pillar .num small{font-size:12px;color:var(--muted);font-weight:400}
+.pillar .v{margin-top:8px;font-size:12.5px;color:var(--sub);line-height:1.65}
+.pillar.ok{border-left:3px solid var(--green)}
+.pillar.warn{border-left:3px solid var(--orange)}
+.pillar.bad{border-left:3px solid var(--red)}
+.pillar.none{border-left:3px solid var(--muted);opacity:.9}
+
+/* 首要行动 */
+.primary{background:linear-gradient(135deg,rgba(105,86,168,.08),rgba(105,86,168,.16));
+  border-radius:12px;padding:18px 20px}
+.primary h3{margin:8px 0 10px;font-size:16px}
+.primary .row{display:flex;gap:8px;margin-bottom:8px;font-size:13.5px;line-height:1.7}
+.primary .row b{color:var(--sub);flex:none;font-weight:600}
+.primary .plain{color:var(--sub);font-size:13.5px;margin:0 0 12px}
+
+/* 问题清单 */
+.issue{border:1px solid var(--line);border-left-width:3px;border-radius:10px;
+  padding:14px 16px;margin-bottom:11px;background:#fff}
+.issue.bad{border-left-color:var(--red)}
+.issue.warn{border-left-color:var(--orange)}
+.issue.none{border-left-color:var(--muted)}
+.issue-hd{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.issue-n{width:24px;height:24px;flex:none;border-radius:6px;background:#f0f2f5;color:var(--sub);
+  font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.issue-t{font-size:14.5px;font-weight:600;flex:1;min-width:200px}
+.issue-plain{color:var(--muted);font-size:12.5px;margin:6px 0 10px;line-height:1.65}
+.issue-kv{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:13px;line-height:1.7}
+.issue-kv dt{color:var(--sub);white-space:nowrap}
+.issue-kv dd{margin:0}
+.issue-ev{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);
+  font-size:12px;color:var(--muted);line-height:1.7}
+
+/* 三件事 */
+.week{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px}
+.week-item{border:1px solid var(--line);border-radius:10px;padding:15px 16px;background:#fafbfd}
+.week-item .n{font-size:12px;color:var(--purple);font-weight:700;letter-spacing:.08em}
+.week-item .t{font-weight:600;margin:4px 0 7px;font-size:14px}
+.week-item .a{font-size:13px;color:var(--sub);line-height:1.7}
+.week-item .m{margin-top:9px;font-size:12px;color:var(--muted)}
+
+/* 做得好 */
+.good{display:flex;flex-wrap:wrap;gap:7px}
+.good span{background:#e6f7f0;color:var(--green);padding:4px 11px;border-radius:999px;font-size:12.5px}
+
+/* 列表 */
+ul.plain{margin:0;padding-left:18px;color:var(--sub);font-size:13px;line-height:1.85}
+
+/* 附录 */
+details{border:1px solid var(--line);border-radius:10px;padding:12px 16px;background:#fafbfd}
+summary{cursor:pointer;font-size:13.5px;font-weight:600;color:var(--sub)}
+table.mini{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:12px}
+table.mini th,table.mini td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left}
+table.mini th{color:var(--sub);font-weight:600;background:#f5f7fa}
+table.mini td.ev{color:var(--muted);font-size:11.5px}
+
+/* 术语 */
+.glossary{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.gl{border:1px solid var(--line);border-radius:9px;padding:11px 13px;font-size:12.5px;background:#fafbfd}
+.gl b{display:block;color:var(--ink);font-size:13px;margin-bottom:3px}
+.gl span{color:var(--sub)}
+
+footer.ft{color:var(--muted);font-size:12px;text-align:center;line-height:1.9;margin-top:24px}
+@media (max-width:720px){
+  .score-wrap{grid-template-columns:1fr}
+  .dim-name{width:120px;font-size:12px}
+}
+@media print{
+  body{background:#fff}
+  section.card{break-inside:avoid;border-color:#d8dee8}
+  header.hd{background:#6956a8 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hd">
+<div class="eyebrow">AI 搜索体检 · 运营版</div>
+<h1>geova.cn</h1>
+<div class="meta">
+<span>体检时间：2026-11-12 21:13</span>
+<span>规则版本：geo-29-v2.0</span>
+<span>体检对象：https://www.geova.cn/</span>
+</div>
+</header>
+<section class="card">
+<h2>一句话结论</h2>
+<p class="headline bad">官网目前存在明显准备度阻挡：搜索或 AI 可能无法稳定发现、理解或核验页面内容。</p>
+</section>
+<section class="card" style="border-left:4px solid #6956a8">
+<h2>结果边界</h2>
+<p style="color:#5a6472;margin:0">本报告把页面准备度、有限查询实测和业务平台数据分开。没有连接真实数据源时，不显示引用率、流量或排名提升结论。</p>
+</section>
+<section class="card">
+<h2>总评分</h2>
+<div class="score-wrap">
+<div>
+<div><span class="score-num">69.2</span><span class="score-den">/ 100 分 · C 级</span></div>
+<div class="score-side">得分率 <b>69%</b><br>体检覆盖 100%（29 项里检到 29 项）</div>
+<div class="score-side">内容可抽取性 <b>31.2/100</b><br><span style="color:#8a94a6">规则准备度指标；真实提及与引用需看查询实测</span></div>
+</div>
+<div>
+<div class="dim">
+<span class="dim-name">一、网页内容结构</span>
+<span class="dim-bar"><i style="width:84%;background:#0e9f6e"></i></span>
+<span class="dim-rate">84%</span>
+</div>
+<div class="dim">
+<span class="dim-name">二、语义可理解性</span>
+<span class="dim-bar"><i style="width:100%;background:#0e9f6e"></i></span>
+<span class="dim-rate">100%</span>
+</div>
+<div class="dim">
+<span class="dim-name">三、权威性与可信度</span>
+<span class="dim-bar"><i style="width:55%;background:#e89a14"></i></span>
+<span class="dim-rate">55%</span>
+</div>
+<div class="dim">
+<span class="dim-name">四、结构化与机器可读性</span>
+<span class="dim-bar"><i style="width:51%;background:#e89a14"></i></span>
+<span class="dim-rate">51%</span>
+</div>
+<div class="dim">
+<span class="dim-name">五、覆盖度与用户价值</span>
+<span class="dim-bar"><i style="width:46%;background:#e34d59"></i></span>
+<span class="dim-rate">46%</span>
+</div>
+<div class="dim">
+<span class="dim-name">六、技术体验</span>
+<span class="dim-bar"><i style="width:83%;background:#0e9f6e"></i></span>
+<span class="dim-rate">83%</span>
+</div>
+<div class="dim">
+<span class="dim-name">七、AI 平台适配与可引用性</span>
+<span class="dim-bar"><i style="width:61%;background:#e89a14"></i></span>
+<span class="dim-rate">61%</span>
+</div>
+</div>
+</div>
+</section>
+<section class="card">
+<h2>老板最关心的四个问题</h2>
+<div class="pillars">
+<div class="pillar ok">
+<div class="q">豆包、文心、元宝这些 AI 回答问题时，能不能顺着搜索找到你的官网？</div>
+<div class="lab">AI 找得到你吗</div>
+<div class="num" style="color:#0e9f6e">8.5<small>/10.0 · 85%</small></div>
+<div class="v">这块做得不错，保持住</div>
+</div>
+<div class="pillar warn">
+<div class="q">进来了以后，AI 能不能看懂你是谁、做什么、有哪些服务？</div>
+<div class="lab">AI 读得懂你吗</div>
+<div class="num" style="color:#e89a14">12.6<small>/17.0 · 74%</small></div>
+<div class="v">有基础，但还有明显缺口</div>
+</div>
+<div class="pillar warn">
+<div class="q">页面有没有足够清晰、可核验的依据支持搜索和 AI 回答？</div>
+<div class="lab">AI 信得过你吗</div>
+<div class="num" style="color:#e89a14">8.8<small>/16.0 · 55%</small></div>
+<div class="v">有基础，但还有明显缺口</div>
+</div>
+<div class="pillar warn">
+<div class="q">客户真正会问的问题，官网上有没有直接回答？</div>
+<div class="lab">客户问的你答了吗</div>
+<div class="num" style="color:#e89a14">9.5<small>/16.0 · 59%</small></div>
+<div class="v">有基础，但还有明显缺口</div>
+</div>
+</div>
+</section>
+<section class="card">
+<h2>最该先做的一件事</h2>
+<div class="primary">
+<span class="tag purple">高危</span>
+<h3>段落是否适合被机器抽取</h3>
+<p class="plain">这是内容准备度指标：段落是否有清晰结论、实体和边界，便于机器理解和抽取。</p>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>每个小标题下的第一段写成「定义 + 数字 + 适用边界」三件套。</dd>
+<dt>怎么验收</dt><dd>重跑检查，内容可抽取性均分达到 65 分以上；真实引用另看查询实测。</dd>
+<dt>谁来做</dt><dd>内容 · 约 半天-1 天</dd>
+</dl>
+</div>
+</section>
+<section class="card">
+<h2>问题清单<span class="tag bad">16 项需要处理</span></h2>
+<div class="issue bad">
+<div class="issue-hd">
+<span class="issue-n">1</span>
+<span class="issue-t">段落是否适合被机器抽取</span>
+<span class="tag bad">有问题 · 扣 3.2 分</span>
+</div>
+<div class="issue-plain">这是内容准备度指标：段落是否有清晰结论、实体和边界，便于机器理解和抽取。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>每个小标题下的第一段写成「定义 + 数字 + 适用边界」三件套。</dd>
+<dt>怎么验收</dt><dd>重跑检查，内容可抽取性均分达到 65 分以上；真实引用另看查询实测。</dd>
+<dt>谁来做</dt><dd>内容 · 约 半天-1 天</dd>
+</dl>
+<div class="issue-ev">依据：8 个段落块平均可引用性 31.2/100，等级分布 D级 2块、F级 6块；落在 150–300 字理想区间的段落 0 个</div>
+</div>
+<div class="issue bad">
+<div class="issue-hd">
+<span class="issue-n">2</span>
+<span class="issue-t">有没有能直接摘走的结论句</span>
+<span class="tag bad">有问题 · 扣 3.2 分</span>
+</div>
+<div class="issue-plain">段落里没有一句能独立成立的话，AI 就只能自己总结。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>每段开头写一句不依赖上下文的结论句。</dd>
+<dt>怎么验收</dt><dd>单独把这句话摘出来，仍然读得懂。</dd>
+<dt>谁来做</dt><dd>内容 · 约 2-3 小时</dd>
+</dl>
+<div class="issue-ev">依据：抽样段落的「答案块质量」均值 7.5/30（定义句、首句带数字、问句式标题、来源声明合计）</div>
+</div>
+<div class="issue bad">
+<div class="issue-hd">
+<span class="issue-n">3</span>
+<span class="issue-t">页面是不是靠脚本临时拼出来的</span>
+<span class="tag bad">有问题 · 扣 1.5 分</span>
+</div>
+<div class="issue-plain">内容由浏览器现拼，AI 打开时看到的是一张白纸。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>改成服务端渲染或预渲染，让网页源码里就带着正文。</dd>
+<dt>怎么验收</dt><dd>在浏览器里关掉 JavaScript 刷新，页面上仍有正文。</dd>
+<dt>谁来做</dt><dd>技术 · 约 2-5 天</dd>
+</dl>
+<div class="issue-ev">依据：正文/HTML 字符比仅 0.0428</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">4</span>
+<span class="issue-t">有没有常见问题解答（FAQ）</span>
+<span class="tag warn">有缺口 · 扣 2.5 分</span>
+</div>
+<div class="issue-plain">客户用原话问的问题，AI 会优先去 FAQ 里找答案。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>整理 6-10 条客户原话提问，做成 FAQ 区块，机器格式同步一份。</dd>
+<dt>怎么验收</dt><dd>页面上有 FAQ 区块，且和给 AI 的那份内容一致。</dd>
+<dt>谁来做</dt><dd>内容 · 约 2-3 小时</dd>
+</dl>
+<div class="issue-ev">依据：无 FAQ 模块</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">5</span>
+<span class="issue-t">开头有没有先把结论说出来</span>
+<span class="tag warn">有缺口 · 扣 2.4 分</span>
+</div>
+<div class="issue-plain">用户和 AI 都只看第一段，结论埋在后面等于没说。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>每个板块的第一段直接写结论，不要先铺垫背景。</dd>
+<dt>怎么验收</dt><dd>只读每段第一句话，也能明白这一段在讲什么。</dd>
+<dt>谁来做</dt><dd>内容 · 约 1-2 小时</dd>
+</dl>
+<div class="issue-ev">依据：首段无结论信号；首段：在 ChatGPT、Perplexity、Google AI Overviews 主导的新搜索时代， 传统关键词排名已不足以保障流量增长。</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">6</span>
+<span class="issue-t">有没有引用权威来源</span>
+<span class="tag warn">有缺口 · 扣 2.4 分</span>
+</div>
+<div class="issue-plain">自己说自己好没用，得有第三方或权威文件背书。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>引用行业标准、政策文件、第三方报告，并写明出处和年份。</dd>
+<dt>怎么验收</dt><dd>页面上至少有一处可以点进去查证的外链来源。</dd>
+<dt>谁来做</dt><dd>内容/市场 · 约 2 小时</dd>
+</dl>
+<div class="issue-ev">依据：共 1 个外链，但域名均不属于权威来源（如 www.linkedin.com）</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">7</span>
+<span class="issue-t">说法有没有数字支撑</span>
+<span class="tag warn">有缺口 · 扣 2.4 分</span>
+</div>
+<div class="issue-plain">「服务很多客户」不如「服务 120 家医美机构」有说服力。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>把模糊表述换成具体数字：多少家、多少年、提升多少、多久交付。</dd>
+<dt>怎么验收</dt><dd>关键说法后面都跟着一个可核对的数字或事实。</dd>
+<dt>谁来做</dt><dd>内容 · 约 1-2 小时</dd>
+</dl>
+<div class="issue-ev">依据：带语境数据点 1 处（百分比 0、金额 0、年份 3）</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">8</span>
+<span class="issue-t">页面开头有没有要点摘要</span>
+<span class="tag warn">有缺口 · 扣 2.4 分</span>
+</div>
+<div class="issue-plain">AI 最爱直接摘的就是开头那几条要点。没有，它就得自己猜。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>页面开头加 3-5 条要点摘要，结尾加一段结论。</dd>
+<dt>怎么验收</dt><dd>打开页面第一屏就能看到要点。</dd>
+<dt>谁来做</dt><dd>内容 · 约 1 小时</dd>
+</dl>
+<div class="issue-ev">依据：摘要信号命中 1 项：meta_description；meta description：GEOVA（geova.cn）专注 GEO 咨询与 SEO 优化：当客户改问 AI，你的品牌却不在答案里，流量就会悄悄流失。站内指南拆解 AI 可见度诊断、实体与结构化数据（给 AI 看的标准名片）、内容改造与品牌信号四步路径，附免费 GEO 诊断工具与 30 秒自</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">9</span>
+<span class="issue-t">有没有真实案例和对比</span>
+<span class="tag warn">有缺口 · 扣 2.4 分</span>
+</div>
+<div class="issue-plain">空口说效果好，AI 不会替你转述。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>补 2-3 个真实案例：客户是谁、原来什么问题、现在什么结果。</dd>
+<dt>怎么验收</dt><dd>页面上有带结果的案例，不是只有口号。</dd>
+<dt>谁来做</dt><dd>业务/内容 · 约 半天</dd>
+</dl>
+<div class="issue-ev">依据：深度素材命中 1 类（表格 0 个、模块 ['产品/服务', '联系/地址', '团队/资质']、图片 0 张）</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">10</span>
+<span class="issue-t">有没有给 AI 准备一张「标准名片」</span>
+<span class="tag warn">有缺口 · 扣 2 分</span>
+</div>
+<div class="issue-plain">AI 读网页时，最省事的是读一份机器格式的公司介绍。现在多数官网没给。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>让技术给页面加一份结构化数据（公司信息 + 常见问题 + 产品服务）。</dd>
+<dt>怎么验收</dt><dd>技术用检查工具跑一遍，报错项清零。</dd>
+<dt>谁来做</dt><dd>技术 · 约 半天-1 天</dd>
+</dl>
+<div class="issue-ev">依据：页面类型判定为「homepage」，已有 JSON-LD（给 AI 看的标准名片） 类型：Continent、Offer、OfferCatalog、Organization、ProfessionalService、Service、ServiceChannel、WebSite；W3C JSON-LD 1.1 / schema.org 合规校验：0 分（F），错误 8、警告 4、建议 9（校验 3 个 JSON-LD 块）</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">11</span>
+<span class="issue-t">客户关心的六个问题答了几个</span>
+<span class="tag warn">有缺口 · 扣 1.6 分</span>
+</div>
+<div class="issue-plain">是什么、为什么、怎么做、多少钱、适合谁、有什么坑——答得越全，页面越能覆盖真实查询。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>按这六个问题逐个补齐内容，每个问题单独成段。</dd>
+<dt>怎么验收</dt><dd>这六个问题在页面上都能找到答案。</dd>
+<dt>谁来做</dt><dd>内容/业务 · 约 半天-1 天</dd>
+</dl>
+<div class="issue-ev">依据：疑问链覆盖 3 个：是什么（SEO/GEO 定义）、怎么做（三大服务交付内容）、适合谁（企业市场团队/个人）；缺失 3 个：多少钱（无价格区间或报价方式）、有什么坑（无失败案例/常见误区）、多久见效（无周期预期）——这恰好是询盘前最常问的三问</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">12</span>
+<span class="issue-t">访客能不能查到这家公司是谁</span>
+<span class="tag warn">有缺口 · 扣 1.2 分</span>
+</div>
+<div class="issue-plain">连公司全称和地址都没有，AI 不敢把你当可信来源。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>页脚补齐公司工商全称、详细地址、ICP 备案号、内容更新时间。</dd>
+<dt>怎么验收</dt><dd>翻到页脚能看到这四项。</dd>
+<dt>谁来做</dt><dd>运营 · 约 0.5 小时</dd>
+</dl>
+<div class="issue-ev">依据：主体透明命中 3 项：Schema（结构化数据的格式规范） 含主体信息、meta author、更新时间 2026-11-03</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">13</span>
+<span class="issue-t">有没有同业抄不走的内容</span>
+<span class="tag warn">有缺口 · 扣 1.2 分</span>
+</div>
+<div class="issue-plain">全是通用介绍，页面缺少能被核验的差异化事实。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>写只有你们知道的东西：踩过的坑、实施流程、真实周期、判断标准。</dd>
+<dt>怎么验收</dt><dd>这段内容在竞品官网上找不到。</dd>
+<dt>谁来做</dt><dd>业务负责人 · 约 半天</dd>
+</dl>
+<div class="issue-ev">依据：有独有方法论：博客提出「主张—转述者」逐条盘点法、ChatGPT/Perplexity 双平台对照测试法，非模板搬运；部分文章引用了 Ahrefs 13.7 万域名日志、SE Ranking 30 万域名研究等可核验外部数据；缺一手数据：全站无自有实验样本量、无客户案例与结果数据，权威性支撑停留在「引用他人研究」层面</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">14</span>
+<span class="issue-t">有没有用列表、表格、加粗</span>
+<span class="tag warn">有缺口 · 扣 0.8 分</span>
+</div>
+<div class="issue-plain">同样的内容，排版成表格或要点，AI 更容易选中。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>参数、套餐、对比项改成表格或要点列表。</dd>
+<dt>怎么验收</dt><dd>页面上至少有一处表格或要点列表。</dd>
+<dt>谁来做</dt><dd>内容 · 约 1 小时</dd>
+</dl>
+<div class="issue-ev">依据：每 500 字 3.22 个；table 0 个</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">15</span>
+<span class="issue-t">页面打开快不快</span>
+<span class="tag warn">有缺口 · 扣 0.5 分</span>
+</div>
+<div class="issue-plain">打开慢，AI 抓取时可能直接放弃。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>压缩图片、开缓存，把首屏时间压到 2 秒内。</dd>
+<dt>怎么验收</dt><dd>用测速工具看首屏时间低于 2 秒。</dd>
+<dt>谁来做</dt><dd>技术 · 约 半天</dd>
+</dl>
+<div class="issue-ev">依据：TTFB 5869.8ms，HTML 29305 字节</div>
+</div>
+<div class="issue warn">
+<div class="issue-hd">
+<span class="issue-n">16</span>
+<span class="issue-t">页面是不是只有一块内容</span>
+<span class="tag warn">有缺口 · 扣 0.5 分</span>
+</div>
+<div class="issue-plain">内容太单薄，搜索和 AI 难以判断页面能回答什么问题。</div>
+<dl class="issue-kv">
+<dt>怎么改</dt><dd>首页至少放 3 个内容模块：介绍、案例、常见问题。</dd>
+<dt>怎么验收</dt><dd>首页不只有一大块介绍文字。</dd>
+<dt>谁来做</dt><dd>内容 · 约 半天</dd>
+</dl>
+<div class="issue-ev">依据：识别到 3 个内容模块：产品/服务、联系/地址、团队/资质</div>
+</div>
+</section>
+<section class="card">
+<h2>做得好的（先别动）<span class="tag ok">13 项</span></h2>
+<div class="good">
+<span>网页标题一眼能看出你是做什么的</span>
+<span>内容分块清楚，层次分明</span>
+<span>段落长度合适，没有大段密排</span>
+<span>读起来是正常的人话</span>
+<span>客户会问的几个角度都覆盖了</span>
+<span>公司是谁、在哪、做什么都写清了</span>
+<span>套话少，信息密度高</span>
+<span>手机端排版正常</span>
+<span>AI 爬虫进得来</span>
+<span>已提交网站地图，页面可被收录</span>
+<span>段落自带背景，摘出去也读得懂</span>
+<span>全站说法一致</span>
+<span>国内这几个 AI 都能顺着搜索找到你</span>
+</div>
+</section>
+<section class="card">
+<h2>本周就能做的三件事</h2>
+<div class="week">
+<div class="week-item">
+<div class="n">第 1 件</div>
+<div class="t">有没有常见问题解答（FAQ）</div>
+<div class="a">整理 6-10 条客户原话提问，做成 FAQ 区块，机器格式同步一份。</div>
+<div class="m">内容 · 约 2-3 小时</div>
+</div>
+<div class="week-item">
+<div class="n">第 2 件</div>
+<div class="t">有没有引用权威来源</div>
+<div class="a">引用行业标准、政策文件、第三方报告，并写明出处和年份。</div>
+<div class="m">内容/市场 · 约 2 小时</div>
+</div>
+<div class="week-item">
+<div class="n">第 3 件</div>
+<div class="t">说法有没有数字支撑</div>
+<div class="a">把模糊表述换成具体数字：多少家、多少年、提升多少、多久交付。</div>
+<div class="m">内容 · 约 1-2 小时</div>
+</div>
+</div>
+</section>
+<section class="card">
+<h2>附录：29 项体检明细（给执行的人看）</h2>
+<details>
+<summary>展开技术明细</summary>
+<table class="mini"><thead><tr><th>编号</th><th>检查项</th><th>状态</th><th>得分</th><th>技术依据</th></tr></thead><tbody>
+<tr><td>C1.1</td><td>标题清晰且包含核心关键词</td><td><span class="tag ok">没问题</span></td><td>4.0/4</td><td class="ev">&lt;title&gt;「GEO 咨询 | 专注 SEO &amp; GEO 优化，帮企业与个人重构搜索流量」，24 字，长度合适</td></tr>
+<tr><td>C1.2</td><td>H1/H2/H3 层次分明</td><td><span class="tag ok">没问题</span></td><td>4.0/4</td><td class="ev">1 个 H1、3 个 H2，层级无跳级</td></tr>
+<tr><td>C1.3</td><td>段落简洁、避免过长</td><td><span class="tag ok">没问题</span></td><td>4.0/4</td><td class="ev">15 段，平均 48.6 字，最长 99 字，无超长段</td></tr>
+<tr><td>C1.4</td><td>首段有结论/答案</td><td><span class="tag warn">有缺口</span></td><td>1.6/4</td><td class="ev">首段无结论信号；首段：在 ChatGPT、Perplexity、Google AI Overviews 主导的新搜索时代， 传统关键词排名已不足以保障流量增长。</td></tr>
+<tr><td>C1.5</td><td>使用列表、表格、加粗强调</td><td><span class="tag warn">有缺口</span></td><td>3.2/4</td><td class="ev">每 500 字 3.22 个；table 0 个</td></tr>
+<tr><td>C2.1</td><td>语言自然流畅，无明显关键词堆砌</td><td><span class="tag ok">没问题</span></td><td>4.0/4</td><td class="ev">词频最高的是「geo」，出现 17 次、密度 1.56%（作为主关键词密度的代理指标）</td></tr>
+<tr><td>C2.2</td><td>语义多样性</td><td><span class="tag ok">没问题</span></td><td>4.0/4</td><td class="ev">覆盖 4 类语义角色：是什么（SEO &amp; GEO 定位）、为什么（关键词排名已不足保障流量）、怎么做（诊断→结构化数据→内容策略三条链路）、场景（企业市场团队 / 个人）；风险类角</td></tr>
+<tr><td>C2.3</td><td>实体明确（人名、地名、数字、品牌）</td><td><span class="tag ok">没问题</span></td><td>4.0/4</td><td class="ev">实体类别命中 4 类：numbers、years、places、brand_mentions；数字 17、百分比 0、年份 3、机构名 0、地名 5</td></tr>
+<tr><td>C2.4</td><td>减少冗余废话，信息密度高</td><td><span class="tag ok">没问题</span></td><td>4.0/4</td><td class="ev">营销套话占比 0.18%（专业×1）</td></tr>
+<tr><td>C3.1</td><td>内容中有权威来源/研究/报告引用</td><td><span class="tag warn">有缺口</span></td><td>1.6/4</td><td class="ev">共 1 个外链，但域名均不属于权威来源（如 www.linkedin.com）</td></tr>
+<tr><td>C3.2</td><td>提供数据或事实支撑观点</td><td><span class="tag warn">有缺口</span></td><td>1.6/4</td><td class="ev">带语境数据点 1 处（百分比 0、金额 0、年份 3）</td></tr>
+<tr><td>C3.3</td><td>作者/品牌/机构信息透明</td><td><span class="tag warn">有缺口</span></td><td>2.8/4</td><td class="ev">主体透明命中 3 项：Schema 含主体信息、meta author、更新时间 2026-11-03</td></tr>
+<tr><td>C3.4</td><td>专业性 &amp; 原创性明显</td><td><span class="tag warn">有缺口</span></td><td>2.8/4</td><td class="ev">有独有方法论：博客提出「主张—转述者」逐条盘点法、ChatGPT/Perplexity 双平台对照测试法，非模板搬运；部分文章引用了 Ahrefs 13.7 万域名日志、SE Ra</td></tr>
+<tr><td>C4.1</td><td>结构化数据合规且覆盖到位</td><td><span class="tag warn">有缺口</span></td><td>3/5</td><td class="ev">页面类型判定为「homepage」，已有 JSON-LD 类型：Continent、Offer、OfferCatalog、Organization、ProfessionalServ</td></tr>
+<tr><td>C4.2</td><td>提供摘要/总结</td><td><span class="tag warn">有缺口</span></td><td>1.6/4</td><td class="ev">摘要信号命中 1 项：meta_description；meta description：GEOVA（geova.cn）专注 GEO 咨询与 SEO 优化：当客户改问 AI，你的品</td></tr>
+<tr><td>C4.3</td><td>页面 HTML 结构简洁，少广告干扰</td><td><span class="tag bad">有问题</span></td><td>1.5/3</td><td class="ev">正文/HTML 字符比仅 0.0428</td></tr>
+<tr><td>C5.1</td><td>回答覆盖多个角度</td><td><span class="tag warn">有缺口</span></td><td>2.4/4</td><td class="ev">疑问链覆盖 3 个：是什么（SEO/GEO 定义）、怎么做（三大服务交付内容）、适合谁（企业市场团队/个人）；缺失 3 个：多少钱（无价格区间或报价方式）、有什么坑（无失败案例/常</td></tr>
+<tr><td>C5.2</td><td>提供案例、图表、对比</td><td><span class="tag warn">有缺口</span></td><td>1.6/4</td><td class="ev">深度素材命中 1 类（表格 0 个、模块 ['产品/服务', '联系/地址', '团队/资质']、图片 0 张）</td></tr>
+<tr><td>C5.3</td><td>明确满足用户意图（FAQ）</td><td><span class="tag warn">有缺口</span></td><td>1.5/4</td><td class="ev">无 FAQ 模块</td></tr>
+<tr><td>C6.1</td><td>页面加载速度快</td><td><span class="tag warn">有缺口</span></td><td>0.5/1</td><td class="ev">TTFB 5869.8ms，HTML 29305 字节</td></tr>
+<tr><td>C6.2</td><td>移动端体验良好</td><td><span class="tag ok">没问题</span></td><td>1/1</td><td class="ev">viewport：width=device-width, initial-scale=1.0</td></tr>
+<tr><td>C6.3</td><td>多模块内容</td><td><span class="tag warn">有缺口</span></td><td>0.5/1</td><td class="ev">识别到 3 个内容模块：产品/服务、联系/地址、团队/资质</td></tr>
+<tr><td>C6.4</td><td>爬虫可抓取性</td><td><span class="tag ok">没问题</span></td><td>2.0/2</td><td class="ev">robots.txt 对主流搜索引擎与 AI 检索爬虫全部 Allow；页面 meta robots 为 index, follow，无 noindex / noai / X-Ro</td></tr>
+<tr><td>C6.5</td><td>网页可索引性</td><td><span class="tag ok">没问题</span></td><td>1/1</td><td class="ev">无 noindex；canonical https://www.geova.cn/；robots.txt 声明 sitemap 1 条；本页已在 sitemap.xml 中声明（共</td></tr>
+<tr><td>C7.1</td><td>段落可引用性均值</td><td><span class="tag bad">有问题</span></td><td>0.8/4</td><td class="ev">8 个段落块平均可引用性 31.2/100，等级分布 D级 2块、F级 6块；落在 150–300 字理想区间的段落 0 个</td></tr>
+<tr><td>C7.2</td><td>答案块质量（给可直接摘走的结论）</td><td><span class="tag bad">有问题</span></td><td>0.8/4</td><td class="ev">抽样段落的「答案块质量」均值 7.5/30（定义句、首句带数字、问句式标题、来源声明合计）</td></tr>
+<tr><td>C7.3</td><td>段落自包含性（脱离上下文也读得懂）</td><td><span class="tag ok">没问题</span></td><td>2.4/3</td><td class="ev">抽样段落的「自包含性」均值 16.3/25（理想长度 150–300 字、代词密度、专有名词数合计）；0 个段落落在 150–300 字区间</td></tr>
+<tr><td>C7.4</td><td>多页一致性（抽样页结构/schema 不打架）</td><td><span class="tag ok">没问题</span></td><td>3.0/3</td><td class="ev">抽样 5 页（请求 5，失败 0）；JSON-LD 覆盖率 100%（5 页有）；标题去重后唯一率 100%；正文 ≥300 字占比 100%；抽样页平均可引用性 32.5/100</td></tr>
+<tr><td>C7.5</td><td>国内 AI 平台链路可达性</td><td><span class="tag ok">没问题</span></td><td>4.0/4</td><td class="ev">规则检测（人工复核修正）：www.geova.cn/robots.txt HTTP 200，逐段核对 User-agent 分组，Googlebot / Bingbot / GPT</td></tr>
+</tbody></table>
+</details>
+</section>
+<section class="card">
+<h2>术语小抄</h2>
+<div class="glossary">
+<div class="gl"><b>JSON-LD</b><span>给 AI 看的标准名片</span></div>
+<div class="gl"><b>结构化数据</b><span>给 AI 看的标准名片</span></div>
+<div class="gl"><b>Schema</b><span>结构化数据的格式规范</span></div>
+<div class="gl"><b>robots.txt</b><span>网站门口的访客须知</span></div>
+<div class="gl"><b>sitemap</b><span>网站地图</span></div>
+<div class="gl"><b>llms.txt</b><span>给 AI 看的网站说明书</span></div>
+<div class="gl"><b>canonical</b><span>页面的正式地址</span></div>
+<div class="gl"><b>FAQPage</b><span>常见问题机器格式</span></div>
+<div class="gl"><b>可引用性</b><span>页面是否清晰、具体、可脱离上下文理解</span></div>
+<div class="gl"><b>GEO</b><span>生成式引擎优化：让 AI 在回答时愿意提到你、引用你</span></div>
+</div>
+</section>
+<footer class="ft">
+geova.cn · AI 搜索体检报告（运营版）<br>
+规则版本 geo-29-v2.0 · 生成于 2026-11-12 21:13<br>
+本报告基于公开页面的静态采集，不接入任何平台后台数据；分数为同规则下的横向可比口径，跨规则版本不做对比。
+</footer>
+</div>
+</body>
+</html>
