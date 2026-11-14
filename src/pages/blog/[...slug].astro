@@ -24,7 +24,8 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 
-const articleURL = new URL(`/blog/${post.slug}`, SITE_URL).href;
+// 尾斜杠必须与 canonical 一致，否则 schema 的 url 和面包屑会指向另一个地址。
+const articleURL = new URL(`/blog/${post.slug}/`, SITE_URL).href;
 
 // Article 结构化数据：
 // - @type 由 frontmatter articleType 决定（默认 BlogPosting；structured-data-guide 为 TechArticle）
