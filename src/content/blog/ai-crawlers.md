@@ -21,7 +21,7 @@ author: "GEO 咨询团队"
 
 AI 答案里没有你时，多数团队直接改内容。但先要确认：引擎有没有拿到页面。拿不到是通道问题，拿到却解析不出正文是表达问题；两者都显示为「没被提及、没被引用」，取证入口却不同。
 
-本文只处理技术通道，它是 GEO 五层工作的第一层，整体顺序见 [GEO 优化怎么做](/blog/how-to-do-geo)。实体、证据与段落可摘性属于另外两关（[三关拆解](/blog/how-to-get-cited-by-ai)）；canonical、noindex 这类自我屏蔽见[改版排查文](/blog/ai-citations-drop-after-migration)。
+本文只处理技术通道，它是 GEO 五层工作的第一层，整体顺序见 [GEO 优化怎么做](/blog/how-to-do-geo/)。实体、证据与段落可摘性属于另外两关（[三关拆解](/blog/how-to-get-cited-by-ai/)）；canonical、noindex 这类自我屏蔽见[改版排查文](/blog/ai-citations-drop-after-migration/)。
 
 先用症状定位：
 
@@ -62,7 +62,7 @@ robots.txt 只是偏好声明，不是访问控制。RFC 9309 明确：遵守与
 
 放行按用途分级：检索型（OAI-SearchBot、Claude-SearchBot、PerplexityBot）必须放行；训练型（GPTBot、ClaudeBot、Google-Extended、Bytespider）按政策单独决定。
 
-用户触发型（ChatGPT-User、Claude-User、Perplexity-User）由用户发起，可能不遵守 robots.txt。分工细节见[ChatGPT 搜索优化](/blog/chatgpt-optimization)。
+用户触发型（ChatGPT-User、Claude-User、Perplexity-User）由用户发起，可能不遵守 robots.txt。分工细节见[ChatGPT 搜索优化](/blog/chatgpt-optimization/)。
 
 一个高频错误：AI Overviews 与 AI Mode 由 Googlebot 控制；Google-Extended 只管其他 Google 系统里的训练与 grounding，禁掉它不会让页面退出 AI 搜索。
 
@@ -76,7 +76,7 @@ robots.txt 只是偏好声明，不是访问控制。RFC 9309 明确：遵守与
 
 CDN 可能不只看 UA：它可能核对官方 IP 段、反向 DNS 或 Web Bot Auth 签名。所以**探测请求的响应不代表真实爬虫的响应**；反过来，真实爬虫的 IP 段也可能被地域规则误伤。
 
-UA 探测的结论因此不对称：403、429 或挑战页是强证据；200 只能说明「至少没按 UA 拦」。站内工具的 8 个爬虫探测也标注了这一边界（[免费自测](/tool)）。
+UA 探测的结论因此不对称：403、429 或挑战页是强证据；200 只能说明「至少没按 UA 拦」。站内工具的 8 个爬虫探测也标注了这一边界（[免费自测](/tool/)）。
 
 更可靠的证据在日志：按 UA 过滤，再用官方 IP 段核对来源。Perplexity 的 WAF 文档建议把 UA 与官方 IP 段组合成放行规则，并让放行优先于拦截；Anthropic 提醒直接封 IP 可能连带阻断爬虫读取 robots.txt。
 
@@ -149,7 +149,7 @@ Google 官方建议重要内容以文本形式提供，并让结构化数据与�
 
 每条记录六个字段：URL、UA、来源 IP、时间、状态码与最终 URL、正文是否存在。少一个，第二天就无法复核。
 
-六项全过仍不被引用，问题就不在技术通道：去查实体、证据与段落可摘性（[三关拆解](/blog/how-to-get-cited-by-ai)），或按审计清单固化（[SEO 审计如何加 GEO 检查项](/blog/seo-audit-geo-checklist)）。
+六项全过仍不被引用，问题就不在技术通道：去查实体、证据与段落可摘性（[三关拆解](/blog/how-to-get-cited-by-ai/)），或按审计清单固化（[SEO 审计如何加 GEO 检查项](/blog/seo-audit-geo-checklist/)）。
 
 ---
 
@@ -189,11 +189,11 @@ Google 官方建议重要内容以文本形式提供，并让结构化数据与�
 
 - **免费工具**：30 秒跑一轮 8 个 AI 爬虫的 UA 探测与正文可读性检查
 - **GEO 人工诊断**：结合服务器日志、WAF 规则与渲染方式，逐断点定位并给出修复顺序
-- [**GEO 优化服务**](/services/geo-optimization)：通道修好后，继续处理实体与内容
+- [**GEO 优化服务**](/services/geo-optimization/)：通道修好后，继续处理实体与内容
 
-[先跑一轮免费诊断 →](/tool)
+[先跑一轮免费诊断 →](/tool/)
 
-[了解 GEO 人工诊断 →](/services/geo-audit)
+[了解 GEO 人工诊断 →](/services/geo-audit/)
 
 ---
 

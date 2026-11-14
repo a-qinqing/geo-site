@@ -23,7 +23,7 @@ author: "GEO 咨询团队"
 
 这个问法默认了「内容只有一份，平台只是两个入口」。但跨阵营诊断的第一课，是这个前提经常不成立。
 
-**两个阵营对「什么算合格来源」的认定不同。** 海外模型更常取用可公开索引的网页与第三方评测；国内模型更依赖生态内的收录、权威层级与中文转述。机制差异站内已拆过，这里只取结论：[豆包 + DeepSeek 双引擎拆解](/blog/doubao-deepseek-domestic-geo-guide)。
+**两个阵营对「什么算合格来源」的认定不同。** 海外模型更常取用可公开索引的网页与第三方评测；国内模型更依赖生态内的收录、权威层级与中文转述。机制差异站内已拆过，这里只取结论：[豆包 + DeepSeek 双引擎拆解](/blog/doubao-deepseek-domestic-geo-guide/)。
 
 这不是说国内更依赖第三方、海外更依赖官网。恰恰相反，两边都以第三方为主。真正的差别在于**第三方的名单几乎不重叠**：海外认维基、领英、评价站与英文媒体；国内认百科、知乎、门户与行业蓝 V。
 
@@ -37,17 +37,17 @@ author: "GEO 咨询团队"
 
 | 入口 | 内容怎么进去 | 官网在这里的角色 | 机制细节 |
 | --- | --- | --- | --- |
-| ChatGPT | 自有搜索爬虫抓取与摘要 | 可成为来源；快照取数面有限（第三方逆向） | [ChatGPT 搜索优化](/blog/chatgpt-optimization) |
-| Perplexity | 自建爬虫实时检索 | 正文段落可被直接摘走 | [两套引用风格](/blog/chatgpt-vs-perplexity-citation-style) |
-| Google AIO / AI Mode | 与经典搜索共用索引 | 官网资格基本等同 SEO 资格 | [AI Mode 是什么](/blog/google-ai-mode) |
-| 豆包 | 字节自建内容库与 RAG 检索池 | 官网要先入池，未必在池内 | [豆包 + DeepSeek 拆解](/blog/doubao-deepseek-domestic-geo-guide) |
-| DeepSeek 联网 | 调用 Bing API | 先被 Bing 收录才有候选资格 | [六大模型官方规则](/blog/geo-2026-08-26-ai-citation-guide) |
+| ChatGPT | 自有搜索爬虫抓取与摘要 | 可成为来源；快照取数面有限（第三方逆向） | [ChatGPT 搜索优化](/blog/chatgpt-optimization/) |
+| Perplexity | 自建爬虫实时检索 | 正文段落可被直接摘走 | [两套引用风格](/blog/chatgpt-vs-perplexity-citation-style/) |
+| Google AIO / AI Mode | 与经典搜索共用索引 | 官网资格基本等同 SEO 资格 | [AI Mode 是什么](/blog/google-ai-mode/) |
+| 豆包 | 字节自建内容库与 RAG 检索池 | 官网要先入池，未必在池内 | [豆包 + DeepSeek 拆解](/blog/doubao-deepseek-domestic-geo-guide/) |
+| DeepSeek 联网 | 调用 Bing API | 先被 Bing 收录才有候选资格 | [六大模型官方规则](/blog/geo-2026-08-26-ai-citation-guide/) |
 
 这张表说明一件事：「发了一篇内容」不等于「五个入口都读得到」。
 
 海外侧，Google 的 AI 答案与经典搜索共用索引，SEO 地基直接生效；ChatGPT 与 Perplexity 则各自抓取、各自决定取数面。
 
-国内侧，豆包看字节的池子，DeepSeek 看 Bing 的候选集。同一个中文页面，进入一个池，不代表进入另一个；同一条知乎回答，在不同国内模型里也可能一个被高频引用、一个完全为零（站内此前的整理，见[双语站点排查](/blog/bilingual-site-ai-visibility)）。
+国内侧，豆包看字节的池子，DeepSeek 看 Bing 的候选集。同一个中文页面，进入一个池，不代表进入另一个；同一条知乎回答，在不同国内模型里也可能一个被高频引用、一个完全为零（站内此前的整理，见[双语站点排查](/blog/bilingual-site-ai-visibility/)）。
 
 因此，诊断的第一步不是问「国内还是海外」，而是问「我要的那条主张，在哪几个池子里有资格出现」。
 
@@ -89,7 +89,7 @@ author: "GEO 咨询团队"
 | 两边都提品牌，但不给链接 | 页面可摘性与品牌锚定 | 看被引段落是否结论前置、品牌名与数据同句 |
 | 一边推荐，一边只提及 | 品类归属与可比事实 | 用推荐题测，别用事实题；看对比表与第三方名单 |
 
-Canary 验证的做法与原理见[豆包 + DeepSeek 拆解](/blog/doubao-deepseek-domestic-geo-guide)；推荐名单由什么决定，见[品牌如何被 AI 搜索推荐](/blog/how-to-get-recommended-by-ai)。
+Canary 验证的做法与原理见[豆包 + DeepSeek 拆解](/blog/doubao-deepseek-domestic-geo-guide/)；推荐名单由什么决定，见[品牌如何被 AI 搜索推荐](/blog/how-to-get-recommended-by-ai/)。
 
 这张表有一个前提：症状必须能稳定复现。单次提问的结果只是观察，不足以支撑任何改造决策。
 
@@ -108,7 +108,7 @@ Canary 验证的做法与原理见[豆包 + DeepSeek 拆解](/blog/doubao-deepse
 
 内容改造永远排在这四项之后。在没有入场资格、身份不清、也没人转述的情况下重写页面，改完也无法证明效果。
 
-平台内部的对照测法（固定变量、记录引用集、四轴读差异）已经在 [ChatGPT vs Perplexity](/blog/chatgpt-vs-perplexity-citation-style) 拆过；语言版本的站点配置排查在[中英文站点](/blog/bilingual-site-ai-visibility)。本文只处理跨阵营这一步：同一条主张，为什么在一个池子里成立、在另一个池子里不成立。
+平台内部的对照测法（固定变量、记录引用集、四轴读差异）已经在 [ChatGPT vs Perplexity](/blog/chatgpt-vs-perplexity-citation-style/) 拆过；语言版本的站点配置排查在[中英文站点](/blog/bilingual-site-ai-visibility/)。本文只处理跨阵营这一步：同一条主张，为什么在一个池子里成立、在另一个池子里不成立。
 
 ---
 
@@ -120,7 +120,7 @@ Canary 验证的做法与原理见[豆包 + DeepSeek 拆解](/blog/doubao-deepse
 
 做外贸或出海的企业反过来：海外阵营的第三方记录是硬门槛，国内表现可以放低优先级。预算有限时，先补目标市场那一侧。
 
-还有一种情况要单独处理：中文名与英文名各自积累了不同的转述者。这不是「一边没做」，而是两个实体各做了一半。先决定要不要合并、如何互指，再谈内容——实体写法与归属的处理见[品牌实体归属](/blog/brand-entity-ownership)。
+还有一种情况要单独处理：中文名与英文名各自积累了不同的转述者。这不是「一边没做」，而是两个实体各做了一半。先决定要不要合并、如何互指，再谈内容——实体写法与归属的处理见[品牌实体归属](/blog/brand-entity-ownership/)。
 
 ---
 
@@ -154,9 +154,9 @@ Canary 验证的做法与原理见[豆包 + DeepSeek 拆解](/blog/doubao-deepse
 
 跨阵营的差异，通常一眼看不出断在哪一层。可以按这个顺序走：
 
-- **先自测入口**：用免费工具检查 AI 爬虫访问与页面可读性，30 秒看清基础项：[GEO 诊断工具 →](/tool)
-- **再做人工诊断**：把核心主张逐条盘点，按阵营给出缺口与优先级：[GEO 审计与 AI 搜索诊断 →](/services/geo-audit)
-- **确认方向后补资产**：内容改造与第三方转述同步推进：[GEO 优化服务 →](/services/geo-optimization)
+- **先自测入口**：用免费工具检查 AI 爬虫访问与页面可读性，30 秒看清基础项：[GEO 诊断工具 →](/tool/)
+- **再做人工诊断**：把核心主张逐条盘点，按阵营给出缺口与优先级：[GEO 审计与 AI 搜索诊断 →](/services/geo-audit/)
+- **确认方向后补资产**：内容改造与第三方转述同步推进：[GEO 优化服务 →](/services/geo-optimization/)
 
 ---
 

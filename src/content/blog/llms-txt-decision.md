@@ -138,17 +138,17 @@ Lighthouse 的审计很宽：404 判不适用，只有服务器错误才报错�
 
 如果目标是 AI 搜索可见度，下面四件事的收益路径更清楚。
 
-**第一，放行对的爬虫。** OAI-SearchBot、Claude-SearchBot、PerplexityBot 与 Googlebot 各管一段；训练与检索分开管理。见 [AI 爬虫排查](/blog/ai-crawlers)。
+**第一，放行对的爬虫。** OAI-SearchBot、Claude-SearchBot、PerplexityBot 与 Googlebot 各管一段；训练与检索分开管理。见 [AI 爬虫排查](/blog/ai-crawlers/)。
 
-**第二，让页面可发现。** sitemap、内链与自指 canonical 是索引入口；内链如何影响实体理解，见[内链与实体](/blog/internal-links-ai-crawling)。
+**第二，让页面可发现。** sitemap、内链与自指 canonical 是索引入口；内链如何影响实体理解，见[内链与实体](/blog/internal-links-ai-crawling/)。
 
-**第三，让内容可摘。** 正文直出、结论前置、H2 问句化、表格与清单。方法见[如何让 AI 引用你的网站](/blog/how-to-get-cited-by-ai)。
+**第三，让内容可摘。** 正文直出、结论前置、H2 问句化、表格与清单。方法见[如何让 AI 引用你的网站](/blog/how-to-get-cited-by-ai/)。
 
-**第四，让实体可信。** 名称、定位、头衔一致，About 与 Organization 标记对得上，第三方档案可交叉验证。见[品牌实体归属治理](/blog/brand-entity-ownership)。
+**第四，让实体可信。** 名称、定位、头衔一致，About 与 Organization 标记对得上，第三方档案可交叉验证。见[品牌实体归属治理](/blog/brand-entity-ownership/)。
 
-这四件事的官方机制依据，站内已在[六大模型官方规则](/blog/geo-2026-08-26-ai-citation-guide)里汇总；实体与结构化标记的写法见[结构化数据指南](/blog/structured-data-guide)。
+这四件事的官方机制依据，站内已在[六大模型官方规则](/blog/geo-2026-08-26-ai-citation-guide/)里汇总；实体与结构化标记的写法见[结构化数据指南](/blog/structured-data-guide/)。
 
-文档站的第五件事才是 Markdown 版本与 `rel` 关联——它比单独一个 llms.txt 更接近提案的完整用法。整体顺序见[GEO 优化怎么做](/blog/how-to-do-geo)与[GEO 框架](/blog/geo-framework)。
+文档站的第五件事才是 Markdown 版本与 `rel` 关联——它比单独一个 llms.txt 更接近提案的完整用法。整体顺序见[GEO 优化怎么做](/blog/how-to-do-geo/)与[GEO 框架](/blog/geo-framework/)。
 
 ---
 
@@ -206,11 +206,11 @@ llms.txt 的问题，不是“有用还是没用”，而是“对谁、在什�
 - **GEO 优化服务**：按技术通道、实体、内容可摘性的顺序推进，不靠单点技巧
 - **GEO 人工诊断**：需要对照竞品与引用结果时，做一次基线审计
 
-[先跑一轮免费诊断 →](/tool)
+[先跑一轮免费诊断 →](/tool/)
 
-[了解 GEO 优化服务 →](/services/geo-optimization)
+[了解 GEO 优化服务 →](/services/geo-optimization/)
 
-[了解 GEO 人工诊断 →](/services/geo-audit)
+[了解 GEO 人工诊断 →](/services/geo-audit/)
 
 ---
 
